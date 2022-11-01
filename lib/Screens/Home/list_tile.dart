@@ -20,7 +20,7 @@ class Tile extends StatelessWidget {
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
         return ListView.builder(
-          itemCount: newList.length,
+          itemCount: newList.length<=3?newList.length:3,
           itemBuilder: (context, index) {
             final newValue = newList[index];
             return ListTile(
@@ -40,7 +40,7 @@ class Tile extends StatelessWidget {
           },
         );
       },
-    ); 
+    );
   }
 
   final colorId = ColorsID();

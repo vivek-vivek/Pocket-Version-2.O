@@ -73,7 +73,13 @@ class TransactionDB implements TransactionDbFunctions {
       } else {
         _expences = newValue.amount + _expences;
       }
-      total = _income - _expences;
+      if (_expences == 0 && _income >= 0) {
+        total = _income;
+      } else if (_expences >= 0 && _income == 0) {
+        total = _expences;
+      } else {
+        total = _income - _expences;
+      }
     }
     // ?-------------------------------------------------------------
     // ^total amount

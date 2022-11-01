@@ -1,8 +1,9 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
-import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
+import 'package:budgetory_v1/Screens/Settings/about.dart';
 import 'package:flutter/material.dart';
+import '../../DB/FunctionsCategory/category_db_f.dart';
+import '../../DB/Transactions/transaction_db_f.dart';
 import '../../colors/color.dart';
 
 class UserPage extends StatefulWidget {
@@ -22,8 +23,57 @@ class _UserPageState extends State<UserPage> {
         title: const Text("Setting"),
       ),
       body: SafeArea(
-        child: Column(
-          children: const [],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Container(
+                width: 200.00,
+                height: 80.00,
+                decoration: BoxDecoration(
+                  color: colorId.lightBlue,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => AboutScreen()));
+                  },
+                  child: const Text("About Us"),
+                ),
+              ),
+              Container(
+                width: 200.00,
+                height: 80.00,
+                decoration: BoxDecoration(
+                  color: colorId.lightBlue,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    CategoryDB.instance.deleteDBAll();
+                    TransactionDB.instance.deleteDBAll();
+                  },
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'rest app',
+                          style: TextStyle(color: colorId.white),
+                        ),
+                        const Icon(Icons.refresh_rounded)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -31,11 +81,3 @@ class _UserPageState extends State<UserPage> {
 
   final colorId = ColorsID();
 }
-
-//  TextButton(
-//               onPressed: () {
-//                 CategoryDB.instance.deleteDBAll();
-//                 TransactionDB.instance.deleteDBAll();
-//               },
-//               child: const Text('rest app'),
-//             ),
