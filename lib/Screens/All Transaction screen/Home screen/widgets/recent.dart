@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../DB/Transactions/transaction_db_f.dart';
@@ -17,24 +18,62 @@ class RecentTransaction extends StatelessWidget {
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
         return ListView.builder(
-          itemCount: newList.length,
           itemBuilder: (context, index) {
             final newValue = newList[index];
-            return ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  radius: 12,
-                  backgroundColor: newValue.type == CategoryType.income
-                      ? colorId.lightGreen
-                      : colorId.lightRed,
-                ),
+            return Slidable(
+              key: Key(newValue.id!),
+              endActionPane: ActionPane(
+                motion: const DrawerMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) {
+                      try {
+                        TransactionDB.instance
+                            .deleteTransaction(newValue.id!);
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    icon: Icons.delete,
+                    foregroundColor: colorId.red,
+                    backgroundColor: colorId.veryLightGrey,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  ),
+                ],
               ),
-              title: Text(newValue.notes),
-              subtitle: Text(DateFormat.yMMMMd().format(newValue.date)),
-              trailing: Text(newValue.amount.toString()),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(80.000),
+                      ),
+                      color: colorId.white,
+                    ),
+                    child: ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          backgroundColor: newValue.type == CategoryType.income
+                              ? colorId.lightGreen
+                              : colorId.lightRed,
+                        ),
+                      ),
+                      subtitle: Text(
+                        DateFormat.MMMMEEEEd().format(newValue.date),
+                      ),
+                      title: Text(newValue.notes),
+                      trailing: Text(
+                        newValue.amount.toString(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.000)
+                ],
+              ),
             );
           },
+          itemCount: newList.length,
         );
       },
     );

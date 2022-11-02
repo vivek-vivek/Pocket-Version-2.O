@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../DB/Transactions/transaction_db_f.dart';
 import '../../../../colors/color.dart';
-import '../widgets/unsorted.dart';
 
 class AllTransaction extends StatefulWidget {
   const AllTransaction({super.key});
@@ -22,14 +21,14 @@ class _AllTransactionState extends State<AllTransaction>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     TransactionDB.instance.refreshUiTransaction();
-    TransactionDB.instance.UnsortedTransactionsRefresher();
-    CategoryDB.instance.refreshUI();  
+  
+    CategoryDB.instance.refreshUI();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorId.lightBlue,
@@ -50,7 +49,6 @@ class _AllTransactionState extends State<AllTransaction>
               labelColor: colorId.black,
               controller: tabController,
               tabs: const [
-                Tab(text: "ALL"),
                 Tab(text: 'Recent'),
                 Tab(text: 'Income'),
                 Tab(text: 'Expences'),
@@ -60,7 +58,6 @@ class _AllTransactionState extends State<AllTransaction>
               child: TabBarView(
                 controller: tabController,
                 children: [
-                  const UnsortedTransaction(),
                   RecentTransaction(),
                   IncomeAllTransaction(),
                   ExpencesAllTransaction()

@@ -24,7 +24,8 @@ void main() async {
   if (!Hive.isAdapterRegistered(TransactionModalAdapter().typeId)) {
     Hive.registerAdapter(TransactionModalAdapter());
   }
-
+  CategoryDB.instance.refreshUI();
+  TransactionDB.instance.refreshUiTransaction();
   runApp(const MyApp());
 }
 
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
     TransactionDB.instance.refreshUiTransaction();
-    TransactionDB.instance.UnsortedTransactionsRefresher();
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(),

@@ -49,17 +49,6 @@ class TransactionDB implements TransactionDbFunctions {
     print('🟢🟢🟢🟢');
   }
 
-  // * refresh Function for -->
-  //* Transaction's ?unsorted all transaction
-
-  Future<void> UnsortedTransactionsRefresher() async {
-    final list = await getTransactions();
-    transactionListNotifier.value.clear();
-    transactionListNotifier.value.addAll(list);
-    transactionListNotifier.notifyListeners();
-    print('🤍🤍🤍🤍(Unsorted transaction refresher)');
-  }
-
   // * finding total amount of income form transaction db
   List totalTransaction() {
     double total = 0;
@@ -73,38 +62,33 @@ class TransactionDB implements TransactionDbFunctions {
       } else {
         _expences = newValue.amount + _expences;
       }
-      if (_expences == 0 && _income >= 0) {
-        total = _income;
-      } else if (_expences >= 0 && _income == 0) {
-        total = _expences;
-      } else {
-        total = _income - _expences;
-      }
+      total = _income - _expences;
     }
     // ?-------------------------------------------------------------
     // ^total amount
     return [total, _income, _expences];
   }
 
+  Future<void> totalTransactionRefresh() async {}
+
 // ! delete a transaction -fnt  ------------> not working ???
 //  !  it helps to delete a transaction form db,
 // !using transaction Id
+// !🥵🥵🥵🥵🥵🥵🥵🥵🥵🥵!!!
   @override
   Future<void> deleteTransaction(String id) async {
     print(id);
     final _TransactionDB =
         await Hive.openBox<TransactionModal>('transactionDb');
     await _TransactionDB.delete(id);
+    await _TransactionDB.clear();
     await refreshUiTransaction();
-    UnsortedTransactionsRefresher();
   }
 
   Future<void> deleteDBAll() async {
     final _transactionDb =
         await Hive.openBox<TransactionModal>(transactionDBName);
     _transactionDb.clear();
-
-    UnsortedTransactionsRefresher();
-    refreshUiTransaction();
+    await refreshUiTransaction();
   }
 }

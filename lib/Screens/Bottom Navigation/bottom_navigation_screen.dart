@@ -22,6 +22,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   final _controller = PageController();
 
   @override
+  void initState() {
+    TransactionDB.instance.refreshUiTransaction();
+    CategoryDB.instance.refreshUI();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -31,7 +38,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
     TransactionDB.instance.refreshUiTransaction();
-    TransactionDB.instance.UnsortedTransactionsRefresher();
     return Scaffold(
       body: PageView(
         controller: _controller,
@@ -62,7 +68,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         onTap: (index) {
           _controller.animateToPage(
             index,
-            duration: const Duration(milliseconds: 400),
+            duration: const Duration(milliseconds: 200),
             curve: Curves.easeOut,
           );
         },

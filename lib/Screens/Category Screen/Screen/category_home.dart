@@ -1,8 +1,6 @@
 // ignore_for_file: avoid_print
-
 import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Screen/pop.dart';
-import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/pop_up_btn_category_radio.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/expences.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/income.dart';
 import 'package:budgetory_v1/colors/color.dart';
@@ -22,7 +20,7 @@ class _AllCategoriesState extends State<AllCategories>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     //*getting  category's from db
-    //  CategoryDB().refreshUI();
+    CategoryDB.instance.refreshUI();
     super.initState();
   }
 
@@ -30,7 +28,7 @@ class _AllCategoriesState extends State<AllCategories>
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
     // TransactionDB.instance.refreshUiTransaction();
-    // CategoryDB().refreshUI();
+    CategoryDB().refreshUI();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -40,9 +38,7 @@ class _AllCategoriesState extends State<AllCategories>
               labelColor: colorId.black,
               controller: _tabController,
               tabs: const [
-                Tab(
-                  text: 'Income',
-                ),
+                Tab(text: 'Income'),
                 Tab(text: 'Expense'),
               ],
             ),

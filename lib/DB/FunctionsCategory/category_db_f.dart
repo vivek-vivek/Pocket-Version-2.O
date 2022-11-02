@@ -41,7 +41,6 @@ class CategoryDB implements CategoryDbFunctions {
 
   Future<void> refreshUI() async {
     final allCategory = await getCategories();
-    // allCategory.sort((first, second) => second.date.compareTo(first.date));
     incomeCategoryModelList.value.clear();
     expenseCategoryModelList.value.clear();
     Future.forEach(allCategory, (CategoryModel category) {
@@ -56,6 +55,25 @@ class CategoryDB implements CategoryDbFunctions {
     // ignore: invalid_use_of_visible_for_testing_member
     expenseCategoryModelList.notifyListeners();
   }
+
+
+  
+  // Future<void> newefreshUI() async {
+  //   final allCategory = await getCategories();
+  //   incomeCategoryModelList.value.clear();
+  //   expenseCategoryModelList.value.clear();
+  //   Future.forEach(allCategory, (CategoryModel category) {
+  //     if (category.type == CategoryType.income) {
+  //       incomeCategoryModelList.value.add(category);
+  //     } else {
+  //       expenseCategoryModelList.value.add(category);
+  //     }
+  //   });
+  //   // ignore: invalid_use_of_visible_for_testing_member
+  //   incomeCategoryModelList.notifyListeners();
+  //   // ignore: invalid_use_of_visible_for_testing_member
+  //   expenseCategoryModelList.notifyListeners();
+  // }
 
   @override
   Future<void> deleteDB(String id) async {

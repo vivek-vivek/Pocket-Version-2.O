@@ -1,61 +1,65 @@
+
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphScreen extends StatefulWidget {
-  // ignore: prefer_const_constructors_in_immutables
-  GraphScreen({Key? key}) : super(key: key);
-
   @override
-  GraphScreenState createState() => GraphScreenState();
+  _GraphScreenState createState() => _GraphScreenState();
 }
 
-class GraphScreenState extends State<GraphScreen> {
-  List<SalesData> data = [
-    SalesData('Jan', 35),
-    SalesData('Feb', 28),
-    SalesData('Mar', 34),
-    SalesData('Apr', 32),
-    SalesData('May', 40)
-  ];
+class _GraphScreenState extends State<GraphScreen> {
+  List<Candle> candles = [];
+  bool themeIsDark = false;
+
+  @override
+  void initState() {
+    fetchCandles().then((value) {
+      setState(() {
+        candles = value;
+      });
+    });
+    super.initState();
+  }
+
+  Future<List<Candle>> fetchCandles() async {
+    final uri = Uri.parse(
+        "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h");
+    final res = await http.get(uri);
+    return (jsonDecode(res.body) as List<dynamic>)
+        .map((e) => Candle.fromJson(e))
+        .toList()
+        .reversed
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SfCartesianChart(
-                primaryXAxis: CategoryAxis(),
-                // Chart title
-                title: ChartTitle(text: 'income'),
-                // Enable legend
-                legend: Legend(isVisible: true),
-                // Enable tooltip
-                tooltipBehavior: TooltipBehavior(enable: true),
-                series: <ChartSeries<SalesData, String>>[
-                  LineSeries<SalesData, String>(
-                    dataSource: data,
-                    xValueMapper: (SalesData sales, _) => sales.year,
-                    yValueMapper: (SalesData sales, _) => sales.sales,
-                    name: 'Income',
-
-                    // Enable data label
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  )
-                ],
+    return MaterialApp(
+      theme: themeIsDark ? ThemeData.dark() : ThemeData.light(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title:const Text(" 1H Chart"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  themeIsDark = !themeIsDark;
+                });
+              },
+              icon: Icon(
+                themeIsDark
+                    ? Icons.wb_sunny_sharp
+                    : Icons.nightlight_round_outlined,
               ),
-            ],
+            )
+          ],
+        ),
+        body: Center(
+          child: Candlesticks(
+            candles: candles,
           ),
         ),
       ),
     );
   }
-}
-
-class SalesData {
-  SalesData(this.year, this.sales);
-
-  final String year;
-  final double sales;
 }

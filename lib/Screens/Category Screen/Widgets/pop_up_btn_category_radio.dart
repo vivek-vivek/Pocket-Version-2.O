@@ -47,7 +47,7 @@ Future<void> popUpCaBtnCategoryRadio(BuildContext context) async {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: ()async {
                 final cat = categoryController.text;
                 if (cat.isEmpty) {
                   return;
@@ -61,6 +61,8 @@ Future<void> popUpCaBtnCategoryRadio(BuildContext context) async {
                   CategoryDB().insertCategory(category);
                   CategoryDB().getCategories();
                   print(CategoryDB().getCategories().toString());
+                  await CategoryDB.instance.refreshUI();
+                  // ignore: use_build_context_synchronously
                   Navigator.of(ctx).pop();
                   print('🎉🎉Category  box closed');
                 }

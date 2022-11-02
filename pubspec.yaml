@@ -55,6 +55,13 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.3.2
   hive_generator: ^2.0.0
+  # flutter_launcher_icons: ^0.10.0
+  # flutter_icons:
+  # android: true  
+  # ios: true
+  # image_path: "Assets/pocket.png"
+  # min_sdk_android: 21 # android min sdk min:16, default 21
+ 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,6 +78,7 @@ flutter:
     - Assets/user image.png
     - Assets/logo.png
     - Assets/pocket.png
+    - Assets/bgImage.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
