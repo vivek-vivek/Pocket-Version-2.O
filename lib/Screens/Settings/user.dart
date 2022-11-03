@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:budgetory_v1/Screens/Settings/about.dart';
+import 'package:budgetory_v1/Screens/Splash%20Screen/splash.dart';
 import 'package:flutter/material.dart';
 import '../../DB/FunctionsCategory/category_db_f.dart';
 import '../../DB/Transactions/transaction_db_f.dart';
@@ -56,7 +57,9 @@ class _UserPageState extends State<UserPage> {
                 child: TextButton(
                   onPressed: () {
                     CategoryDB.instance.deleteDBAll();
-                    TransactionDB.instance.deleteDBAll();
+                    Expense.instance.deleteDBAll();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) =>const SplashScreen()));
                   },
                   child: Center(
                     child: Row(

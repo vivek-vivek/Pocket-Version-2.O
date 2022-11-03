@@ -26,7 +26,7 @@ class _AllTransactionState extends State<AllTransaction>
 
   @override
   Widget build(BuildContext context) {
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
   
     CategoryDB.instance.refreshUI();
     return Scaffold(

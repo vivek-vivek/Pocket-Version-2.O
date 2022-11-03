@@ -1,65 +1,44 @@
+import 'dart:html';
 
+import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 
-class GraphScreen extends StatefulWidget {
-  @override
-  _GraphScreenState createState() => _GraphScreenState();
-}
-
-class _GraphScreenState extends State<GraphScreen> {
-  List<Candle> candles = [];
-  bool themeIsDark = false;
-
-  @override
-  void initState() {
-    fetchCandles().then((value) {
-      setState(() {
-        candles = value;
-      });
-    });
-    super.initState();
-  }
-
-  Future<List<Candle>> fetchCandles() async {
-    final uri = Uri.parse(
-        "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h");
-    final res = await http.get(uri);
-    return (jsonDecode(res.body) as List<dynamic>)
-        .map((e) => Candle.fromJson(e))
-        .toList()
-        .reversed
-        .toList();
-  }
+class GraphScreen extends StatelessWidget {
+  GraphScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: themeIsDark ? ThemeData.dark() : ThemeData.light(),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title:const Text(" 1H Chart"),
-          actions: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  themeIsDark = !themeIsDark;
-                });
-              },
-              icon: Icon(
-                themeIsDark
-                    ? Icons.wb_sunny_sharp
-                    : Icons.nightlight_round_outlined,
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+//^----------------------------------Graphs------------------------------------
+              SizedBox(
+                height: 350.000,
+                child: ColoredBox(
+                  color: colorId.lightBlue,
+                  child: Text("data"),
+                ),
               ),
-            )
-          ],
-        ),
-        body: Center(
-          child: Candlesticks(
-            candles: candles,
+//^----------------------------------End---------------------------------------
+              Expanded(
+                child: SizedBox(
+                  height: double.infinity,
+                  child: filtering(),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
+  final colorId = ColorsID();
+}
+
+filtering() {
+  Text("data");
 }

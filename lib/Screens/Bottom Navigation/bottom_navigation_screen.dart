@@ -23,7 +23,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   @override
   void initState() {
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     CategoryDB.instance.refreshUI();
     super.initState();
   }
@@ -37,7 +37,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     return Scaffold(
       body: PageView(
         controller: _controller,

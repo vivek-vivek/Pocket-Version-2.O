@@ -1,7 +1,7 @@
 
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
-import '../../../../DB/Transactions/transaction_db_f.dart';
+import '../../../../../DB/Transactions/transaction_db_f.dart';
 
 class ScreenAllT extends StatefulWidget {
   const ScreenAllT({super.key});
@@ -23,7 +23,7 @@ class _ScreenAllTState extends State<ScreenAllT>
   @override
   Widget build(BuildContext context) {
     // CategoryDB.instance.refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     return Scaffold(
       body: SafeArea(
         child: Column(

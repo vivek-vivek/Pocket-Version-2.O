@@ -36,14 +36,14 @@ class _AddTransactionState extends State<AddTransaction> {
   void initState() {
     _selectedCategoryType = CategoryType.income;
     CategoryDB().refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     // ?colors class
     final colorId = ColorsID();
     return Scaffold(
@@ -82,7 +82,7 @@ class _AddTransactionState extends State<AddTransaction> {
                                 onChanged: (value) {
                                   setState(() {
                                     _selectedCategoryType = value;
-
+                                    print(_selectedCategoryType);
                                     _categoryValue = null;
                                   });
                                 },
@@ -164,7 +164,7 @@ class _AddTransactionState extends State<AddTransaction> {
                               children: [
                                 SizedBox(
                                   child: DropdownButton(
-                                    // underline: Container(),
+                                    underline: Container(),
                                     hint: const Text('Select Category'),
                                     value: _categoryValue,
                                     items: (_selectedCategoryType ==
@@ -198,7 +198,9 @@ class _AddTransactionState extends State<AddTransaction> {
                                 // ^it pop up a window that contain add new category function
                                 TextButton(
                                   onPressed: () {
-                                    popUpCaBtnCategoryRadio(context);
+                                    popUpCaBtnCategoryRadio(
+                                        context: context,
+                                        selectedTypeCat: selectedCategory);
                                   },
                                   child: const Text(
                                     'Add category',
@@ -211,6 +213,7 @@ class _AddTransactionState extends State<AddTransaction> {
                           const SizedBox(height: 10),
                           //^notes--------------------->
                           TextFormField(
+                            maxLength: 10,
                             controller: notesController,
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
@@ -254,15 +257,18 @@ class _AddTransactionState extends State<AddTransaction> {
 
                           const SizedBox(height: 40.00),
                           //^add transaction button---------------->
-                          ElevatedButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                transactionAddButtons();
-                              }
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: Colors.lightBlueAccent),
-                            child: const Text("Add Transactions"),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  transactionAddButtons();
+                                }
+                              },
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.lightBlueAccent),
+                              child: const Text("Add Transactions"),
+                            ),
                           )
                         ],
                       )
@@ -283,11 +289,12 @@ class _AddTransactionState extends State<AddTransaction> {
   Future<void> transactionAddButtons() async {
     if (notesController.text.isEmpty &&
         amountController.text.isEmpty &&
-        _categoryValue == null &&
-        _selectedDate == null &&
-        _selectedCategoryModel == null) {
-      // const snackBar = SnackBar(content: Text('enter data!!!!'));
+       ( _categoryValue == null ||_categoryValue!.isEmpty)&&
+       ( _selectedDate == null)&&
+        (_selectedCategoryModel == null)) {
+      const snackBar = SnackBar(content: Text('enter complete data!!!!'));
       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     } else {
       if (formKey.currentState!.validate()) {
@@ -301,7 +308,7 @@ class _AddTransactionState extends State<AddTransaction> {
             type: _selectedCategoryType!,
             categoryTransaction: _selectedCategoryModel!);
         //? ********************************
-        TransactionDB.instance.addTransaction(modelTransaction);
+        Expense.instance.addTransaction(modelTransaction);
         // ********************************
         final snackBar = SnackBar(
           content: Text(

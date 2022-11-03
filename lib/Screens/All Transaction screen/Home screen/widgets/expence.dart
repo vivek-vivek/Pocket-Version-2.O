@@ -11,9 +11,9 @@ class ExpencesAllTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     return ValueListenableBuilder(
-      valueListenable: TransactionDB.instance.transactionListNotifier,
+      valueListenable: Expense.instance.transactionListNotifier,
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
         return ListView.builder(

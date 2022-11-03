@@ -13,18 +13,22 @@ abstract class TransactionDbFunctions {
   Future<void> deleteTransaction(String id);
 }
 
-class TransactionDB implements TransactionDbFunctions {
+class Expense implements TransactionDbFunctions {
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
 
-  TransactionDB._internal();
-  static TransactionDB instance = TransactionDB._internal();
-  factory TransactionDB() {
+  Expense._internal();
+  static Expense instance = Expense._internal();
+  factory Expense() {
     return instance;
   }
+//
+//
+//
+//
+//^-----------------------------Get Transaction----------------------------------------
 
-// *adding transaction function
-
+  // adding transaction function
   @override
   Future<void> addTransaction(TransactionModal obj) async {
     final transDb = await Hive.openBox<TransactionModal>(transactionDBName);
@@ -32,13 +36,28 @@ class TransactionDB implements TransactionDbFunctions {
     transDb.put(obj.id, obj);
   }
 
-// * getting transaction from somewhere
+//^-----------------------------Get Transaction----------------------------------------
+//
+//
+//
+//
+//^-----------------------------Get Transaction----------------------------------------
+
+  // * getting transaction from somewhere
   @override
   Future<List<TransactionModal>> getTransactions() async {
+    print("❤️❤️");
     final transDb = await Hive.openBox<TransactionModal>(transactionDBName);
+    print(transDb.values.toList());
     return transDb.values.toList();
   }
 
+//^----------------------------------end ----------------------------------------------
+//
+//
+//
+//
+//^ -------------------------------Refreshing UI------------------------------------------
   // *refreshing UI-->f
   Future<void> refreshUiTransaction() async {
     final list = await getTransactions();
@@ -49,12 +68,19 @@ class TransactionDB implements TransactionDbFunctions {
     print('🟢🟢🟢🟢');
   }
 
-  // * finding total amount of income form transaction db
+// ^------------------------------------end-----------------------------------------------
+//
+//
+//
+//
+//^-----------------------------Total amount Of Income & Expense--------------------------
+
+  //  finding total amount of income form transaction db
   List totalTransaction() {
     double total = 0;
     double _income = 0;
     double _expences = 0;
-    // ?-------------------------------------------------------------
+
     for (var i = 0; i < transactionListNotifier.value.length; i++) {
       late final newValue = transactionListNotifier.value[i];
       if (newValue.type == CategoryType.income) {
@@ -64,17 +90,22 @@ class TransactionDB implements TransactionDbFunctions {
       }
       total = _income - _expences;
     }
-    // ?-------------------------------------------------------------
-    // ^total amount
+
+    // total amount
     return [total, _income, _expences];
   }
 
-  Future<void> totalTransactionRefresh() async {}
+//^-----------------------------------------end-------------------------------------------
+//
+//
+//
+//
+//^-----------------------------------Delete Transaction-------------------------------------
 
-// ! delete a transaction -fnt  ------------> not working ???
-//  !  it helps to delete a transaction form db,
-// !using transaction Id
-// !🥵🥵🥵🥵🥵🥵🥵🥵🥵🥵!!!
+  //  ! delete a transaction -fnt  ------------> not working ???
+  //  !  it helps to delete a transaction form db,
+  //  !using transaction Id
+  //  !🥵🥵🥵🥵🥵🥵🥵🥵🥵🥵!!!
   @override
   Future<void> deleteTransaction(String id) async {
     print(id);
@@ -85,10 +116,20 @@ class TransactionDB implements TransactionDbFunctions {
     await refreshUiTransaction();
   }
 
+// ^--------------------------------------------end-----------------------------------------------------
+//
+//
+//
+//
+// ^---------------------------------------Delete Transaction DB all------------------------------------
+
   Future<void> deleteDBAll() async {
     final _transactionDb =
         await Hive.openBox<TransactionModal>(transactionDBName);
     _transactionDb.clear();
     await refreshUiTransaction();
   }
+
+// ^------------------------------------------------end------------------------------------------------
+
 }

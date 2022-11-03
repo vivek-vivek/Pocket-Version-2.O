@@ -40,8 +40,8 @@ dependencies:
 
   intl: ^0.17.0
   rolling_bottom_bar: ^0.2.2
-  salomon_bottom_bar: ^3.3.1
   splash_screen_view: ^3.0.0
+  charts_flutter: ^0.12.0
   syncfusion_flutter_charts: ^20.3.52
 
 dev_dependencies:

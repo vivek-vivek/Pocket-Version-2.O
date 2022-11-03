@@ -10,7 +10,7 @@ ValueNotifier<CategoryType> selectedCategory =
 
 Future<void> pop({required BuildContext context, required tabBarIndex}) async {
   CategoryDB.instance.refreshUI();
-  TransactionDB.instance.refreshUiTransaction();
+  Expense.instance.refreshUiTransaction();
   CategoryDB.instance.refreshUI();
   final categoryController = TextEditingController();
   showDialog(

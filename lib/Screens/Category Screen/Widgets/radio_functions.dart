@@ -9,7 +9,7 @@ import '../../../DataBase/Models/ModalCategory/category_model.dart';
 class RadioFunction extends StatelessWidget {
   final CategoryType type;
   final String tittle;
-  const RadioFunction({super.key, required this.type, required this.tittle});
+  const RadioFunction({super.key, required this.type, required this.tittle,required selectedType});
 
   @override
   Widget build(BuildContext context) {

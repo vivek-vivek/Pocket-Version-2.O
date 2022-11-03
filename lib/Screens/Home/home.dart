@@ -19,14 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     CategoryDB.instance.refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white),
                                   ),
                                   Text(
-                                    TransactionDB.instance
+                                    Expense.instance
                                         .totalTransaction()[0]
                                         .toString(),
                                     style: TextStyle(
@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               List<CategoryModel> newModel,
                                               Widget? _) {
                                             return Text(
-                                              TransactionDB.instance
+                                              Expense.instance
                                                   .totalTransaction()[1]
                                                   .toString(),
                                               style: TextStyle(
@@ -242,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ],
                                         ),
                                         Text(
-                                          TransactionDB.instance
+                                          Expense.instance
                                               .totalTransaction()[2]
                                               .toString(),
                                           style: TextStyle(
@@ -292,7 +292,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        await TransactionDB().refreshUiTransaction();
+                        print("❤️");
+                        await Expense().refreshUiTransaction();
                         await CategoryDB.instance.refreshUI().then(
                               (value) => Navigator.of(context).push(
                                 MaterialPageRoute(

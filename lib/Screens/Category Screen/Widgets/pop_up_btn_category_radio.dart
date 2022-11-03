@@ -9,37 +9,44 @@ import 'package:flutter/material.dart';
 ValueNotifier<CategoryType> selectedCategory =
     ValueNotifier(CategoryType.income);
 
-Future<void> popUpCaBtnCategoryRadio(BuildContext context) async {
+Future<void> popUpCaBtnCategoryRadio(
+    {required BuildContext context, required selectedTypeCat}) async {
   CategoryDB.instance.refreshUI();
-  TransactionDB.instance.refreshUiTransaction();
+  Expense.instance.refreshUiTransaction();
   CategoryDB.instance.refreshUI();
   final categoryController = TextEditingController();
   showDialog(
     context: context,
     builder: (ctx) {
+      final formkey = GlobalKey<FormState>();
       return SimpleDialog(
         title: const Center(child: Text('Category')),
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               RadioFunction(
                 tittle: 'Income',
                 type: CategoryType.income,
+                selectedType: selectedTypeCat,
               ),
-              RadioFunction(
+              const RadioFunction(
                 tittle: 'Expense',
                 type: CategoryType.expense,
+                selectedType: null,
               ),
             ],
           ),
           //*add new category
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: categoryController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+          Form(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                maxLength: 10,
+                controller: categoryController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
           ),
@@ -47,7 +54,7 @@ Future<void> popUpCaBtnCategoryRadio(BuildContext context) async {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: ()async {
+              onPressed: () async {
                 final cat = categoryController.text;
                 if (cat.isEmpty) {
                   return;

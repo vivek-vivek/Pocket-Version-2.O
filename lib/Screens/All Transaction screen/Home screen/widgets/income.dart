@@ -11,9 +11,9 @@ class IncomeAllTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TransactionDB.instance.refreshUiTransaction();
+    Expense.instance.refreshUiTransaction();
     return ValueListenableBuilder(
-      valueListenable: TransactionDB.instance.transactionListNotifier,
+      valueListenable: Expense.instance.transactionListNotifier,
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
         return ListView.builder(
@@ -22,7 +22,7 @@ class IncomeAllTransaction extends StatelessWidget {
             final newValue = newList[index];
             return newValue.type == CategoryType.income
                 ? ListTile(
-                    leading: Padding(
+                     leading: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
                         radius: 12,
