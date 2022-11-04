@@ -18,7 +18,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorId.white,
+      backgroundColor: colorId.purple,
       appBar: AppBar(
         backgroundColor: colorId.lightBlue,
         title: const Text("Setting"),
@@ -57,9 +57,10 @@ class _UserPageState extends State<UserPage> {
                 child: TextButton(
                   onPressed: () {
                     CategoryDB.instance.deleteDBAll();
-                    Expense.instance.deleteDBAll();
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>const SplashScreen()));
+                    TransactionDB.instance.deleteDBAll();
+                    TransactionDB.instance.totalTransaction().clear();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SplashScreen()));
                   },
                   child: Center(
                     child: Row(
@@ -67,7 +68,7 @@ class _UserPageState extends State<UserPage> {
                       children: [
                         Text(
                           'rest app',
-                          style: TextStyle(color: colorId.white),
+                          style: TextStyle(color: colorId.purple),
                         ),
                         const Icon(Icons.refresh_rounded)
                       ],

@@ -13,13 +13,16 @@ abstract class TransactionDbFunctions {
   Future<void> deleteTransaction(String id);
 }
 
-class Expense implements TransactionDbFunctions {
+class TransactionDB implements TransactionDbFunctions {
+  // ^-------------------------Value Notifiers--------------------------
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
 
-  Expense._internal();
-  static Expense instance = Expense._internal();
-  factory Expense() {
+  // ^--------------------------------end---------------------------------------
+
+  TransactionDB._internal();
+  static TransactionDB instance = TransactionDB._internal();
+  factory TransactionDB() {
     return instance;
   }
 //
@@ -73,7 +76,7 @@ class Expense implements TransactionDbFunctions {
 //
 //
 //
-//^-----------------------------Total amount Of Income & Expense--------------------------
+//^-----------------------------Total amount Of Income & TransactionDB--------------------
 
   //  finding total amount of income form transaction db
   List totalTransaction() {
@@ -107,21 +110,21 @@ class Expense implements TransactionDbFunctions {
   //  !using transaction Id
   //  !🥵🥵🥵🥵🥵🥵🥵🥵🥵🥵!!!
   @override
-  Future<void> deleteTransaction(String id) async {
-    print(id);
+  Future<void> deleteTransaction(String index) async {
+    print(index);
     final _TransactionDB =
         await Hive.openBox<TransactionModal>('transactionDb');
-    await _TransactionDB.delete(id);
+    await _TransactionDB.delete(index);
     await _TransactionDB.clear();
     await refreshUiTransaction();
   }
 
-// ^--------------------------------------------end-----------------------------------------------------
+// ^--------------------------------------------end---------------------------------------------
 //
 //
 //
 //
-// ^---------------------------------------Delete Transaction DB all------------------------------------
+// ^---------------------------------------Delete Transaction DB all-----------------------------
 
   Future<void> deleteDBAll() async {
     final _transactionDb =
@@ -130,6 +133,6 @@ class Expense implements TransactionDbFunctions {
     await refreshUiTransaction();
   }
 
-// ^------------------------------------------------end------------------------------------------------
+// ^------------------------------------------------end------------------------------------------
 
 }

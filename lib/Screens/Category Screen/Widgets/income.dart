@@ -14,14 +14,8 @@ class IncomeTabPage extends StatefulWidget {
 }
 
 class _IncomeTabPageState extends State<IncomeTabPage> {
-   @override
-  void initState() {
-    bool indexRadio = true;
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
-      bool indexRadio = true;
     return ValueListenableBuilder(
       valueListenable: CategoryDB().incomeCategoryModelList,
       builder: (BuildContext context, List<CategoryModel> newCategoryModelList,
@@ -31,7 +25,7 @@ class _IncomeTabPageState extends State<IncomeTabPage> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 40.00,
               crossAxisSpacing: 0.00,
-              crossAxisCount: 3),
+              crossAxisCount: 2),
           itemBuilder: (context, index) {
             final category = newCategoryModelList[index];
             return Padding(
@@ -39,28 +33,34 @@ class _IncomeTabPageState extends State<IncomeTabPage> {
                   const EdgeInsets.only(top: 20.00, left: 20.00, right: 20.00),
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorId.lightRed,
+                  color: colorId.lightGreen,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20.00),
                   ),
                 ),
                 child: Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            popDeleteFunction(
+                                context: context, id: category.id);
+                            print('🎉🎉🚫DELETED');
+                          },
+                          icon: const Icon(Icons.delete_rounded),
+                        ),
+                      ],
+                    ),
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(20.00),
                         child: Text(
                           category.name,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        popDeleteFunction(context: context, id: category.id);
-                        print('🎉🎉🚫DELETED');
-                      },
-                      icon: const Icon(Icons.delete_rounded),
                     ),
                   ],
                 ),

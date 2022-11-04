@@ -11,32 +11,34 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Expense.instance.refreshUiTransaction();
+    TransactionDB.instance.refreshUiTransaction();
 
     // ^Recent transaction tile------------->
 
     return ValueListenableBuilder(
-      valueListenable: Expense.instance.transactionListNotifier,
+      valueListenable: TransactionDB.instance.transactionListNotifier,
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
         return ListView.builder(
-          itemCount: newList.length<=3?newList.length:3,
+          itemCount: newList.length <= 3 ? newList.length : 3,
           itemBuilder: (context, index) {
             final newValue = newList[index];
-            return ListTile(
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  radius: 12,
-                  backgroundColor: newValue.type == CategoryType.income
-                      ? colorId.lightGreen
-                      : colorId.lightRed,
-                ),
-              ),
-              title: Text(newValue.notes),
-              subtitle: Text(DateFormat.yMMMMd().format(newValue.date)),
-              trailing: Text(newValue.amount.toString()),
-            );
+            return newList.isEmpty
+                ? const Text("Add Transaction")
+                : ListTile(
+                    leading: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 12,
+                        backgroundColor: newValue.type == CategoryType.income
+                            ? colorId.lightGreen
+                            : colorId.lightRed,
+                      ),
+                    ),
+                    title: Text(newValue.notes),
+                    subtitle: Text(DateFormat.yMMMMd().format(newValue.date)),
+                    trailing: Text(newValue.amount.toString()),
+                  );
           },
         );
       },

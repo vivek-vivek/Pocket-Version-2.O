@@ -1,6 +1,6 @@
 import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
 import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
-import 'package:budgetory_v1/Screens/Graph/screen_four.dart';
+import 'package:budgetory_v1/Screens/Graph/Index%20screen/screen_four.dart';
 import 'package:budgetory_v1/Screens/Home/home.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Screen/category_home.dart';
 import 'package:budgetory_v1/Screens/Add%20New2/Home/add_new.dart';
@@ -23,7 +23,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   @override
   void initState() {
-    Expense.instance.refreshUiTransaction();
+    TransactionDB.instance.refreshUiTransaction();
     CategoryDB.instance.refreshUI();
     super.initState();
   }
@@ -37,23 +37,23 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
-    Expense.instance.refreshUiTransaction();
+    TransactionDB.instance.refreshUiTransaction();
     return Scaffold(
       body: PageView(
         controller: _controller,
-        children: <Widget>[
-          const HomeScreen(),
-          const AddTransaction(),
-          const AllCategories(),
+        children: const [
+          HomeScreen(),
+          AddTransaction(),
+          AllCategories(),
           GraphScreen(),
-          const UserPage()
+          UserPage()
         ],
       ),
       extendBody: true,
       bottomNavigationBar: RollingBottomBar(
-        itemColor: Colors.grey,
-        color: colorId.white,
-        activeItemColor: colorId.lightBlue,
+        itemColor: Colors.white,
+        color: colorId.purple,
+        activeItemColor: colorId.white,
         controller: _controller,
         flat: true,
         useActiveColorByDefault: true,

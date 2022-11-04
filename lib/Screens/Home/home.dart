@@ -1,11 +1,9 @@
 import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
 import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
-import 'package:budgetory_v1/Screens/All%20Transaction%20screen/Home%20screen/Index/screen_all.dart';
+import 'package:budgetory_v1/Screens/All%20Transaction%20screen/Home%20screen/Index/filterd_trasnaction.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
-
 import '../../DataBase/Models/ModalCategory/category_model.dart';
-import 'curosel.dart';
 import 'list_tile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,82 +17,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     CategoryDB.instance.refreshUI();
-    Expense.instance.refreshUiTransaction();
+    TransactionDB.instance.refreshUiTransaction();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
-    Expense.instance.refreshUiTransaction();
+    TransactionDB.instance.refreshUiTransaction();
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              // const SizedBox(
-              //   height: 30.00,
-              // ),
-
-              // *app bar starting
-              ListTile(
-                // * showing user name here
-                title: Row(
-                  children: [
-                    Text(
-                      'Hello ',
-                      style: TextStyle(
-                        color: colorId.grey,
-                        fontSize: 22.00,
-                        shadows: const [
-                          Shadow(
-                            blurRadius: 10.00,
-                            color: Color.fromARGB(248, 219, 216, 216),
-                            offset: Offset(5.0, 5.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Text(
-                      'vivek 🙌',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.00,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10.00,
-                            color: Color.fromARGB(248, 107, 106, 106),
-                            offset: Offset(5.0, 5.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                // * showing user photo here
-                trailing: const CircleAvatar(
-                  backgroundImage: AssetImage('Assets/user image.png'),
-                  radius: 20.00,
-                ),
-              ),
-              const SizedBox(
-                height: 10.00,
-              ),
-              // *app bar end
-
               Stack(
                 children: [
-                  Padding(
-                      padding: const EdgeInsets.only(top: 40.000, left: 40.00),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
-                            color: colorId.veryLightGrey),
-                        width: 284.00,
-                        height: 192.000,
-                      )),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -102,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20),
                         ),
-                        color: colorId.lightBlue,
+                        color: colorId.purple,
                       ),
                       width: 294.00,
                       height: 202.00,
@@ -110,36 +48,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Column(
                             children: [
-                              Column(
-                                children: [
-                                  // ? balance section---------->
-                                  const Text(
-                                    'Balance',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 24.00,
-                                        color: Colors.white),
-                                  ),
-                                  Text(
-                                    Expense.instance
-                                        .totalTransaction()[0]
-                                        .toString(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 24.00,
-                                      color: colorId.white,
-                                      // *text shadow here
-                                      shadows: const [
-                                        Shadow(
-                                          blurRadius: 5.00,
-                                          color: Color.fromARGB(
-                                              248, 125, 156, 243),
-                                          offset: Offset(5.0, 5.0),
-                                        ),
-                                      ],
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    // ? balance section---------->
+                                    const Text(
+                                      'Balance',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 24.00,
+                                          color: Colors.white),
                                     ),
-                                  )
-                                ],
+                                    Text(
+                                      TransactionDB.instance
+                                          .totalTransaction()[0]
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 24.00,
+                                        color: colorId.white,
+                                        // *text shadow here
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -188,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               List<CategoryModel> newModel,
                                               Widget? _) {
                                             return Text(
-                                              Expense.instance
+                                              TransactionDB.instance
                                                   .totalTransaction()[1]
                                                   .toString(),
                                               style: TextStyle(
@@ -196,14 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 fontSize: 24.00,
                                                 color: colorId.white,
                                                 // *text shadow here
-                                                shadows: const [
-                                                  Shadow(
-                                                    blurRadius: 5.00,
-                                                    color: Color.fromARGB(
-                                                        249, 26, 172, 41),
-                                                    offset: Offset(5.0, 5.0),
-                                                  ),
-                                                ],
                                               ),
                                             );
                                           },
@@ -242,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ],
                                         ),
                                         Text(
-                                          Expense.instance
+                                          TransactionDB.instance
                                               .totalTransaction()[2]
                                               .toString(),
                                           style: TextStyle(
@@ -250,14 +175,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontSize: 24.00,
                                             color: colorId.white,
                                             // *text shadow here
-                                            shadows: const [
-                                              Shadow(
-                                                blurRadius: 5.00,
-                                                color: Color.fromARGB(
-                                                    255, 236, 97, 97),
-                                                offset: Offset(5.0, 5.0),
-                                              ),
-                                            ],
                                           ),
                                         )
                                       ],
@@ -274,10 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 160.00,
-                child: Carousel(),
-              ),
               const SizedBox(height: 10.00),
 // ? view all button--->
 // ^ Navigator---> ScreenAllT()---->
@@ -293,11 +206,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     TextButton(
                       onPressed: () async {
                         print("❤️");
-                        await Expense().refreshUiTransaction();
+                        await TransactionDB().refreshUiTransaction();
                         await CategoryDB.instance.refreshUI().then(
                               (value) => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const AllTransaction(),
+                                  builder: (context) =>
+                                      const AllTransactionsNew(),
                                 ),
                               ),
                             );
@@ -306,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.only(bottom: 13.00),
                         child: Text(
                           'View all',
-                          style: TextStyle(fontSize: 10.00),
+                          style: TextStyle(fontSize: 15.00),
                         ),
                       ),
                     )

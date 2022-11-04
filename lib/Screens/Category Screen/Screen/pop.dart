@@ -10,7 +10,7 @@ ValueNotifier<CategoryType> selectedCategory =
 
 Future<void> pop({required BuildContext context, required tabBarIndex}) async {
   CategoryDB.instance.refreshUI();
-  Expense.instance.refreshUiTransaction();
+  TransactionDB.instance.refreshUiTransaction();
   CategoryDB.instance.refreshUI();
   final categoryController = TextEditingController();
   showDialog(
@@ -19,17 +19,6 @@ Future<void> pop({required BuildContext context, required tabBarIndex}) async {
       return SimpleDialog(
         title: const Center(child: Text('Category')),
         children: [
-          // ValueListenableBuilder(
-          //   valueListenable: selectedCategory,
-          //   builder: (BuildContext context, CategoryType newCategoryType,
-          //       Widget? _) {
-          //     return Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //       children: const [],
-          //     );
-          //   },
-          // ),
-
           //*add new category
           Padding(
             padding: const EdgeInsets.all(8.0),

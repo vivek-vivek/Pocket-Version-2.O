@@ -12,13 +12,12 @@ ValueNotifier<CategoryType> selectedCategory =
 Future<void> popUpCaBtnCategoryRadio(
     {required BuildContext context, required selectedTypeCat}) async {
   CategoryDB.instance.refreshUI();
-  Expense.instance.refreshUiTransaction();
+  TransactionDB.instance.refreshUiTransaction();
   CategoryDB.instance.refreshUI();
   final categoryController = TextEditingController();
   showDialog(
     context: context,
     builder: (ctx) {
-      final formkey = GlobalKey<FormState>();
       return SimpleDialog(
         title: const Center(child: Text('Category')),
         children: [
@@ -30,24 +29,31 @@ Future<void> popUpCaBtnCategoryRadio(
                 type: CategoryType.income,
                 selectedType: selectedTypeCat,
               ),
-              const RadioFunction(
-                tittle: 'Expense',
-                type: CategoryType.expense,
-                selectedType: null,
+              const Padding(
+                padding: EdgeInsets.only(right: 15),
+                child: RadioFunction(
+                  tittle: 'Expense',
+                  type: CategoryType.expense,
+                  selectedType: null,
+                ),
               ),
             ],
           ),
           //*add new category
-          Form(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                maxLength: 10,
-                controller: categoryController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
+          Padding(
+             padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              maxLength: 10,
+              controller: categoryController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'enter category';
+                }
+                return null;
+              },
             ),
           ),
           //******* */

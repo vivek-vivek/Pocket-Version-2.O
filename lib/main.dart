@@ -25,7 +25,7 @@ void main() async {
     Hive.registerAdapter(TransactionModalAdapter());
   }
   CategoryDB.instance.refreshUI();
-  Expense.instance.refreshUiTransaction();
+  TransactionDB.instance.refreshUiTransaction();
   runApp(const MyApp());
 }
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
-    Expense.instance.refreshUiTransaction();
+    TransactionDB.instance.refreshUiTransaction();
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(),

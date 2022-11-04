@@ -43,6 +43,7 @@ dependencies:
   splash_screen_view: ^3.0.0
   charts_flutter: ^0.12.0
   syncfusion_flutter_charts: ^20.3.52
+  drop_shadow: ^0.0.1+4
 
 dev_dependencies:
   flutter_test:

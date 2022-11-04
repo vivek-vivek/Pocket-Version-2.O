@@ -15,11 +15,8 @@ class ExpensesTabPage extends StatefulWidget {
 }
 
 class _ExpensesTabPageState extends State<ExpensesTabPage> {
- 
-
   @override
   Widget build(BuildContext context) {
-  
     return ValueListenableBuilder(
       valueListenable: CategoryDB().expenseCategoryModelList,
       builder: (BuildContext context, List<CategoryModel> newCategoryModelList,
@@ -29,7 +26,7 @@ class _ExpensesTabPageState extends State<ExpensesTabPage> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 20.00,
               crossAxisSpacing: 20.00,
-              crossAxisCount: 3),
+              crossAxisCount: 2),
           itemBuilder: (context, index) {
             final category = newCategoryModelList[index];
             return Padding(
@@ -37,25 +34,34 @@ class _ExpensesTabPageState extends State<ExpensesTabPage> {
                   const EdgeInsets.only(top: 20.00, left: 20.00, right: 20.00),
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorId.lightGreen,
+                  color: colorId.lightRed,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20.00),
                   ),
                 ),
                 child: Column(
                   children: [
-                    Center(
-                      child: Text(
-                        category.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            popDeleteFunction(
+                                context: context, id: category.id);
+                            print('🎉🎉🚫DELETED');
+                          },
+                          icon: const Icon(Icons.delete_rounded),
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      onPressed: () {
-                        popDeleteFunction(context: context, id: category.id);
-                        print('🎉🎉🚫DELETED');
-                      },
-                      icon: const Icon(Icons.delete_rounded),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          category.name,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   ],
                 ),
