@@ -14,32 +14,39 @@ abstract class TransactionDbFunctions {
 }
 
 class TransactionDB implements TransactionDbFunctions {
-  // ^-------------------------Value Notifiers--------------------------
+  // ^-------------------------Value Notifiers----------------------------------------
+  //~ transaction notifier
+
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
 
-  // ^--------------------------------end---------------------------------------
+  // ~transaction date notifier
+  ValueNotifier<List<TransactionModal>> dateNotifier = ValueNotifier([]);
+  // ^--------------------------------end----------------------------------------------
+//
+//
+  // ^----------------------------------instance---------------------------------------
 
   TransactionDB._internal();
   static TransactionDB instance = TransactionDB._internal();
   factory TransactionDB() {
     return instance;
   }
+  // ^---------------------------------end---------------------------------------------
 //
 //
 //
 //
-//^-----------------------------Get Transaction----------------------------------------
+//^-----------------------------Add Transaction----------------------------------------
 
   // adding transaction function
   @override
   Future<void> addTransaction(TransactionModal obj) async {
     final transDb = await Hive.openBox<TransactionModal>(transactionDBName);
-
     transDb.put(obj.id, obj);
   }
 
-//^-----------------------------Get Transaction----------------------------------------
+//^---------------------------------------End----------------------------------------
 //
 //
 //
@@ -68,10 +75,15 @@ class TransactionDB implements TransactionDbFunctions {
     transactionListNotifier.value.clear();
     transactionListNotifier.value.addAll(list);
     transactionListNotifier.notifyListeners();
+
     print('🟢🟢🟢🟢');
   }
 
 // ^------------------------------------end-----------------------------------------------
+
+
+
+
 //
 //
 //
@@ -99,6 +111,9 @@ class TransactionDB implements TransactionDbFunctions {
   }
 
 //^-----------------------------------------end-------------------------------------------
+
+// ^-------------------------------------date  pickers
+
 //
 //
 //

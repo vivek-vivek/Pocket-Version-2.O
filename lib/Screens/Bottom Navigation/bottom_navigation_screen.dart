@@ -1,6 +1,6 @@
 import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
 import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
-import 'package:budgetory_v1/Screens/Graph/Index%20screen/screen_four.dart';
+import 'package:budgetory_v1/Screens/Graph/Index%20screen/graph_home.dart';
 import 'package:budgetory_v1/Screens/Home/home.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Screen/category_home.dart';
 import 'package:budgetory_v1/Screens/Add%20New2/Home/add_new.dart';
@@ -45,7 +45,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           HomeScreen(),
           AddTransaction(),
           AllCategories(),
-          GraphScreen(),
+          HomeGraph(),
           UserPage()
         ],
       ),
