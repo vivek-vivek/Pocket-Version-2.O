@@ -8,7 +8,7 @@ import '../../../../DB/Transactions/transaction_db_f.dart';
 import '../../../../DataBase/Models/ModalCategory/category_model.dart';
 import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
 import '../../../../colors/color.dart';
-import '../../../Graph/widgets/filter_array.dart';
+import '../../widgets/filter_array.dart';
 
 class AllTransactionsNew extends StatefulWidget {
   const AllTransactionsNew({super.key});
@@ -17,10 +17,13 @@ class AllTransactionsNew extends StatefulWidget {
 }
 
 class _AllTransactionsNewState extends State<AllTransactionsNew> {
-  String? dropDownValue;
+  String? categoryDropValue;
+  String? timeDropValue;
+
   @override
   void initState() {
-    dropDownValue = 'All';
+    categoryDropValue = 'All';
+    timeDropValue = 'Today';
     super.initState();
   }
 
@@ -31,48 +34,70 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
         iconTheme: IconThemeData(color: colorId.black),
         backgroundColor: colorId.white,
         elevation: 0,
-        title: Row(
-          children: [
-            SizedBox(
-              width: 150.00,
-              child: Text(
-                dropDownValue.toString(),
-                style: TextStyle(color: colorId.black),
-              ),
-            ),
-            DropdownButton(
-              elevation: 0,
-              isDense: true,
-              underline: const SizedBox(),
-              icon: const Icon(Icons.arrow_drop_down_circle_outlined),
-              // hint: const Text('Filter'),
-              // value: dropDownValue,
-              items:
-                  filterArray.filterItemsArray.map((String filterItemsArray) {
-                return DropdownMenuItem(
-                  value: filterItemsArray,
-                  child: Text(filterItemsArray),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(
-                  () {
-                    dropDownValue = value;
-                  },
-                );
-              },
-              onTap: () {
-                dropDownValue = dropDownValue;
-              },
-            ),
-          ],
+        title: Text(
+          'Transactions',
+          style: TextStyle(color: colorId.black),
         ),
       ),
       body: Column(
         children: [
+          ListTile(
+            leading: SizedBox(
+              width: 200.00,
+              child: DropdownButton(
+                dropdownColor: colorId.lightBlue,
+                elevation: 0,
+                isDense: true,
+                underline: const SizedBox(),
+                value: categoryDropValue,
+                items: filterArray.filterItemsArray.map(
+                  (String filterItemsArray) {
+                    return DropdownMenuItem(
+                        value: filterItemsArray, child: Text(filterItemsArray));
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  setState(
+                    () {
+                      categoryDropValue = value;
+                    },
+                  );
+                },
+               
+              ),
+            ),
+
+            //^---------------------------------------right side
+            // trailing: DropdownButton(
+            //   elevation: 0,
+            //   isDense: true,
+            //   underline: const SizedBox(),
+            //   value: timeDropValue,
+            //   icon: const Icon(Icons.arrow_drop_down_circle_outlined),
+            //   items: filterArray.timeDropList.map((String filterItemsArray) {
+            //     return DropdownMenuItem(
+            //       value: filterItemsArray,
+            //       child: Text(filterItemsArray),
+            //     );
+            //   }).toList(),
+            //   onChanged: (value) {
+            //     setState(
+            //       () {
+            //         timeDropValue = categoryDropValue;
+            //       },
+            //     );
+            //   },
+            //   onTap: () {
+            //     categoryDropValue = categoryDropValue;
+            //   },
+            // ),
+          ),
           Expanded(
             child: ValueListenableBuilder(
-              valueListenable: TransactionDB.instance.transactionListNotifier,
+              valueListenable: builders(
+                  transactionListNotifier:
+                      TransactionDB.instance.transactionListNotifier,
+                  TodayDateNotifier: TransactionDB.instance.TodayDateNotifier),
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
                 return newList.isEmpty
@@ -90,24 +115,35 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   }
 
 // ^-------------------------------------------------------------------------------------------------------
+
+  builders({required transactionListNotifier, required TodayDateNotifier}) {
+    if (categoryDropValue == categoryDropValue) {
+      return transactionListNotifier;
+    } else {
+      return TodayDateNotifier;
+    }
+  }
+
   filter(newList) {
-    if (dropDownValue == "All") {
+    if (categoryDropValue == "All") {
+      //* All
       return ListView.builder(
         shrinkWrap: true,
         itemBuilder: (context, index) {
           final newValue = newList[index];
+
           return Slidable(
-            key: Key(newValue.id!),
+            key: Key(newValue.id),
             endActionPane: ActionPane(
               motion: const DrawerMotion(),
               children: [
                 SlidableAction(
                   onPressed: (context) {
                     try {
-                      TransactionDB.instance.deleteTransaction(newValue.id!);
+                      TransactionDB.instance.deleteTransaction(newValue.id);
                     } catch (e) {
-                      print(e);
-                    }
+                      print('Exception🚫🚫🚫🚫 \n $e');
+                    } 
                   },
                   icon: Icons.delete,
                   foregroundColor: colorId.red,
@@ -150,7 +186,8 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
       );
     }
 //^----------------------------------------------------------------------------------------------------
-    else if (dropDownValue == 'Income') {
+    else if (categoryDropValue == 'Income') {
+      // *Income==Income
       return ListView.builder(
         shrinkWrap: true,
         itemCount: newList.length,
@@ -173,7 +210,10 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
               : const SizedBox();
         },
       );
-    } else {
+    }
+    //^---------------------------------------------------------------------------------------------------------
+    else {
+      // *expence
       return ListView.builder(
         shrinkWrap: true,
         itemCount: newList.length,

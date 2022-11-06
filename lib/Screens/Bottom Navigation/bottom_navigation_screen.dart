@@ -36,8 +36,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CategoryDB.instance.refreshUI();
-    TransactionDB.instance.refreshUiTransaction();
     return Scaffold(
       body: PageView(
         controller: _controller,
@@ -65,7 +63,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           RollingBottomBarItem(Icons.account_circle),
         ],
         enableIconRotation: true,
-        onTap: (index) {
+        onTap: (index) async {
+          await CategoryDB.instance.refreshUI();
+          await TransactionDB.instance.refreshUiTransaction();
           _controller.animateToPage(
             index,
             duration: const Duration(milliseconds: 200),

@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, avoid_print
 
+import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,8 @@ class TransactionDB implements TransactionDbFunctions {
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
 
-  // ~transaction date notifier
-  ValueNotifier<List<TransactionModal>> dateNotifier = ValueNotifier([]);
+  // ~transaction date notifiers
+  ValueNotifier<List<TransactionModal>> TodayDateNotifier = ValueNotifier([]);
   // ^--------------------------------end----------------------------------------------
 //
 //
@@ -73,17 +74,29 @@ class TransactionDB implements TransactionDbFunctions {
     final list = await getTransactions();
     list.sort((first, second) => second.date.compareTo(first.date));
     transactionListNotifier.value.clear();
+    CategoryDB.instance.refreshUI();
     transactionListNotifier.value.addAll(list);
     transactionListNotifier.notifyListeners();
-
-    print('🟢🟢🟢🟢');
+    print('🟢🟢 transaction refresh aayiiii🟢🟢');
   }
 
 // ^------------------------------------end-----------------------------------------------
-
-
-
-
+  kunakuna() async {
+    final list = await getTransactions();
+    list.sort((first, second) => second.date.compareTo(first.date));
+    transactionListNotifier.value.clear();
+    transactionListNotifier.value.addAll(list);
+    transactionListNotifier.notifyListeners();
+    list.forEach(
+      (TransactionModal value) {
+        if (value.date ==
+            DateTime(DateTime.now().year, DateTime.now().month,
+                DateTime.now().day)) {
+          TodayDateNotifier.value.addAll(list);
+        }
+      },
+    );
+  }
 //
 //
 //
@@ -129,6 +142,7 @@ class TransactionDB implements TransactionDbFunctions {
     print(index);
     final _TransactionDB =
         await Hive.openBox<TransactionModal>('transactionDb');
+    await refreshUiTransaction();
     await _TransactionDB.delete(index);
     await _TransactionDB.clear();
     await refreshUiTransaction();

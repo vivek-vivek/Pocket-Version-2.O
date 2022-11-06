@@ -4,4 +4,10 @@ class FilterArray {
     'Income',
     'Expence',
   ];
+
+  var timeDropList = [
+    'Today',
+    'Weekly',
+    'Monthly',
+  ];
 }

@@ -293,7 +293,8 @@ class _AddTransactionState extends State<AddTransaction> {
             type: _selectedCategoryType!,
             categoryTransaction: _selectedCategoryModel!);
         //? ********************************
-        TransactionDB.instance.addTransaction(modelTransaction);
+        await TransactionDB.instance.addTransaction(modelTransaction);
+        await TransactionDB.instance.kunakuna();
         // ********************************
         final snackBar = SnackBar(
           content: Text(

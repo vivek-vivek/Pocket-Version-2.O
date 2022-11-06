@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w900,
-                                        fontSize: 24.00,
+                                        fontSize: 34.000,
                                         color: colorId.white,
                                         // *text shadow here
                                       ),
@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 40.00, right: 8.00, left: 8.00),
+                                top: 30.00, right: 8.00, left: 8.00),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -207,14 +207,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () async {
                         print("❤️");
                         await TransactionDB().refreshUiTransaction();
-                        await CategoryDB.instance.refreshUI().then(
-                              (value) => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AllTransactionsNew(),
-                                ),
-                              ),
-                            );
+                        await CategoryDB.instance.refreshUI();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AllTransactionsNew(),
+                          ),
+                        );
                       },
                       child: const Padding(
                         padding: EdgeInsets.only(bottom: 13.00),
