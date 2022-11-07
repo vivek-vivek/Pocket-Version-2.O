@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
 import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
 import 'package:budgetory_v1/Screens/All%20Transaction%20screen/Home%20screen/Index/filterd_trasnaction.dart';
@@ -206,8 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     TextButton(
                       onPressed: () async {
                         print("❤️");
-                        await TransactionDB().refreshUiTransaction();
-                        await CategoryDB.instance.refreshUI();
+                         TransactionDB().refreshUiTransaction();
+                         CategoryDB.instance.refreshUI();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const AllTransactionsNew(),

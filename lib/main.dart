@@ -10,6 +10,10 @@ import 'DB/Transactions/transaction_db_f.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  //* TransactionDbAmount registering or opening
+  if (!Hive.isAdapterRegistered(TransactionDbAmountAdapter().typeId)) {
+    Hive.registerAdapter(TransactionDbAmountAdapter());
+  }
   //* category Db registering or opening
   if (!Hive.isAdapterRegistered(CategoryModelAdapter().typeId)) {
     Hive.registerAdapter(CategoryModelAdapter());

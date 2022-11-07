@@ -21,6 +21,9 @@ class TransactionDB implements TransactionDbFunctions {
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
 
+  // ~today notiferi
+  ValueNotifier<List<TransactionModal>> todayNotifier = ValueNotifier([]);
+
   // ~transaction date notifiers
   ValueNotifier<List<TransactionModal>> TodayDateNotifier = ValueNotifier([]);
   // ^--------------------------------end----------------------------------------------
@@ -78,6 +81,13 @@ class TransactionDB implements TransactionDbFunctions {
     transactionListNotifier.value.addAll(list);
     transactionListNotifier.notifyListeners();
     print('🟢🟢 transaction refresh aayiiii🟢🟢');
+    Future.forEach(list, (TransactionModal modalTransaction) {
+      if (modalTransaction.date ==
+          (DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+        todayNotifier.value.add(modalTransaction);
+      }
+    });
   }
 
 // ^------------------------------------end-----------------------------------------------
@@ -108,7 +118,7 @@ class TransactionDB implements TransactionDbFunctions {
     double total = 0;
     double _income = 0;
     double _expences = 0;
-
+    // final listAmounts = Hive.openBox<TransactionDbAmount>("amount");
     for (var i = 0; i < transactionListNotifier.value.length; i++) {
       late final newValue = transactionListNotifier.value[i];
       if (newValue.type == CategoryType.income) {
@@ -125,8 +135,9 @@ class TransactionDB implements TransactionDbFunctions {
 
 //^-----------------------------------------end-------------------------------------------
 
-// ^-------------------------------------date  pickers
+// ^-------------------------------------date pickers
 
+  today() {}
 //
 //
 //

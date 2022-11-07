@@ -17,10 +17,11 @@ class Tile extends StatelessWidget {
 
     return ValueListenableBuilder(
       valueListenable: TransactionDB.instance.transactionListNotifier,
+      // changed
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
         return ListView.builder(
-          itemCount: newList.length <= 3 ? newList.length : 3,
+          itemCount: newList.length <= 5 ? newList.length : 5,
           itemBuilder: (context, index) {
             final newValue = newList[index];
             return newList.isEmpty

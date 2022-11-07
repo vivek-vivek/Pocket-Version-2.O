@@ -25,7 +25,7 @@ class _AllGraphState extends State<AllGraph> {
                 child: Text('welcome!!!👋👋Add some new Transactions'),
               )
             : SfCircularChart(
-                backgroundColor: colorId.purple,
+                backgroundColor: colorId.white,
                 legend: Legend(isVisible: true),
                 series: <CircularSeries>[
                   // Render pie chart
@@ -34,7 +34,7 @@ class _AllGraphState extends State<AllGraph> {
                     xValueMapper: (TransactionModal data, _) =>
                         data.categoryTransaction.type.name,
                     yValueMapper: (TransactionModal data, _) =>
-                        data.amount.toInt(),
+                        data.amount.round(),
                     dataLabelSettings: const DataLabelSettings(isVisible: true),
                     enableTooltip: true,
                   )

@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:budgetory_v1/Controller/today.dart';
 import 'package:budgetory_v1/Screens/Settings/about.dart';
 import 'package:budgetory_v1/Screens/Splash%20Screen/splash.dart';
 import 'package:flutter/material.dart';
@@ -56,9 +57,12 @@ class _UserPageState extends State<UserPage> {
                 ),
                 child: TextButton(
                   onPressed: () {
+                    TodayTransactionClass.instance;
                     CategoryDB.instance.deleteDBAll();
                     TransactionDB.instance.deleteDBAll();
                     TransactionDB.instance.totalTransaction().clear();
+
+                    TodayTransactionClass.instance.deleteDBAll();
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const SplashScreen()));
                   },

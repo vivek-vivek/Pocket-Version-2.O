@@ -27,3 +27,23 @@ class TransactionModal {
     id = DateTime.now().millisecondsSinceEpoch.toString();
   }
 }
+
+//* total amount transaction amount
+@HiveType(typeId: 4)
+class TransactionDbAmount {
+  @HiveField(0)
+  late final String? id;
+
+  @HiveField(1)
+  final double income;
+
+  @HiveField(2)
+  final double expence;
+
+  @HiveField(3)
+  final double? total;
+  TransactionDbAmount(
+      {required this.income, this.id, required this.expence, this.total}) {
+    id = DateTime.now().microsecondsSinceEpoch.toString();
+  }
+}
