@@ -1,8 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
-import '../../../DB/Transactions/transaction_db_f.dart';
+import '../../../DB/transaction_db_f.dart';
 import '../../../DataBase/Models/ModalCategory/category_model.dart';
 import '../../../colors/color.dart';
 
@@ -27,7 +29,7 @@ class Filtered {
                 SlidableAction(
                   onPressed: (context) {
                     try {
-                      TransactionDB.instance.deleteTransaction(newValue.id);
+                      TransactionDB.instance.deleteTransaction(newValue);
                     } catch (e) {
                       print('Exception🚫🚫🚫🚫 \n $e');
                     }

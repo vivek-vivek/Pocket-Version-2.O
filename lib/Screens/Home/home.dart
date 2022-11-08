@@ -1,10 +1,11 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
-import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
+import 'package:budgetory_v1/DB/category_db_f.dart';
+import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:budgetory_v1/Screens/All%20Transaction%20screen/Home%20screen/Index/filterd_trasnaction.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../DataBase/Models/ModalCategory/category_model.dart';
 import 'list_tile.dart';
 
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         color: colorId.purple,
                       ),
-                      width: 294.00,
+                      width: 320.00,
                       height: 202.00,
                       child: Column(
                         children: [
@@ -207,9 +208,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TextButton(
                       onPressed: () async {
+                        print(DateTime.now().day - 7);
+
                         print("❤️");
-                         TransactionDB().refreshUiTransaction();
-                         CategoryDB.instance.refreshUI();
+                        TransactionDB().refreshUiTransaction();
+                        CategoryDB.instance.refreshUI();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const AllTransactionsNew(),

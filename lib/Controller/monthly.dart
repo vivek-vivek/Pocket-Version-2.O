@@ -1,9 +1,8 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
 
-import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
-import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
+import 'package:budgetory_v1/DB/category_db_f.dart';
+import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import '../DataBase/Models/ModalTransaction/transaction_modal.dart';
 
 class MonthlyTransactionClass {
@@ -36,10 +35,5 @@ class MonthlyTransactionClass {
     });
   }
 
-  Future<void> deleteDBAll() async {
-    final _categoryDB =
-        await Hive.openBox<TransactionModal>("CATEGORY_DB_NAME");
-    _categoryDB.delete(_categoryDB);
-    _categoryDB.clear();
-  }
+
 }

@@ -1,0 +1,192 @@
+// ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, avoid_print
+
+import 'package:budgetory_v1/DB/category_db_f.dart';
+import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
+import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+const transactionDBName = 'transaction*Db';
+
+abstract class TransactionDbFunctions {
+  Future<void> addTransaction(TransactionModal obj);
+  Future<void> amountTransaction(TransactionDbAmount obj);
+  Future<List<TransactionModal>> getTransactions();
+}
+
+class TransactionDB implements TransactionDbFunctions {
+  // ^-------------------------Value Notifiers----------------------------------------
+  //~ transaction notifier
+  ValueNotifier<List<TransactionModal>> transactionListNotifier =
+      ValueNotifier([]);
+  // ~ notifiers - category
+  ValueNotifier<List<TransactionModal>> IncomeNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> expenceNotifier = ValueNotifier([]);
+  // ~ notifiers - category-amount
+  ValueNotifier<List<TransactionDbAmount>> IncomeAmountNotifier =
+      ValueNotifier([]);
+  ValueNotifier<List<TransactionDbAmount>> ExpenceAmountNotifier =
+      ValueNotifier([]);
+
+  // ~notifiers - Time
+  ValueNotifier<List<TransactionModal>> todayNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> MonthlyNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> weeklyNotifier = ValueNotifier([]);
+
+  // ^--------------------------------end----------------------------------------------
+
+  // ^----------------------------------instance---------------------------------------
+
+  TransactionDB._internal();
+  static TransactionDB instance = TransactionDB._internal();
+  factory TransactionDB() {
+    return instance;
+  }
+  // ^---------------------------------end---------------------------------------------
+
+  //^-----------------------------Add Transaction----------------------------------------
+
+  //~ adding transaction function
+  @override
+  Future<void> addTransaction(TransactionModal obj) async {
+    final transDb = await Hive.openBox<TransactionModal>(transactionDBName);
+    transDb.put(obj.id, obj);
+  }
+
+  //^---------------------------------------End------------------------------------------
+
+  // ^--------------------------------------Amount BD------------------------------------
+
+  //^---------------------------------------End------------------------------------------
+
+  //^-----------------------------Get Transaction----------------------------------------
+
+  // ~ getting transaction from somewhere
+  @override
+  Future<List<TransactionModal>> getTransactions() async {
+    print("❤️❤️");
+    final transDb = await Hive.openBox<TransactionModal>(transactionDBName);
+    print(transDb.values.toList());
+    return transDb.values.toList();
+  }
+
+  // ~ getting Amount from AmountDb
+  Future<List<TransactionDbAmount>> getAmount() async {
+    print("❤️❤️");
+    final DB = await Hive.openBox<TransactionDbAmount>(transactionDBName);
+    print(DB.values.toList());
+    return DB.values.toList();
+  }
+  //^----------------------------------end ----------------------------------------------
+
+  //^ -------------------------------Refreshing UI------------------------------------------
+  // ~refreshing UI-->f
+  Future<void> refreshUiTransaction() async {
+    final list = await getTransactions();
+    // final amt = await getAmount();
+    list.sort((first, second) => second.date.compareTo(first.date));
+    transactionListNotifier.value.clear();
+    CategoryDB.instance.refreshUI();
+    transactionListNotifier.value.addAll(list);
+    transactionListNotifier.notifyListeners();
+
+    //~today filter
+    todayNotifier.value.clear();
+    Future.forEach(list, (TransactionModal modalTransaction) {
+      if (modalTransaction.date ==
+          (DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+        todayNotifier.value.add(modalTransaction);
+      }
+    });
+
+    //~weekly filter
+    Future.forEach(list, (TransactionModal modalTransaction) {
+      if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
+        weeklyNotifier.value.add(modalTransaction);
+      }
+    });
+    //~monthly filter
+    MonthlyNotifier.value.clear();
+    Future.forEach(list, (TransactionModal modalTransaction) {
+      if (modalTransaction.date.month == DateTime.now().month) {
+        MonthlyNotifier.value.add(modalTransaction);
+      }
+    });
+
+    // ~income & expence  drop
+    expenceNotifier.value.clear();
+    IncomeNotifier.value.clear();
+    Future.forEach(list, (TransactionModal modalTransaction) {
+      if (modalTransaction.type == CategoryType.income) {
+        IncomeNotifier.value.add(modalTransaction);
+      } else {
+        expenceNotifier.value.add(modalTransaction);
+      }
+      {}
+    });
+  }
+
+  // ^------------------------------------end-----------------------------------------------
+
+  //^-----------------------------Total amount Of Income & TransactionDB--------------------
+
+  //  finding total amount of income form transaction db
+  List totalTransaction() {
+    double total = 0;
+    double _income = 0;
+    double _expences = 0;
+    for (var i = 0; i < transactionListNotifier.value.length; i++) {
+      late final newValue = transactionListNotifier.value[i];
+      if (newValue.type == CategoryType.income) {
+        _income = newValue.amount + _income;
+      } else {
+        _expences = newValue.amount + _expences;
+      }
+      total = _income - _expences;
+    }
+
+    // total amount
+    return [total, _income, _expences];
+  }
+
+  //^-----------------------------------------end-------------------------------------------
+
+  //^-----------------------------------Delete Transaction-------------------------------------
+
+  //  ! delete a transaction -fnt  ------------> not working ???
+  //  !  it helps to delete a transaction form db,
+  //  !using transaction Id
+  //  !🥵🥵🥵🥵🥵🥵🥵🥵🥵🥵!!!
+
+  deleteTransaction(TransactionModal transaction) async {
+    print(transaction);
+    final _TransactionDB =
+        await Hive.openBox<TransactionModal>('transactionDb');
+
+    await refreshUiTransaction();
+    await _TransactionDB.delete(transaction.id);
+    await _TransactionDB.clear();
+    await refreshUiTransaction();
+  }
+
+  // ^-----------------------------------------------end---------------------------------------------
+
+  // ^---------------------------------------Delete Transaction DB all-----------------------------
+
+  Future<void> deleteDBAll() async {
+    final _transactionDb =
+        await Hive.openBox<TransactionModal>(transactionDBName);
+    _transactionDb.clear();
+    await refreshUiTransaction();
+  }
+
+  @override
+  Future<void> amountTransaction(TransactionDbAmount obj) async {
+    final transDb = await Hive.openBox<TransactionDbAmount>(transactionDBName);
+    transDb.put(obj.id, obj);
+  }
+
+  // ^------------------------------------------------end------------------------------------------
+
+}

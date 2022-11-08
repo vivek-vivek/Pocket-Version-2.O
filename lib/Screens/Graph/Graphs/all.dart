@@ -1,4 +1,4 @@
-import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
+import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../DataBase/Models/ModalTransaction/transaction_modal.dart';

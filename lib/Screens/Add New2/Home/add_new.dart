@@ -1,11 +1,11 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../DB/FunctionsCategory/category_db_f.dart';
-import '../../../DB/Transactions/transaction_db_f.dart';
+import '../../../DB/category_db_f.dart';
+import '../../../DB/transaction_db_f.dart';
 import '../../Category Screen/Widgets/pop_up_btn_category_radio.dart';
 
 class AddTransaction extends StatefulWidget {
@@ -292,10 +292,20 @@ class _AddTransactionState extends State<AddTransaction> {
             date: _selectedDate!,
             type: _selectedCategoryType!,
             categoryTransaction: _selectedCategoryModel!);
-        //? ********************************
+        // amount DB
+        final pieAmount = TransactionDbAmount(
+          total: TransactionDB.instance.totalTransaction()[0],
+          income: TransactionDB.instance.totalTransaction()[1],
+          expence: TransactionDB.instance.totalTransaction()[2],
+        );
+
+        // ^clear controllers
+        notesController.clear();
+        amountController.clear();
+        dateController.clear();
+        //  amount db function
+        await TransactionDB.instance.amountTransaction(pieAmount);
         await TransactionDB.instance.addTransaction(modelTransaction);
-        await TransactionDB.instance.kunakuna();
-        // ********************************
         final snackBar = SnackBar(
           content: Text(
             'Successfully transaction added',
@@ -303,12 +313,6 @@ class _AddTransactionState extends State<AddTransaction> {
           ),
           backgroundColor: (colorId.lightGreen),
         );
-
-        // ^clear controllers
-
-        notesController.clear();
-        amountController.clear();
-        dateController.clear();
 
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }

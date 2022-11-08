@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
-import 'package:budgetory_v1/DB/Transactions/transaction_db_f.dart';
+import 'package:budgetory_v1/DB/category_db_f.dart';
+import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:flutter/material.dart';
 

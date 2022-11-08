@@ -32,7 +32,7 @@ class TransactionModal {
 @HiveType(typeId: 4)
 class TransactionDbAmount {
   @HiveField(0)
-  late final String? id;
+    String? id;
 
   @HiveField(1)
   final double income;
@@ -41,9 +41,12 @@ class TransactionDbAmount {
   final double expence;
 
   @HiveField(3)
-  final double? total;
+  final double total;
   TransactionDbAmount(
-      {required this.income, this.id, required this.expence, this.total}) {
+      {this.id,
+      required this.income,
+      required this.expence,
+      required this.total}) {
     id = DateTime.now().microsecondsSinceEpoch.toString();
   }
 }

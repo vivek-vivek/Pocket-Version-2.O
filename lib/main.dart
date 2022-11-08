@@ -4,8 +4,8 @@ import 'package:budgetory_v1/Screens/Splash%20Screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
-import 'DB/FunctionsCategory/category_db_f.dart';
-import 'DB/Transactions/transaction_db_f.dart';
+import 'DB/category_db_f.dart';
+import 'DB/transaction_db_f.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

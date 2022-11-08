@@ -2,8 +2,11 @@
 
 import 'package:budgetory_v1/Screens/All%20Transaction%20screen/widgets/category_filter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../DB/Transactions/transaction_db_f.dart';
+import '../../../../DB/transaction_db_f.dart';
+import '../../../../DataBase/Models/ModalCategory/category_model.dart';
 import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
 import '../../../../colors/color.dart';
 import '../../widgets/filter_array.dart';
@@ -17,9 +20,10 @@ class AllTransactionsNew extends StatefulWidget {
 class _AllTransactionsNewState extends State<AllTransactionsNew> {
   String? categoryDropValue;
   String? timeDropValue;
-
+  List<TransactionModal> modalDummy = [];
   @override
   void initState() {
+    modalDummy = TransactionDB.instance.transactionListNotifier.value;
     categoryDropValue = 'All';
     timeDropValue = 'Today';
     super.initState();
@@ -53,6 +57,21 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                   items: filterArray.filterItemsArray.map(
                     (String filterItemsArray) {
                       return DropdownMenuItem(
+                        onTap: (() {
+                          if (filterItemsArray ==
+                              filterArray.filterItemsArray[0]) {
+                            modalDummy = TransactionDB
+                                .instance.transactionListNotifier.value;
+                          } else if (filterItemsArray ==
+                              filterArray.filterItemsArray[1]) {
+                            modalDummy =
+                                TransactionDB.instance.IncomeNotifier.value;
+                          } else if (filterItemsArray ==
+                              filterArray.filterItemsArray[2]) {
+                            modalDummy =
+                                TransactionDB.instance.expenceNotifier.value;
+                          }
+                        }),
                         value: filterItemsArray,
                         child: SizedBox(
                           height: 30.00,
@@ -63,15 +82,11 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                     },
                   ).toList(),
                   onChanged: (value) {
-                    try {
-                      setState(
-                        () {
-                          categoryDropValue = value;
-                        },
-                      );
-                    } catch (e) {
-                      print("Exception in stare management \n $e");
-                    }
+                    setState(
+                      () {
+                        categoryDropValue = value;
+                      },
+                    );
                   },
                 ),
               ),
@@ -84,25 +99,28 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                   underline: const SizedBox(),
                   value: timeDropValue,
                   items: filterArray.timeDropList.map(
-                    (String timeDropValue) {
+                    (String timeDropList) {
                       return DropdownMenuItem(
-                          value: timeDropValue,
+                          value: timeDropList,
                           child: SizedBox(
                               height: 30.00,
                               width: 60.00,
-                              child: Text(timeDropValue)));
+                              child: Text(timeDropList)));
                     },
                   ).toList(),
-                  onChanged: (value) {
-                    try {
-                      setState(
-                        () {
-                          timeDropValue = value;
-                        },
-                      );
-                    } catch (e) {
-                      print("Exception in stare management \n $e");
+                  onTap: () {
+                    if (timeDropValue == filterArray.timeDropList[0]) {
+                      modalDummy = TransactionDB.instance.todayNotifier.value;
+                    } else if (timeDropValue == filterArray.timeDropList[1]) {
+                      modalDummy = TransactionDB.instance.weeklyNotifier.value;
+                    } else if (timeDropValue == filterArray.timeDropList[2]) {
+                      modalDummy = TransactionDB.instance.MonthlyNotifier.value;
                     }
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      timeDropValue = value;
+                    });
                   },
                 ),
               ),
@@ -114,12 +132,83 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
                 return newList.isEmpty
-                    ? Image.network(
-                        'https://media0.giphy.com/media/Z9ErMP3gYYlcAadEGd/giphy.gif?cid=6c09b952bdf878b6c38ad34916bd84a3849dc23a1209b9b6&rid=giphy.gif&ct=g',
-                        fit: BoxFit.fill,
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_to_photos_sharp,
+                              size: 100.000,
+                              color: colorId.veryLightGrey,
+                            ),
+                            Text(
+                              "No Transaction Founded, Add Some Transactions",
+                              style: TextStyle(color: colorId.grey),
+                            )
+                          ],
+                        ),
                       )
-                    : filterCategory.filter(
-                        newList: newList, categoryDropValue: categoryDropValue);
+                    : ListView.builder(
+                        itemBuilder: (context, index) {
+                          final newValue = modalDummy[index];
+
+                          return Slidable(
+                            key: Key(newValue.id!),
+                            endActionPane: ActionPane(
+                              motion: const DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    try {
+                                      TransactionDB.instance
+                                          .deleteTransaction(newValue);
+                                    } catch (e) {
+                                      print('Exception🚫🚫🚫🚫 \n $e');
+                                    }
+                                  },
+                                  icon: Icons.delete,
+                                  foregroundColor: colorId.red,
+                                  backgroundColor: colorId.veryLightGrey,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(80.000),
+                                    ),
+                                    color: colorId.white,
+                                  ),
+                                  child: ListTile(
+                                    leading: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        radius: 10,
+                                        backgroundColor: newValue.type ==
+                                                CategoryType.expense
+                                            ? colorId.lightRed
+                                            : colorId.lightGreen,
+                                      ),
+                                    ),
+                                    title: Text(newValue.notes),
+                                    subtitle: Text(DateFormat.yMMMMd()
+                                        .format(newValue.date)),
+                                    trailing: Text(
+                                      newValue.amount.toString(),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10.000)
+                              ],
+                            ),
+                          );
+                        },
+                        itemCount: modalDummy.length,
+                      );
               },
             ),
           ),

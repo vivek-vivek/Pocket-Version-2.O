@@ -43,7 +43,7 @@ class _HomeGraphState extends State<HomeGraph>
                 controller: tabController,
                 children: [
                   const AllGraph(),
-                  Expences(),
+                 const Expences(),
                   Income(),
                 ],
               ),

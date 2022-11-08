@@ -3,7 +3,7 @@
 import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/success.dart';
 import 'package:flutter/material.dart';
 
-import '../../../DB/FunctionsCategory/category_db_f.dart';
+import '../../../DB/category_db_f.dart';
 
 popDeleteFunction({required BuildContext context, required String id}) {
   showDialog(

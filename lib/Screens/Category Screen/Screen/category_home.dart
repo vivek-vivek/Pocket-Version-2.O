@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
-import 'package:budgetory_v1/DB/FunctionsCategory/category_db_f.dart';
+import 'package:budgetory_v1/DB/category_db_f.dart';
+import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Screen/pop.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/expences.dart';
 import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/income.dart';
@@ -59,7 +60,8 @@ class _AllCategoriesState extends State<AllCategories>
                     color: colorId.lightBlue,
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await TransactionDB.instance.refreshUiTransaction();
                     print(_tabController.index);
                     pop(
                       context: context,

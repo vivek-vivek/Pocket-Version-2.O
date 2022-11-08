@@ -68,7 +68,7 @@ class TransactionDbAmountAdapter extends TypeAdapter<TransactionDbAmount> {
       income: fields[1] as double,
       id: fields[0] as String?,
       expence: fields[2] as double,
-      total: fields[3] as double?,
+      total: fields[3] as double,
     );
   }
 
