@@ -304,8 +304,9 @@ class _AddTransactionState extends State<AddTransaction> {
         amountController.clear();
         dateController.clear();
         //  amount db function
-        await TransactionDB.instance.amountTransaction(pieAmount);
+
         await TransactionDB.instance.addTransaction(modelTransaction);
+        await TransactionDB.instance.amountTransaction(pieAmount);
         final snackBar = SnackBar(
           content: Text(
             'Successfully transaction added',
