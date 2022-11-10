@@ -293,11 +293,11 @@ class _AddTransactionState extends State<AddTransaction> {
             type: _selectedCategoryType!,
             categoryTransaction: _selectedCategoryModel!);
         // amount DB
-        final pieAmount = TransactionDbAmount(
-          total: TransactionDB.instance.totalTransaction()[0],
-          income: TransactionDB.instance.totalTransaction()[1],
-          expence: TransactionDB.instance.totalTransaction()[2],
-        );
+        // final pieAmount = TransactionDbAmount(
+        //   total: TransactionDB.instance.totalTransaction()[0],
+        //   income: TransactionDB.instance.totalTransaction()[1],
+        //   expence: TransactionDB.instance.totalTransaction()[2],
+        // );
 
         // ^clear controllers
         notesController.clear();
@@ -306,7 +306,7 @@ class _AddTransactionState extends State<AddTransaction> {
         //  amount db function
 
         await TransactionDB.instance.addTransaction(modelTransaction);
-        await TransactionDB.instance.amountTransaction(pieAmount);
+        // await TransactionDB.instance.amountTransaction(pieAmount);
         final snackBar = SnackBar(
           content: Text(
             'Successfully transaction added',

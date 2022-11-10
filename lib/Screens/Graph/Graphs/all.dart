@@ -16,31 +16,36 @@ class _AllGraphState extends State<AllGraph> {
   Widget build(BuildContext context) {
     final List<TransactionModal> chartData;
     chartData = TransactionDB.instance.transactionListNotifier.value;
-    return ValueListenableBuilder(
-      valueListenable: TransactionDB.instance.transactionListNotifier,
-      builder:
-          (BuildContext context, List<TransactionModal> newList, Widget? _) {
-        return newList.isEmpty
-            ? const Center(
-                child: Text('welcome!!!👋👋Add some new Transactions'),
-              )
-            : SfCircularChart(
-                backgroundColor: colorId.white,
-                legend: Legend(isVisible: true),
-                series: <CircularSeries>[
-                  // Render pie chart
-                  DoughnutSeries<TransactionModal, String>(
-                    dataSource: chartData,
-                    xValueMapper: (TransactionModal data, _) =>
-                        data.categoryTransaction.type.name,
-                    yValueMapper: (TransactionModal data, _) =>
-                        data.amount.round(),
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
-                    enableTooltip: true,
+    return Column(
+      children: [
+        ValueListenableBuilder(
+          valueListenable: TransactionDB.instance.transactionListNotifier,
+          builder: (BuildContext context, List<TransactionModal> newList,
+              Widget? _) {
+            return newList.isEmpty
+                ? const Center(
+                    child: Text('welcome!!!👋👋Add some new Transactions'),
                   )
-                ],
-              );
-      },
+                : SfCircularChart(
+                    backgroundColor: colorId.white,
+                    legend: Legend(isVisible: true),
+                    series: <CircularSeries>[
+                      // Render pie chart
+                      DoughnutSeries<TransactionModal, String>(
+                        dataSource: chartData,
+                        xValueMapper: (TransactionModal data, _) =>
+                            data.categoryTransaction.type.name,
+                        yValueMapper: (TransactionModal data, _) =>
+                            data.amount.round(),
+                        dataLabelSettings:
+                            const DataLabelSettings(isVisible: true),
+                        enableTooltip: true,
+                      )
+                    ],
+                  );
+          },
+        ),
+      ],
     );
   }
 

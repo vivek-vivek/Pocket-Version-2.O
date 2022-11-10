@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:budgetory_v1/Controller/filter_controller.dart';
 import 'package:budgetory_v1/Screens/All%20Transaction%20screen/widgets/category_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -23,6 +24,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   List<TransactionModal> modalDummy = [];
   @override
   void initState() {
+    Filter.instance.filterTransactionFunction();
     modalDummy = TransactionDB.instance.transactionListNotifier.value;
     categoryDropValue = 'All';
     timeDropValue = 'Today';
@@ -31,6 +33,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
 
   @override
   Widget build(BuildContext context) {
+    Filter.instance.filterTransactionFunction();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: colorId.black),
@@ -109,13 +112,57 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                     },
                   ).toList(),
                   onTap: () {
-                    if (timeDropValue == filterArray.timeDropList[0]) {
-                      modalDummy = TransactionDB.instance.todayNotifier.value;
-                    } else if (timeDropValue == filterArray.timeDropList[1]) {
-                      modalDummy = TransactionDB.instance.weeklyNotifier.value;
-                    } else if (timeDropValue == filterArray.timeDropList[2]) {
-                      modalDummy = TransactionDB.instance.MonthlyNotifier.value;
-                    }
+                    setState(
+                      () {
+                        Filter.instance.filterTransactionFunction();
+                        if (categoryDropValue ==
+                            filterArray.filterItemsArray[0]) {
+                          if (timeDropValue == filterArray.timeDropList[0]) {
+                            modalDummy = Filter.instance.allTodayNotifier.value;
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[1]) {
+                            modalDummy =
+                                Filter.instance.allWeeklyNotifier.value;
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[2]) {
+                            modalDummy =
+                                Filter.instance.allMonthlyNotifier.value;
+                          }
+                        }
+                        // ^income
+                        else if (categoryDropValue ==
+                            filterArray.filterItemsArray[1]) {
+                          if (timeDropValue == filterArray.timeDropList[0]) {
+                            modalDummy =
+                                Filter.instance.incomeTodayNotifier.value;
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[1]) {
+                            modalDummy =
+                                Filter.instance.incomeWeeklyNotifier.value;
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[2]) {
+                            modalDummy =
+                                Filter.instance.incomeMonthlyNotifier.value;
+                          }
+                        }
+                        // ^Expence
+                        else if (categoryDropValue ==
+                            filterArray.filterItemsArray[2]) {
+                          if (timeDropValue == filterArray.timeDropList[0]) {
+                            modalDummy =
+                                Filter.instance.expenceTodayNotifier.value;
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[1]) {
+                            modalDummy =
+                                Filter.instance.expenceWeeklyNotifier.value;
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[2]) {
+                            modalDummy =
+                                Filter.instance.expenceMonthlyNotifier.value;
+                          }
+                        }
+                      },
+                    );
                   },
                   onChanged: (value) {
                     setState(() {

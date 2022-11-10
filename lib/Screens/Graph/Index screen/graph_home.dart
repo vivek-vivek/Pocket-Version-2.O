@@ -41,10 +41,10 @@ class _HomeGraphState extends State<HomeGraph>
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: [
-                  const AllGraph(),
-                 const Expences(),
+                children: const [
+                  AllGraph(),
                   Income(),
+                  Expences(),
                 ],
               ),
             )

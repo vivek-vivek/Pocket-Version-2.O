@@ -6,7 +6,7 @@ import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-const transactionDBName = 'transaction*Db';
+const transactionDBName = 'Transaction DB Name';
 
 abstract class TransactionDbFunctions {
   Future<void> addTransaction(TransactionModal obj);
@@ -15,36 +15,36 @@ abstract class TransactionDbFunctions {
 }
 
 class TransactionDB implements TransactionDbFunctions {
-  // ^-------------------------Value Notifiers----------------------------------------
+  // ^-------------------------Value Notifiers------------------------------------------
   //~ transaction notifier
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
   // ~ notifiers - category
   ValueNotifier<List<TransactionModal>> IncomeNotifier = ValueNotifier([]);
   ValueNotifier<List<TransactionModal>> expenceNotifier = ValueNotifier([]);
-  // ~ notifiers - category-amount
-  ValueNotifier<List<TransactionDbAmount>> IncomeAmountNotifier =
-      ValueNotifier([]);
-  ValueNotifier<List<TransactionDbAmount>> ExpenceAmountNotifier =
-      ValueNotifier([]);
 
   // ~notifiers - Time
   ValueNotifier<List<TransactionModal>> todayNotifier = ValueNotifier([]);
   ValueNotifier<List<TransactionModal>> MonthlyNotifier = ValueNotifier([]);
   ValueNotifier<List<TransactionModal>> weeklyNotifier = ValueNotifier([]);
+  // ~ notifiers - time with Category
+  ValueNotifier<List<TransactionModal>> todayAllNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> todayIncomeNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> todayExpenceNotifier =
+      ValueNotifier([]);
 
-  // ^--------------------------------end----------------------------------------------
+  // ^-------------------------------------end------------------------------------------
 
-  // ^----------------------------------instance---------------------------------------
+  // ^----------------------------------instance----------------------------------------
 
   TransactionDB._internal();
   static TransactionDB instance = TransactionDB._internal();
   factory TransactionDB() {
     return instance;
   }
-  // ^---------------------------------end---------------------------------------------
+  // ^---------------------------------end----------------------------------------------
 
-  //^-----------------------------Add Transaction----------------------------------------
+  //^-----------------------------Add Transaction---------------------------------------
 
   //~ adding transaction function
   @override
@@ -52,10 +52,6 @@ class TransactionDB implements TransactionDbFunctions {
     final transDb = await Hive.openBox<TransactionModal>(transactionDBName);
     transDb.put(obj.id, obj);
   }
-
-  //^---------------------------------------End------------------------------------------
-
-  // ^--------------------------------------Amount BD------------------------------------
 
   //^---------------------------------------End------------------------------------------
 
@@ -92,39 +88,72 @@ class TransactionDB implements TransactionDbFunctions {
 
     //~today filter
     todayNotifier.value.clear();
-    Future.forEach(list, (TransactionModal modalTransaction) {
-      if (modalTransaction.date ==
-          (DateTime(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
-        todayNotifier.value.add(modalTransaction);
-      }
-    });
+    Future.forEach(
+      list,
+      (TransactionModal modalTransaction) {
+        // ~ today
+        if (modalTransaction.date ==
+            (DateTime(DateTime.now().year, DateTime.now().month,
+                DateTime.now().day))) {
+          todayNotifier.value.add(modalTransaction);
+          todayNotifier.notifyListeners();
+        }
+        // ~weekly
+        else if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
+          weeklyNotifier.value.add(modalTransaction);
+          weeklyNotifier.notifyListeners();
+        }
+        // ~ monthly
+        else if (modalTransaction.date.month == DateTime.now().month) {
+          MonthlyNotifier.value.add(modalTransaction);
+          MonthlyNotifier.notifyListeners();
+        }
+      },
+    );
 
     //~weekly filter
-    Future.forEach(list, (TransactionModal modalTransaction) {
-      if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
-        weeklyNotifier.value.add(modalTransaction);
-      }
-    });
+    Future.forEach(
+      list,
+      (TransactionModal modalTransaction) {
+        if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
+          weeklyNotifier.value.add(modalTransaction);
+          weeklyNotifier.notifyListeners();
+        }
+      },
+    );
     //~monthly filter
     MonthlyNotifier.value.clear();
-    Future.forEach(list, (TransactionModal modalTransaction) {
-      if (modalTransaction.date.month == DateTime.now().month) {
-        MonthlyNotifier.value.add(modalTransaction);
-      }
-    });
+    Future.forEach(
+      list,
+      (TransactionModal modalTransaction) {
+        if (modalTransaction.date.month == DateTime.now().month) {
+          MonthlyNotifier.value.add(modalTransaction);
+          MonthlyNotifier.notifyListeners();
+        }
+      },
+    );
 
     // ~income & expence  drop
     expenceNotifier.value.clear();
     IncomeNotifier.value.clear();
-    Future.forEach(list, (TransactionModal modalTransaction) {
-      if (modalTransaction.type == CategoryType.income) {
-        IncomeNotifier.value.add(modalTransaction);
-      } else {
-        expenceNotifier.value.add(modalTransaction);
-      }
-      {}
-    });
+    Future.forEach(
+      list,
+      (TransactionModal modalTransaction) {
+        if (modalTransaction.type == CategoryType.income) {
+          IncomeNotifier.value.add(modalTransaction);
+          IncomeNotifier.notifyListeners();
+        } else {
+          expenceNotifier.value.add(modalTransaction);
+          expenceNotifier.notifyListeners();
+        }
+        todayNotifier.notifyListeners();
+        weeklyNotifier.notifyListeners();
+        MonthlyNotifier.notifyListeners();
+      },
+    );
+
+    // ~ notifiers - time with Category-income  function
+    todayIncomeNotifier.value.clear();
   }
 
   // ^------------------------------------end-----------------------------------------------
