@@ -10,5 +10,6 @@ class ColorsID {
   final veryVeryLightBlue  = const Color.fromARGB(127, 204, 225, 243);
   final lightGreen         = const Color.fromARGB(255, 149, 249, 153);
   final red                = Colors.red;
-  final lightRed           = const Color.fromARGB(255, 228, 61, 61); 
+  final lightRed           = const Color.fromARGB(255, 228, 61, 61);
+  final orange             = Colors.orange;
 }
