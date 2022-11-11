@@ -18,7 +18,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorId.purple,
+      backgroundColor: colorId.mainBlue,
       appBar: AppBar(
         backgroundColor: colorId.lightBlue,
         title: const Text("Setting"),
@@ -69,7 +69,7 @@ class _UserPageState extends State<UserPage> {
                       children: [
                         Text(
                           'rest app',
-                          style: TextStyle(color: colorId.purple),
+                          style: TextStyle(color: colorId.mainBlue),
                         ),
                         const Icon(Icons.refresh_rounded)
                       ],

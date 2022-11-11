@@ -41,7 +41,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
         elevation: 0,
         title: Text(
           'Transactions',
-          style: TextStyle(color: colorId.black),
+          style: TextStyle(color: colorId.grey),
         ),
       ),
       body: Column(
@@ -196,59 +196,64 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                         itemBuilder: (context, index) {
                           final newValue = modalDummy[index];
 
-                          return Slidable(
-                            key: Key(newValue.id!),
-                            endActionPane: ActionPane(
-                              motion: const DrawerMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    try {
-                                      TransactionDB.instance
-                                          .deleteTransaction(newValue);
-                                    } catch (e) {
-                                      print('Exception🚫🚫🚫🚫 \n $e');
-                                    }
-                                  },
-                                  icon: Icons.delete,
-                                  foregroundColor: colorId.red,
-                                  backgroundColor: colorId.veryLightGrey,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(80.000),
+                          return Column(
+                            children: [
+                              Divider(color: colorId.black),
+                              Slidable(
+                                key: Key(newValue.id!),
+                                endActionPane: ActionPane(
+                                  motion: const DrawerMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        try {
+                                          TransactionDB.instance
+                                              .deleteTransaction(newValue);
+                                        } catch (e) {
+                                          print('Exception🚫🚫🚫🚫 \n $e');
+                                        }
+                                      },
+                                      icon: Icons.delete,
+                                      foregroundColor: colorId.red,
+                                      backgroundColor: colorId.veryLightGrey,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
                                     ),
-                                    color: colorId.white,
-                                  ),
-                                  child: ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CircleAvatar(
-                                        radius: 10,
-                                        backgroundColor: newValue.type ==
-                                                CategoryType.expense
-                                            ? colorId.lightRed
-                                            : colorId.lightGreen,
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(80.000),
+                                        ),
+                                        color: colorId.white,
+                                      ),
+                                      child: ListTile(
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: CircleAvatar(
+                                            radius: 10,
+                                            backgroundColor: newValue.type ==
+                                                    CategoryType.expense
+                                                ? colorId.lightRed
+                                                : colorId.lightGreen,
+                                          ),
+                                        ),
+                                        title: Text(newValue.notes),
+                                        subtitle: Text(DateFormat.yMMMMd()
+                                            .format(newValue.date)),
+                                        trailing: Text(
+                                          newValue.amount.toString(),
+                                        ),
                                       ),
                                     ),
-                                    title: Text(newValue.notes),
-                                    subtitle: Text(DateFormat.yMMMMd()
-                                        .format(newValue.date)),
-                                    trailing: Text(
-                                      newValue.amount.toString(),
-                                    ),
-                                  ),
+                                    const SizedBox(height: 10.000)
+                                  ],
                                 ),
-                                const SizedBox(height: 10.000)
-                              ],
-                            ),
+                              ),
+                            ],
                           );
                         },
                         itemCount: modalDummy.length,

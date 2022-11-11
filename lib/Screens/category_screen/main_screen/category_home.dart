@@ -57,7 +57,7 @@ class _AllCategoriesState extends State<AllCategories>
               child: Container(
                 width: 440.000,
                 decoration: BoxDecoration(
-                    color: colorId.lightBlue,
+                    color: colorId.btnColor,
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 child: TextButton(
                   onPressed: () async {
@@ -68,7 +68,10 @@ class _AllCategoriesState extends State<AllCategories>
                       tabBarIndex: _tabController.index,
                     );
                   },
-                  child: const Text('Add Category'),
+                  child: Text(
+                    'Add Category',
+                    style: TextStyle(color: colorId.white),
+                  ),
                 ),
               ),
             ),

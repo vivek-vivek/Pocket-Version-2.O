@@ -254,7 +254,8 @@ class _AddTransactionState extends State<AddTransaction> {
                           }
                         },
                         style: TextButton.styleFrom(
-                            backgroundColor: colorId.purple),
+                            backgroundColor:
+                                const Color.fromARGB(255, 14, 58, 97)),
                         child: const Text("Add Transactions"),
                       ),
                     )

@@ -27,16 +27,19 @@ class _HomeGraphState extends State<HomeGraph>
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            TabBar(
-              indicatorWeight: 1,
-              indicatorColor: colorId.purple,
-              labelColor: colorId.black,
-              controller: tabController,
-              tabs: const [
-                Tab(text: 'Overall'),
-                Tab(text: 'Income'),
-                Tab(text: 'Expence')
-              ],
+            Card(
+              child: TabBar(
+                unselectedLabelColor: colorId.grey,
+                indicator: BoxDecoration(color: colorId.btnColor),
+                indicatorColor: colorId.white,
+                labelColor: colorId.white,
+                controller: tabController,
+                tabs: const [
+                  Tab(text: 'Overall'),
+                  Tab(text: 'Income'),
+                  Tab(text: 'Expence')
+                ],
+              ),
             ),
             Expanded(
               child: TabBarView(

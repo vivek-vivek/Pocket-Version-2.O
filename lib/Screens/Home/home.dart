@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20),
                         ),
-                        color: colorId.purple,
+                        color: colorId.mainBlue,
                       ),
                       width: 320.00,
                       height: 202.00,

@@ -50,7 +50,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       extendBody: true,
       bottomNavigationBar: RollingBottomBar(
         itemColor: Colors.white,
-        color: colorId.purple,
+        color: colorId.mainBlue,
         activeItemColor: colorId.white,
         controller: _controller,
         flat: true,
