@@ -53,7 +53,6 @@ class _ExpencesState extends State<Expences> {
                   );
                 },
               ).toList(),
-              
               onChanged: (value) {
                 setState(
                   () {
@@ -72,32 +71,47 @@ class _ExpencesState extends State<Expences> {
               },
             ),
           ),
-          ValueListenableBuilder(
-            valueListenable: TransactionDB.instance.expenceNotifier,
-            builder: (BuildContext context, List<TransactionModal> newList,
-                Widget? _) {
-              return newList.isEmpty
-                  ? const Center(
-                      child: Text('welcome!!!👋👋Add some new Transactions'),
-                    )
-                  : SfCircularChart(
-                      backgroundColor: colorId.white,
-                      legend: Legend(isVisible: true),
-                      series: <CircularSeries>[
-                        // Render pie chart
-                        DoughnutSeries<TransactionModal, String>(
-                          dataSource: modalDummy,
-                          xValueMapper: (TransactionModal data, _) =>
-                              data.notes,
-                          yValueMapper: (TransactionModal data, _) =>
-                              data.amount.round(),
-                          dataLabelSettings:
-                              const DataLabelSettings(isVisible: true),
-                          enableTooltip: true,
-                        )
-                      ],
-                    );
-            },
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 100.00,
+            ),
+            child: ValueListenableBuilder(
+              valueListenable: TransactionDB.instance.expenceNotifier,
+              builder: (BuildContext context, List<TransactionModal> newList,
+                  Widget? _) {
+                return newList.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Image(
+                                image: AssetImage('Assets/empty2.jpeg')),
+                            Text(
+                              "No Transactions Found",
+                              style: TextStyle(color: colorId.veryLightGrey),
+                            )
+                          ],
+                        ),
+                      )
+                    : SfCircularChart(
+                        backgroundColor: colorId.white,
+                        legend: Legend(isVisible: true),
+                        series: <CircularSeries>[
+                          // Render pie chart
+                          DoughnutSeries<TransactionModal, String>(
+                            dataSource: modalDummy,
+                            xValueMapper: (TransactionModal data, _) =>
+                                data.notes,
+                            yValueMapper: (TransactionModal data, _) =>
+                                data.amount.round(),
+                            dataLabelSettings:
+                                const DataLabelSettings(isVisible: true),
+                            enableTooltip: true,
+                          )
+                        ],
+                      );
+              },
+            ),
           )
         ],
       ),

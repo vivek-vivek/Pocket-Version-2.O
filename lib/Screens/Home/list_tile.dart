@@ -25,10 +25,17 @@ class Tile extends StatelessWidget {
           itemBuilder: (context, index) {
             final newValue = newList[index];
             return newList.isEmpty
-                ? const Image(
-                    image: AssetImage('Assets/empty.png'),
-                    width: 200.00,
-                    height: 100.00,
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Image(image: AssetImage('Assets/empty2.jpeg')),
+                        Text(
+                          "No Transactions Found",
+                          style: TextStyle(color: colorId.veryLightGrey),
+                        )
+                      ],
+                    ),
                   )
                 : ListTile(
                     leading: Padding(

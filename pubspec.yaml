@@ -81,6 +81,9 @@ flutter:
     - Assets/pocket.png
     - Assets/bgImage.jpg
     - Assets/empty.png
+    - Assets/empty1.jpeg
+    - Assets/empty2.jpeg
+    - Assets/empty3.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.00),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
 // ?Income section----------------------->
                                             const Text(
-                                              'Income',
+                                              ' Income ',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 24.00,
@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ),
                                             const Text(
-                                              'Expense',
+                                              ' Expense ',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 24.00,
@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const Text(
                       'Recent Transactions',
-                      style: TextStyle(fontSize: 10.00),
+                      style: TextStyle(fontSize: 15.00),
                     ),
                     TextButton(
                       onPressed: () async {
