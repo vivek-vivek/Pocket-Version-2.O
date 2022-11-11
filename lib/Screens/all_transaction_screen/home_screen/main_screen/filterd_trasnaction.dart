@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../DB/category_db_f.dart';
 import '../../../../DB/transaction_db_f.dart';
 import '../../../../DataBase/Models/ModalCategory/category_model.dart';
 import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
@@ -88,6 +89,9 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                     setState(
                       () {
                         categoryDropValue = value;
+                        Filter.instance.filterTransactionFunction();
+                        TransactionDB().refreshUiTransaction();
+                        CategoryDB.instance.refreshUI();
                       },
                     );
                   },
@@ -112,6 +116,9 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                     },
                   ).toList(),
                   onTap: () {
+                    Filter.instance.filterTransactionFunction();
+                    TransactionDB().refreshUiTransaction();
+                    CategoryDB.instance.refreshUI();
                     setState(
                       () {
                         Filter.instance.filterTransactionFunction();
@@ -195,7 +202,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                     : ListView.builder(
                         itemBuilder: (context, index) {
                           final newValue = modalDummy[index];
-
+                          final newIndex = index;
                           return Column(
                             children: [
                               Divider(color: colorId.black),
@@ -205,12 +212,17 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                   motion: const DrawerMotion(),
                                   children: [
                                     SlidableAction(
-                                      onPressed: (context) {
+                                      onPressed: (xtx) async {
                                         try {
-                                          TransactionDB.instance
-                                              .deleteTransaction(newValue);
+                                          await Filter.instance
+                                              .filterTransactionFunction();
+                                          await TransactionDB()
+                                              .refreshUiTransaction();
+                                          await CategoryDB.instance.refreshUI();
+                                          await TransactionDB.instance
+                                              .deleteTransaction(newValue.date);
                                         } catch (e) {
-                                          print('Exception🚫🚫🚫🚫 \n $e');
+                                          print("🚫🚫🚫🚫 $e");
                                         }
                                       },
                                       icon: Icons.delete,

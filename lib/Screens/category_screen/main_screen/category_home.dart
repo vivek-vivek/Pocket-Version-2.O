@@ -34,14 +34,29 @@ class _AllCategoriesState extends State<AllCategories>
       body: SafeArea(
         child: Column(
           children: [
-            TabBar(
-              indicatorColor: colorId.lightBlue,
-              labelColor: colorId.black,
-              controller: _tabController,
-              tabs: const [
-                Tab(text: 'Income'),
-                Tab(text: 'Expense'),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                  color: colorId.mainBlue,
+                ),
+                child: TabBar(
+                  unselectedLabelColor: colorId.grey,
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: colorId.btnColor),
+                  indicatorColor: colorId.white,
+                  labelColor: colorId.white,
+                  controller: _tabController,
+                  tabs: const [
+                    Tab(text: 'Income'),
+                    Tab(text: 'Expense'),
+                  ],
+                ),
+              ),
             ),
             Expanded(
               child: TabBarView(
@@ -52,28 +67,30 @@ class _AllCategoriesState extends State<AllCategories>
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 440.000,
-                decoration: BoxDecoration(
-                    color: colorId.btnColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
-                child: TextButton(
-                  onPressed: () async {
-                    await TransactionDB.instance.refreshUiTransaction();
-                    print(_tabController.index);
-                    pop(
-                      context: context,
-                      tabBarIndex: _tabController.index,
-                    );
-                  },
-                  child: Text(
-                    'Add Category',
-                    style: TextStyle(color: colorId.white),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 14.00),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: colorId.btnColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30.00))),
+                    child: IconButton(
+                      onPressed: () async {
+                        await TransactionDB.instance.refreshUiTransaction();
+                        print(_tabController.index);
+                        pop(
+                          context: context,
+                          tabBarIndex: _tabController.index,
+                        );
+                      },
+                      icon: Icon(Icons.add_circle, color: colorId.white),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),

@@ -30,7 +30,9 @@ class _HomeGraphState extends State<HomeGraph>
             Card(
               child: TabBar(
                 unselectedLabelColor: colorId.grey,
-                indicator: BoxDecoration(color: colorId.btnColor),
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: colorId.btnColor),
                 indicatorColor: colorId.white,
                 labelColor: colorId.white,
                 controller: tabController,

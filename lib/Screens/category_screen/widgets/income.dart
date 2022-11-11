@@ -32,9 +32,9 @@ class _IncomeTabPageState extends State<IncomeTabPage> {
               padding:
                   const EdgeInsets.only(top: 20.00, left: 20.00, right: 20.00),
               child: Container(
-                decoration: BoxDecoration(
-                  color: colorId.lightGreen,
-                  borderRadius: const BorderRadius.all(
+                decoration:const BoxDecoration(
+                  color: Color.fromARGB(157, 28, 255, 36),
+                  borderRadius:  BorderRadius.all(
                     Radius.circular(20.00),
                   ),
                 ),

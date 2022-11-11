@@ -56,7 +56,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         flat: true,
         useActiveColorByDefault: true,
         items: const [
-          RollingBottomBarItem(Icons.home, label: 'HOME'),
+          RollingBottomBarItem(Icons.home),
           RollingBottomBarItem(Icons.add_circle_outline_sharp),
           RollingBottomBarItem(Icons.view_compact_alt_outlined),
           RollingBottomBarItem(Icons.graphic_eq),
