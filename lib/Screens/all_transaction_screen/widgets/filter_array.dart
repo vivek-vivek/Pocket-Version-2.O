@@ -6,8 +6,7 @@ class FilterArray {
   ];
 
   var timeDropList = [
-    'Today',
-    'Weekly',
-    'Monthly',
-  ];
+  'Today',
+  'Monthly', 
+  'Custom'];
 }

@@ -22,7 +22,8 @@ class TransactionModalAdapter extends TypeAdapter<TransactionModal> {
       date: fields[2] as DateTime,
       type: fields[3] as CategoryType,
       categoryTransaction: fields[4] as CategoryModel,
-    )..id = fields[5] as String?;
+      id: fields[5] as String?,
+    );
   }
 
   @override
@@ -65,8 +66,8 @@ class TransactionDbAmountAdapter extends TypeAdapter<TransactionDbAmount> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TransactionDbAmount(
-      income: fields[1] as double,
       id: fields[0] as String?,
+      income: fields[1] as double,
       expence: fields[2] as double,
       total: fields[3] as double,
     );

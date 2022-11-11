@@ -17,22 +17,20 @@ class TransactionModal {
   final CategoryModel categoryTransaction;
   @HiveField(5)
   String? id;
-  TransactionModal({
-    required this.notes,
-    required this.amount,
-    required this.date,
-    required this.type,
-    required this.categoryTransaction,
-  }) {
-    id = DateTime.now().millisecondsSinceEpoch.toString();
-  }
+  TransactionModal(
+      {required this.notes,
+      required this.amount,
+      required this.date,
+      required this.type,
+      required this.categoryTransaction,
+      required this.id});
 }
 
 //* total amount transaction amount
 @HiveType(typeId: 4)
 class TransactionDbAmount {
   @HiveField(0)
-    String? id;
+  String? id;
 
   @HiveField(1)
   final double income;

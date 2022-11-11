@@ -10,7 +10,6 @@ const transactionDBName = 'Transaction DB Name';
 
 abstract class TransactionDbFunctions {
   Future<void> addTransaction(TransactionModal obj);
-  Future<void> amountTransaction(TransactionDbAmount obj);
   Future<List<TransactionModal>> getTransactions();
 }
 
@@ -183,15 +182,12 @@ class TransactionDB implements TransactionDbFunctions {
 
   //^-----------------------------------Delete Transaction-------------------------------------
 
-  //  ! delete a transaction -fnt  ------------> not working ???
-  //  !  it helps to delete a transaction form db,
-  //  !using transaction Id
-
-  Future deleteTransaction(String id) async {
-    final newList = await Hive.openBox<TransactionModal>('transactionDb');
-    await newList.delete(id);
-    await refreshUiTransaction();
-    print("🤍");
+  Future<void> deleteTransaction(String id) async {
+    final transactionDB =
+        await Hive.openBox<TransactionModal>("TRANSACTIONS_DB_NAME");
+    await transactionDB.delete(id);
+    refreshUiTransaction();
+    refresh();
   }
 
   // ^-----------------------------------------------end---------------------------------------------
@@ -202,15 +198,30 @@ class TransactionDB implements TransactionDbFunctions {
     final _transactionDb =
         await Hive.openBox<TransactionModal>(transactionDBName);
     _transactionDb.clear();
-    await refreshUiTransaction();
-  }
-
-  @override
-  Future<void> amountTransaction(TransactionDbAmount obj) async {
-    final transDb = await Hive.openBox<TransactionDbAmount>(transactionDBName);
-    transDb.put(obj.id, obj);
+    refresh();
   }
 
   // ^------------------------------------------------end------------------------------------------
+  Future<void> refresh() async {
+    final list = await getTransactions();
+    list.sort((first, second) => second.date.compareTo(first.date));
 
+    expenceNotifier.value.clear();
+    IncomeNotifier.value.clear();
+    transactionListNotifier.value.clear();
+    Future.forEach(
+      list,
+      (TransactionModal transaction) {
+        if (transaction.type == CategoryType.income) {
+          IncomeNotifier.value.add(transaction);
+        } else {
+          expenceNotifier.value.add(transaction);
+        }
+      },
+    );
+
+    transactionListNotifier.value.clear();
+    transactionListNotifier.value.addAll(list);
+    transactionListNotifier.notifyListeners();
+  }
 }

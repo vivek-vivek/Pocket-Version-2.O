@@ -273,6 +273,7 @@ class _AddTransactionState extends State<AddTransaction> {
 
   //? add-trs  button functions
   Future<void> transactionAddButtons() async {
+    TransactionDB.instance.refreshUiTransaction();
     if (notesController.text.isEmpty &&
         amountController.text.isEmpty &&
         (_categoryValue == null || _categoryValue!.isEmpty) &&
@@ -292,13 +293,10 @@ class _AddTransactionState extends State<AddTransaction> {
             amount: parsedAmount!,
             date: _selectedDate!,
             type: _selectedCategoryType!,
-            categoryTransaction: _selectedCategoryModel!);
-        // amount DB
-        // final pieAmount = TransactionDbAmount(
-        //   total: TransactionDB.instance.totalTransaction()[0],
-        //   income: TransactionDB.instance.totalTransaction()[1],
-        //   expence: TransactionDB.instance.totalTransaction()[2],
-        // );
+            categoryTransaction: _selectedCategoryModel!,
+            id: DateTime.now().microsecondsSinceEpoch.toString());
+        TransactionDB.instance.refreshUiTransaction();
+        TransactionDB.instance.refresh();
 
         // ^clear controllers
         notesController.clear();
@@ -344,6 +342,7 @@ class _AddTransactionState extends State<AddTransaction> {
         setState(
           () {
             _categoryValue = selectedValue;
+            TransactionDB.instance.refreshUiTransaction();
           },
         );
       },

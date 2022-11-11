@@ -194,7 +194,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                       )
                     : ListView.builder(
                         itemBuilder: (context, index) {
-                          final newValue = modalDummy[index];
+                          final newValue = newList[index];
 
                           return Column(
                             children: [
@@ -205,13 +205,17 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                   motion: const DrawerMotion(),
                                   children: [
                                     SlidableAction(
-                                      onPressed: (xtx) async {
-                                        try {
-                                          await TransactionDB.instance
-                                              .deleteTransaction(newValue.id!);
-                                        } catch (e) {
-                                          print("🚫🚫🚫🚫 $e");
-                                        }
+                                      onPressed: (xtx) {
+                                        setState(() {
+                                          print("2nd id -$index");
+                                          try {
+                                            TransactionDB.instance
+                                                .deleteTransaction(
+                                                    newValue.id!);
+                                          } catch (e) {
+                                            print("🚫🚫🚫🚫 $e");
+                                          }
+                                        });
                                       },
                                       icon: Icons.delete,
                                       foregroundColor: colorId.red,
