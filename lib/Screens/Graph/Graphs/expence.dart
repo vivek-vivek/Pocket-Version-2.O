@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:budgetory_v1/Controller/filter_controller.dart';
 import 'package:budgetory_v1/Screens/all_transaction_screen/widgets/category_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -52,21 +53,22 @@ class _ExpencesState extends State<Expences> {
                   );
                 },
               ).toList(),
-              onTap: () {
-                if (timeDropValue == filterArray.timeDropList[0]) {
-                  modalDummy = TransactionDB.instance.todayNotifier.value;
-                } else if (timeDropValue == filterArray.timeDropList[1]) {
-                  modalDummy = TransactionDB.instance.weeklyNotifier.value;
-                } else if (timeDropValue == filterArray.timeDropList[2]) {
-                  modalDummy = TransactionDB.instance.MonthlyNotifier.value;
-                }
-              },
+              
               onChanged: (value) {
                 setState(
                   () {
                     timeDropValue = value;
                   },
                 );
+              },
+              onTap: () {
+                if (timeDropValue == filterArray.timeDropList[0]) {
+                  modalDummy = Filter.instance.expenceTodayNotifier.value;
+                } else if (timeDropValue == filterArray.timeDropList[1]) {
+                  modalDummy = Filter.instance.expenceWeeklyNotifier.value;
+                } else if (timeDropValue == filterArray.timeDropList[2]) {
+                  modalDummy = Filter.instance.expenceMonthlyNotifier.value;
+                }
               },
             ),
           ),

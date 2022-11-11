@@ -27,10 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
     TransactionDB.instance.refreshUiTransaction();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(right: 8, left: 8, top: 8),
           child: Column(
             children: [
               Stack(
@@ -55,23 +56,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   children: [
                                     // ? balance section---------->
-                                    const Text(
-                                      'Balance',
+                                    Text(
+                                      TransactionDB.instance
+                                                  .totalTransaction()[0] <
+                                              0
+                                          ? 'Lose'
+                                          : 'Balance',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 24.00,
-                                          color: Colors.white),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 24.00,
+                                        color: TransactionDB.instance
+                                                    .totalTransaction()[0] <
+                                                0
+                                            ? colorId.red
+                                            : colorId.lightGreen,
+                                      ),
                                     ),
                                     Text(
                                       TransactionDB.instance
                                           .totalTransaction()[0]
                                           .toString(),
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 34.000,
-                                        color: colorId.white,
-                                        // *text shadow here
-                                      ),
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 34.000,
+                                          color: colorId.white
+                                          // *text shadow here
+                                          ),
                                     )
                                   ],
                                 ),

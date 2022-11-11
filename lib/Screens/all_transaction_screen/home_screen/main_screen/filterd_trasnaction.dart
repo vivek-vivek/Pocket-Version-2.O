@@ -179,21 +179,8 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
                 return newList.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_to_photos_sharp,
-                              size: 100.000,
-                              color: colorId.veryLightGrey,
-                            ),
-                            Text(
-                              "No Transaction Founded, Add Some Transactions",
-                              style: TextStyle(color: colorId.grey),
-                            )
-                          ],
-                        ),
+                    ? const Center(
+                        child: Image(image: AssetImage('Assets/empty.png')),
                       )
                     : ListView.builder(
                         itemBuilder: (context, index) {

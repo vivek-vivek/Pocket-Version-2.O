@@ -162,15 +162,15 @@ class TransactionDB implements TransactionDbFunctions {
 
   //  finding total amount of income form transaction db
   List totalTransaction() {
-    double total = 0;
-    double _income = 0;
-    double _expences = 0;
+    int total = 0;
+    int _income = 0;
+    int _expences = 0;
     for (var i = 0; i < transactionListNotifier.value.length; i++) {
       late final newValue = transactionListNotifier.value[i];
       if (newValue.type == CategoryType.income) {
-        _income = newValue.amount + _income;
+        _income = newValue.amount.toInt() + _income.toInt();
       } else {
-        _expences = newValue.amount + _expences;
+        _expences = newValue.amount.toInt() + _expences.toInt();
       }
       total = _income - _expences;
     }
