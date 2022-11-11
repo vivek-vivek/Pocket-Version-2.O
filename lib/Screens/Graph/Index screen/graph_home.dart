@@ -1,6 +1,6 @@
-import 'package:budgetory_v1/Screens/Graph/Graphs/all.dart';
-import 'package:budgetory_v1/Screens/Graph/Graphs/expence.dart';
-import 'package:budgetory_v1/Screens/Graph/Graphs/income.dart';
+import 'package:budgetory_v1/Screens/graph/Graphs/all.dart';
+import 'package:budgetory_v1/Screens/graph/Graphs/expence.dart';
+import 'package:budgetory_v1/Screens/graph/Graphs/income.dart';
 import 'package:flutter/material.dart';
 
 import '../../../colors/color.dart';

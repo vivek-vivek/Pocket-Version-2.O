@@ -1,13 +1,13 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/Screens/All%20Transaction%20screen/widgets/category_filter.dart';
+import 'package:budgetory_v1/Screens/all_transaction_screen/widgets/category_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../DB/transaction_db_f.dart';
 import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
 import '../../../../colors/color.dart';
-import '../../All Transaction screen/widgets/filter_array.dart';
+import '../../all_transaction_screen/widgets/filter_array.dart';
 
 class Income extends StatefulWidget {
   const Income({super.key});

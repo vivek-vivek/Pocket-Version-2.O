@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:budgetory_v1/DB/category_db_f.dart';
-import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/delete_pop_up.dart';
+import 'package:budgetory_v1/Screens/category_screen/widgets/delete_pop_up.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 

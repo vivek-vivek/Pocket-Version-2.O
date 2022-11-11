@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/Screens/Settings/about.dart';
-import 'package:budgetory_v1/Screens/Splash%20Screen/splash.dart';
+import 'package:budgetory_v1/Screens/settings/about.dart';
 import 'package:flutter/material.dart';
 import '../../DB/category_db_f.dart';
 import '../../DB/transaction_db_f.dart';
 import '../../colors/color.dart';
+import '../splash_screen/splash.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});

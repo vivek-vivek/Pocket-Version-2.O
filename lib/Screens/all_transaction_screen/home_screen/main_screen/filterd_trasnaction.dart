@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/Controller/filter_controller.dart';
-import 'package:budgetory_v1/Screens/All%20Transaction%20screen/widgets/category_filter.dart';
+import 'package:budgetory_v1/controller/filter_controller.dart';
+import 'package:budgetory_v1/Screens/all_transaction_screen/widgets/category_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';

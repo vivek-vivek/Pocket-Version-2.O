@@ -1,6 +1,6 @@
 import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
-import 'package:budgetory_v1/Screens/Splash%20Screen/splash.dart';
+import 'package:budgetory_v1/Screens/splash_screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 

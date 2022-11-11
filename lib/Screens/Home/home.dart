@@ -2,7 +2,7 @@
 
 import 'package:budgetory_v1/DB/category_db_f.dart';
 import 'package:budgetory_v1/DB/transaction_db_f.dart';
-import 'package:budgetory_v1/Screens/All%20Transaction%20screen/Home%20screen/Index/filterd_trasnaction.dart';
+import 'package:budgetory_v1/Screens/all_transaction_screen/home_screen/main_screen/filterd_trasnaction.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 import '../../DataBase/Models/ModalCategory/category_model.dart';

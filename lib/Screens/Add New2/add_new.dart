@@ -4,9 +4,9 @@ import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../DB/category_db_f.dart';
-import '../../../DB/transaction_db_f.dart';
-import '../../Category Screen/Widgets/pop_up_btn_category_radio.dart';
+import '../../DB/category_db_f.dart';
+import '../../DB/transaction_db_f.dart';
+import '../category_screen/widgets/pop_up_btn_category_radio.dart';
 
 class AddTransaction extends StatefulWidget {
   const AddTransaction({super.key});

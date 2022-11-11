@@ -1,10 +1,10 @@
 import 'package:budgetory_v1/DB/category_db_f.dart';
 import 'package:budgetory_v1/DB/transaction_db_f.dart';
-import 'package:budgetory_v1/Screens/Graph/Index%20screen/graph_home.dart';
-import 'package:budgetory_v1/Screens/Home/home.dart';
-import 'package:budgetory_v1/Screens/Category%20Screen/Screen/category_home.dart';
-import 'package:budgetory_v1/Screens/Add%20New2/Home/add_new.dart';
-import 'package:budgetory_v1/Screens/Settings/user.dart';
+import 'package:budgetory_v1/Screens/graph/Index%20screen/graph_home.dart';
+import 'package:budgetory_v1/Screens/home/home.dart';
+import 'package:budgetory_v1/Screens/category_screen/main_screen/category_home.dart';
+import 'package:budgetory_v1/Screens/Add%20New2/add_new.dart';
+import 'package:budgetory_v1/Screens/settings/user.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';

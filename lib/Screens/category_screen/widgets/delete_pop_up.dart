@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:budgetory_v1/Screens/Category%20Screen/Widgets/success.dart';
+import 'package:budgetory_v1/Screens/category_screen/widgets/success.dart';
 import 'package:flutter/material.dart';
 
 import '../../../DB/category_db_f.dart';

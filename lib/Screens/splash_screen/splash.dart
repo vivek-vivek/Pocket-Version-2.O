@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
-import '../Bottom Navigation/bottom_navigation_screen.dart';
+import '../bottom_navigation/bottom_navigation_screen.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
