@@ -187,21 +187,6 @@ class TransactionDB implements TransactionDbFunctions {
   //  !  it helps to delete a transaction form db,
   //  !using transaction Id
 
-// Future<void> deleteTransaction(String id) async {
-//     final transactiondb =
-//         await Hive.openBox<TransactionModal>('transactionDb');
-//     await transactiondb.delete(id);
-
-//   }
-  //   print(transaction);
-  //   final _TransactionDB =
-  //       await Hive.openBox<TransactionModal>('transactionDb');
-
-  //   await refreshUiTransaction();
-  //   await _TransactionDB.delete(transaction.id);
-  //   await _TransactionDB.clear();
-  //   await refreshUiTransaction();
-
   Future deleteTransaction(DateTime id) async {
     final newList = await Hive.openBox<TransactionModal>('transactionDb');
     await newList.delete(id);
