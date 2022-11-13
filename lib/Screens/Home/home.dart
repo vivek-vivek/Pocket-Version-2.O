@@ -110,14 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     Row(
                                       children: [
-// ?Income section----------------------->
-                                        const Text(
-                                          ' Income ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 24.00,
-                                              color: Colors.white),
-                                        ),
                                         Container(
                                           decoration: BoxDecoration(
                                             color: colorId.white,
@@ -130,7 +122,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Icons.trending_up,
                                             color: colorId.lightGreen,
                                           ),
-                                        )
+                                        ),
+// ?Income section----------------------->
+                                        const Text(
+                                          ' Income ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 24.00,
+                                              color: Colors.white),
+                                        ),
                                       ],
                                     ),
                                     ValueListenableBuilder(

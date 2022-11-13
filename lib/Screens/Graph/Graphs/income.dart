@@ -190,13 +190,13 @@ class _IncomeState extends State<Income> {
               valueListenable: TransactionDB.instance.IncomeNotifier,
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
-                return newList.isEmpty
+                return modalDummy.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Image(
-                                image: AssetImage('Assets//empty3.jpeg')),
+                                image: AssetImage('Assets/empty3.jpeg')),
                             Text(
                               "No Transactions Found",
                               style: TextStyle(color: colorId.veryLightGrey),

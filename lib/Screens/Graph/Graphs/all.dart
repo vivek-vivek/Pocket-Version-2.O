@@ -176,7 +176,7 @@ class _AllGraphState extends State<AllGraph> {
               valueListenable: TransactionDB.instance.transactionListNotifier,
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
-                return newList.isEmpty
+                return modalDummy.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
