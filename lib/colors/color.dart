@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ColorsID {
   final black              = Colors.black;
@@ -13,4 +14,9 @@ class ColorsID {
   final lightRed           = const Color.fromARGB(255, 228, 61, 61);
   final orange             = Colors.orange;
   final btnColor           = const Color.fromARGB(255, 14, 58, 97);
+  // ^-------------------------Fonts-------------------------------------//
+  //~ font one - lacto
+  final fontLacto =  GoogleFonts.lato(textStyle:const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300),);
 }

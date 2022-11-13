@@ -20,40 +20,50 @@ class Tile extends StatelessWidget {
       // changed
       builder:
           (BuildContext context, List<TransactionModal> newList, Widget? _) {
-        return ListView.builder(
-          itemCount: newList.length <= 5 ? newList.length : 5,
-          itemBuilder: (context, index) {
-            final newValue = newList[index];
-            return newList.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Image(image: AssetImage('Assets/empty2.jpeg')),
-                        Text(
-                          "No Transactions Found",
-                          style: TextStyle(color: colorId.veryLightGrey),
-                        )
-                      ],
-                    ),
-                  )
-                : Card(
-                    child: ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          radius: 12,
-                          backgroundColor: newValue.type == CategoryType.income
-                              ? colorId.lightGreen
-                              : colorId.lightRed,
-                        ),
+        return MediaQuery.removePadding(
+          removeTop: true,
+          context: context,
+          child: ListView.builder(
+            itemCount: newList.length <= 5 ? newList.length : 5,
+            itemBuilder: (context, index) {
+              final newValue = newList[index];
+              return newList.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Image(
+                            image: AssetImage('Assets/empty1.jpeg'),
+                            width: 300.00,
+                            height: 300.00,
+                          ),
+                          Text(
+                            "No Transactions Found",
+                            style: TextStyle(color: colorId.veryLightGrey),
+                          )
+                        ],
                       ),
-                      title: Text(newValue.notes),
-                      subtitle: Text(DateFormat.yMMMMd().format(newValue.date)),
-                      trailing: Text(newValue.amount.toString()),
-                    ),
-                  );
-          },
+                    )
+                  : Card(
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 12,
+                            backgroundColor:
+                                newValue.type == CategoryType.income
+                                    ? colorId.lightGreen
+                                    : colorId.lightRed,
+                          ),
+                        ),
+                        title: Text(newValue.notes),
+                        subtitle:
+                            Text(DateFormat.yMMMMd().format(newValue.date)),
+                        trailing: Text(newValue.amount.toString()),
+                      ),
+                    );
+            },
+          ),
         );
       },
     );

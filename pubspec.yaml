@@ -44,7 +44,11 @@ dependencies:
   charts_flutter: ^0.12.0
   syncfusion_flutter_charts: ^20.3.52
   drop_shadow: ^0.0.1+4
+  google_fonts: ^3.0.1
+  syncfusion_flutter_datepicker: ^20.3.56
+  month_year_picker: ^0.2.0+3
   month_picker_dialog: ^0.4.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:budgetory_v1/Screens/splash_screen/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import 'DB/category_db_f.dart';
@@ -40,10 +41,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     CategoryDB.instance.refreshUI();
     TransactionDB.instance.refreshUiTransaction();
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(),
-      home: SplashScreen(),
+      theme: ThemeData(fontFamily:" Schyler"),
+      home: const SplashScreen(),
     );
   }
 }

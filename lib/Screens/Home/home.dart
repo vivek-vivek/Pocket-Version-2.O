@@ -65,8 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 // ? balance section---------->
                                 Text(
-                                  TransactionDB.instance
-                                              .totalTransaction()[0] <
+                                  TransactionDB.instance.totalTransaction()[0] <
                                           0
                                       ? 'Lose'
                                       : 'Balance',
@@ -225,7 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    Filter.instance.filterTransactionFunction();
+                    Filter.instance
+                        .filterTransactionFunction(customMonth: null);
                     TransactionDB().refreshUiTransaction();
                     CategoryDB.instance.refreshUI();
                     Navigator.of(context).push(

@@ -116,7 +116,7 @@ class _AddTransactionState extends State<AddTransaction> {
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime.now()
-                              .subtract(const Duration(days: 365 * 1000)),
+                              .subtract(const Duration(days: 365)),
                           lastDate: DateTime.now(),
                         );
                         if (selectedDateDUplicate == null) {
@@ -295,8 +295,7 @@ class _AddTransactionState extends State<AddTransaction> {
             type: _selectedCategoryType!,
             categoryTransaction: _selectedCategoryModel!,
             id: DateTime.now().microsecondsSinceEpoch.toString());
-        TransactionDB.instance.refreshUiTransaction();
-        TransactionDB.instance.refresh();
+        await TransactionDB.instance.refreshUiTransaction();
 
         // ^clear controllers
         notesController.clear();

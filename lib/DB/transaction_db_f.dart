@@ -81,78 +81,31 @@ class TransactionDB implements TransactionDbFunctions {
     // final amt = await getAmount();
     list.sort((first, second) => second.date.compareTo(first.date));
     transactionListNotifier.value.clear();
-    CategoryDB.instance.refreshUI();
     transactionListNotifier.value.addAll(list);
     transactionListNotifier.notifyListeners();
-
-    //~today filter
-    todayNotifier.value.clear();
-    Future.forEach(
-      list,
-      (TransactionModal modalTransaction) {
-        // ~ today
-        if (modalTransaction.date ==
-            (DateTime(DateTime.now().year, DateTime.now().month,
-                DateTime.now().day))) {
-          todayNotifier.value.add(modalTransaction);
-          todayNotifier.notifyListeners();
-        }
-        // ~weekly
-        else if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
-          weeklyNotifier.value.add(modalTransaction);
-          weeklyNotifier.notifyListeners();
-        }
-        // ~ monthly
-        else if (modalTransaction.date.month == DateTime.now().month) {
-          MonthlyNotifier.value.add(modalTransaction);
-          MonthlyNotifier.notifyListeners();
-        }
-      },
-    );
-
-    //~weekly filter
-    Future.forEach(
-      list,
-      (TransactionModal modalTransaction) {
-        if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
-          weeklyNotifier.value.add(modalTransaction);
-          weeklyNotifier.notifyListeners();
-        }
-      },
-    );
-    //~monthly filter
-    MonthlyNotifier.value.clear();
-    Future.forEach(
-      list,
-      (TransactionModal modalTransaction) {
-        if (modalTransaction.date.month == DateTime.now().month) {
-          MonthlyNotifier.value.add(modalTransaction);
-          MonthlyNotifier.notifyListeners();
-        }
-      },
-    );
 
     // ~income & expence  drop
     expenceNotifier.value.clear();
     IncomeNotifier.value.clear();
+
     Future.forEach(
       list,
       (TransactionModal modalTransaction) {
         if (modalTransaction.type == CategoryType.income) {
           IncomeNotifier.value.add(modalTransaction);
           IncomeNotifier.notifyListeners();
-        } else {
+        } else  {
           expenceNotifier.value.add(modalTransaction);
           expenceNotifier.notifyListeners();
         }
-        todayNotifier.notifyListeners();
-        weeklyNotifier.notifyListeners();
-        MonthlyNotifier.notifyListeners();
       },
     );
 
     // ~ notifiers - time with Category-income  function
-    todayIncomeNotifier.value.clear();
+
+    transactionListNotifier.value.clear();
+    transactionListNotifier.value.addAll(list);
+    transactionListNotifier.notifyListeners();
   }
 
   // ^------------------------------------end-----------------------------------------------
@@ -178,50 +131,27 @@ class TransactionDB implements TransactionDbFunctions {
     return [total, _income, _expences];
   }
 
-  //^-----------------------------------------end-------------------------------------------
+  //^-----------------------------------------------end------------------------------------------
 
-  //^-----------------------------------Delete Transaction-------------------------------------
+  //^-----------------------------------------Delete Transaction----------------------------------
 
   Future<void> deleteTransaction(String id) async {
     final transactionDB =
         await Hive.openBox<TransactionModal>("TRANSACTIONS_DB_NAME");
     await transactionDB.delete(id);
     refreshUiTransaction();
-    refresh();
   }
 
-  // ^-----------------------------------------------end---------------------------------------------
+  // ^---------------------------------------------end-------------------------------------------
 
-  // ^---------------------------------------Delete Transaction DB all-----------------------------
+  // ^-----------------------------------Delete Transaction DB all-------------------------------
 
   Future<void> deleteDBAll() async {
     final _transactionDb =
         await Hive.openBox<TransactionModal>(transactionDBName);
     _transactionDb.clear();
-    refresh();
   }
 
   // ^------------------------------------------------end------------------------------------------
-  Future<void> refresh() async {
-    final list = await getTransactions();
-    list.sort((first, second) => second.date.compareTo(first.date));
 
-    expenceNotifier.value.clear();
-    IncomeNotifier.value.clear();
-    transactionListNotifier.value.clear();
-    Future.forEach(
-      list,
-      (TransactionModal transaction) {
-        if (transaction.type == CategoryType.income) {
-          IncomeNotifier.value.add(transaction);
-        } else {
-          expenceNotifier.value.add(transaction);
-        }
-      },
-    );
-
-    transactionListNotifier.value.clear();
-    transactionListNotifier.value.addAll(list);
-    transactionListNotifier.notifyListeners();
-  }
 }

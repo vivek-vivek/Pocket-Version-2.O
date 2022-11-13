@@ -1,14 +1,13 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/Controller/filter_controller.dart';
-import 'package:budgetory_v1/Screens/all_transaction_screen/widgets/category_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../DB/transaction_db_f.dart';
 import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
 import '../../../../colors/color.dart';
-import '../../all_transaction_screen/widgets/filter_array.dart';
+import '../../../controller/filter_array.dart';
+// import '../../all_transaction_screen/widgets/filter_array.dart'
 
 class Expences extends StatefulWidget {
   const Expences({super.key});
@@ -17,12 +16,12 @@ class Expences extends StatefulWidget {
 }
 
 class _ExpencesState extends State<Expences> {
-  String? categoryDropValue;
   String? timeDropValue;
   List<TransactionModal> modalDummy = [];
 
   @override
   void initState() {
+    TransactionDB.instance.refreshUiTransaction();
     modalDummy = TransactionDB.instance.expenceNotifier.value;
     timeDropValue = 'Today';
     super.initState();
@@ -30,6 +29,7 @@ class _ExpencesState extends State<Expences> {
 
   @override
   Widget build(BuildContext context) {
+    TransactionDB.instance.refreshUiTransaction();
     return Scaffold(
       body: Column(
         children: [
@@ -53,21 +53,22 @@ class _ExpencesState extends State<Expences> {
                   );
                 },
               ).toList(),
+              onTap: () {
+                if (timeDropValue == filterArray.timeDropList[0]) {
+                  modalDummy =
+                      TransactionDB.instance.todayExpenceNotifier.value;
+                } else if (timeDropValue == filterArray.timeDropList[1]) {
+                  modalDummy = TransactionDB.instance.weeklyNotifier.value;
+                } else if (timeDropValue == filterArray.timeDropList[2]) {
+                  modalDummy = TransactionDB.instance.MonthlyNotifier.value;
+                }
+              },
               onChanged: (value) {
                 setState(
                   () {
                     timeDropValue = value;
                   },
                 );
-              },
-              onTap: () {
-                if (timeDropValue == filterArray.timeDropList[0]) {
-                  modalDummy = Filter.instance.expenceTodayNotifier.value;
-                } else if (timeDropValue == filterArray.timeDropList[1]) {
-                  modalDummy = Filter.instance.expenceWeeklyNotifier.value;
-                } else if (timeDropValue == filterArray.timeDropList[2]) {
-                  modalDummy = Filter.instance.expenceMonthlyNotifier.value;
-                }
               },
             ),
           ),
@@ -85,7 +86,7 @@ class _ExpencesState extends State<Expences> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Image(
-                                image: AssetImage('Assets/empty2.jpeg')),
+                                image: AssetImage('Assets//empty3.jpeg')),
                             Text(
                               "No Transactions Found",
                               style: TextStyle(color: colorId.veryLightGrey),
@@ -120,7 +121,6 @@ class _ExpencesState extends State<Expences> {
 
 // ^-------------------------------------------------------------------------------------------------------
 
-  final filterCategory = Filtered();
   final filterArray = FilterArray();
   final colorId = ColorsID();
 }

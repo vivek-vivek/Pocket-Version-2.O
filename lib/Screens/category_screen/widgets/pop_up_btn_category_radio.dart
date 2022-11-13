@@ -48,12 +48,7 @@ Future<void> popUpCaBtnCategoryRadio(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'enter category';
-                }
-                return null;
-              },
+             
             ),
           ),
           //******* */

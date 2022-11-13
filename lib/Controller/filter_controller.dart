@@ -2,7 +2,6 @@
 
 import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:flutter/material.dart';
-import '../DB/category_db_f.dart';
 import '../DataBase/Models/ModalCategory/category_model.dart';
 import '../DataBase/Models/ModalTransaction/transaction_modal.dart';
 
@@ -49,82 +48,50 @@ class Filter {
   }
 
   // ~ notifiers - time with Category-income  function
-  filterTransactionFunction() async {
-    // ?clear all notifiers
-
+  filterTransactionFunction({required customMonth}) async {
     // ?refreshing
     final dbItems = await TransactionDB.instance.getTransactions();
-    // dbItems.sort((first, second) => second.date.compareTo(first.date));
-    // TransactionDB.instance.transactionListNotifier.value.clear();
-    // await CategoryDB.instance.refreshUI();
-    // TransactionDB.instance.transactionListNotifier.value.addAll(dbItems);
-    // TransactionDB.instance.transactionListNotifier.notifyListeners();
+
     await TransactionDB.instance.refreshUiTransaction();
-
+    //^clearing aal notifiers
+    await filterCall();
     Future.forEach(dbItems, (TransactionModal modalTransaction) {
-      // ~ All
-
+      if (modalTransaction.date ==
+          (DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+        allTodayNotifier.value.add(modalTransaction);
+        allTodayNotifier.notifyListeners();
+      }
       // ~ income
       if (modalTransaction.type == CategoryType.income &&
           modalTransaction.date ==
               (DateTime(DateTime.now().year, DateTime.now().month,
                   DateTime.now().day))) {
-        incomeTodayNotifier.value.clear();
         incomeTodayNotifier.value.add(modalTransaction);
         incomeTodayNotifier.notifyListeners();
       }
-      // ~weekly
-      else if (modalTransaction.type == CategoryType.income &&
-          modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
-        incomeWeeklyNotifier.value.clear();
-        incomeWeeklyNotifier.value.add(modalTransaction);
-        incomeWeeklyNotifier.notifyListeners();
-      }
-      // ~ monthly
-      else if (modalTransaction.type == CategoryType.income &&
-          modalTransaction.date.month == DateTime.now().month) {
-        incomeMonthlyNotifier.value.clear();
-        incomeMonthlyNotifier.value.add(modalTransaction);
-        incomeMonthlyNotifier.notifyListeners();
-      }
+
       // ~ expence
-      else if (modalTransaction.date ==
+      if (modalTransaction.date ==
               (DateTime(DateTime.now().year, DateTime.now().month,
                   DateTime.now().day)) &&
           modalTransaction.type == CategoryType.expense) {
-        expenceTodayNotifier.value.clear();
         expenceTodayNotifier.value.add(modalTransaction);
         expenceTodayNotifier.notifyListeners();
       }
-      // ~weekly
-      else if (modalTransaction.date == (DateTime(DateTime.now().day - 7)) &&
-          modalTransaction.type == CategoryType.expense) {
-        expenceWeeklyNotifier.value.clear();
-        expenceWeeklyNotifier.value.add(modalTransaction);
-        expenceWeeklyNotifier.notifyListeners();
+      if (modalTransaction.type == CategoryType.income &&
+          modalTransaction.date.month == customMonth) {
+        print(customMonth);
+        incomeMonthlyNotifier.value.add(modalTransaction);
+        incomeMonthlyNotifier.notifyListeners();
       }
-      // ~ monthly
-      else if (modalTransaction.date.month == DateTime.now().month &&
-          modalTransaction.type == CategoryType.expense) {
-        expenceMonthlyNotifier.value.clear();
+      if (modalTransaction.type == CategoryType.expense &&
+          modalTransaction.date.month == customMonth) {
+        print("🟢$customMonth");
         expenceMonthlyNotifier.value.add(modalTransaction);
         expenceMonthlyNotifier.notifyListeners();
-      } else if (modalTransaction.date ==
-          (DateTime(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
-        allTodayNotifier.value.clear();
-        allTodayNotifier.value.add(modalTransaction);
-        allTodayNotifier.notifyListeners();
       }
-      // ~weekly
-      else if (modalTransaction.date == (DateTime(DateTime.now().day - 7))) {
-        allWeeklyNotifier.value.clear();
-        allWeeklyNotifier.value.add(modalTransaction);
-        allWeeklyNotifier.notifyListeners();
-      }
-      // ~ monthly
-      if (modalTransaction.date.month == DateTime.now().month) {
-        allMonthlyNotifier.value.clear();
+      if (modalTransaction.date.month == customMonth) {
         allMonthlyNotifier.value.add(modalTransaction);
         allMonthlyNotifier.notifyListeners();
       }

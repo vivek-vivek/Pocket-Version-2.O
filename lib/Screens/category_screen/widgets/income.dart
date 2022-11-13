@@ -32,9 +32,9 @@ class _IncomeTabPageState extends State<IncomeTabPage> {
               padding:
                   const EdgeInsets.only(top: 20.00, left: 20.00, right: 20.00),
               child: Container(
-                decoration:const BoxDecoration(
-                  color: Color.fromARGB(157, 28, 255, 36),
-                  borderRadius:  BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: colorId.btnColor,
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(20.00),
                   ),
                 ),
@@ -49,7 +49,7 @@ class _IncomeTabPageState extends State<IncomeTabPage> {
                                 context: context, id: category.id);
                             print('🎉🎉🚫DELETED');
                           },
-                          icon: const Icon(Icons.delete_rounded),
+                          icon:  Icon(Icons.delete_rounded,color: colorId.white,),
                         ),
                       ],
                     ),
@@ -58,7 +58,9 @@ class _IncomeTabPageState extends State<IncomeTabPage> {
                         padding: const EdgeInsets.all(20.00),
                         child: Text(
                           category.name,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colorId.white),
                         ),
                       ),
                     ),
