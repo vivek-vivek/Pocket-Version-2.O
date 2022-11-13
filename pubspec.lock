@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.0"
-  animated_segmented_tab_control:
-    dependency: "direct main"
-    description:
-      name: animated_segmented_tab_control
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   archive:
     dependency: transitive
     description:
@@ -106,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.4.2"
-  carousel_slider:
-    dependency: "direct main"
-    description:
-      name: carousel_slider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.1.1"
   characters:
     dependency: transitive
     description:
@@ -120,20 +106,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
-  charts_common:
-    dependency: transitive
-    description:
-      name: charts_common
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.12.0"
-  charts_flutter:
-    dependency: "direct main"
-    description:
-      name: charts_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.12.0"
   checked_yaml:
     dependency: transitive
     description:
@@ -183,27 +155,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
-  dartz:
-    dependency: "direct main"
-    description:
-      name: dartz
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.10.1"
-  drop_shadow:
-    dependency: "direct main"
-    description:
-      name: drop_shadow
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.1+4"
-  dropdown_button2:
-    dependency: "direct main"
-    description:
-      name: dropdown_button2
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.8.9"
   fake_async:
     dependency: transitive
     description:
@@ -244,11 +195,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -408,20 +354,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  month_picker_dialog:
-    dependency: "direct main"
-    description:
-      name: month_picker_dialog
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.0"
-  month_year_picker:
-    dependency: "direct main"
-    description:
-      name: month_year_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0+3"
   package_config:
     dependency: transitive
     description:
@@ -541,13 +473,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.2"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.26.0"
   shelf:
     dependency: transitive
     description:

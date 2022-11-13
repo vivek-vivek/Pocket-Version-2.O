@@ -49,7 +49,7 @@ class Tile extends StatelessWidget {
                         leading: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CircleAvatar(
-                            radius: 12,
+                            radius: 9,
                             backgroundColor:
                                 newValue.type == CategoryType.income
                                     ? colorId.lightGreen

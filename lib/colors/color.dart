@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ColorsID {
+ 
   final black              = Colors.black;
   final grey               = Colors.grey;
   final white              = Colors.white;
@@ -19,4 +20,5 @@ class ColorsID {
   final fontLacto =  GoogleFonts.lato(textStyle:const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w300),);
+ 
 }

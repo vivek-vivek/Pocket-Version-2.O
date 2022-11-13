@@ -12,6 +12,7 @@ import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
 import '../../../../colors/color.dart';
 import '../../../../controller/filter_array.dart';
 import '../../../../controller/filter_controller.dart';
+import '../../widgets/pop_up_transaction.dart';
 
 class AllTransactionsNew extends StatefulWidget {
   const AllTransactionsNew({super.key});
@@ -572,6 +573,15 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                         color: colorId.white,
                                       ),
                                       child: ListTile(
+                                        onTap: () {
+                                          popTransaction
+                                              .popUpTransactionDetalies(
+                                                  context: context,
+                                                  notes: newValue.notes,
+                                                  category: newValue.type,
+                                                  date: newValue.date,
+                                                  amount: newValue.amount);
+                                        },
                                         leading: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: CircleAvatar(
@@ -610,10 +620,12 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
     );
   }
 
-// ^-------------------------------------------------------------------------------------------------------
-
+// ^------------------------------------------------------------------------------------------------------------------------
+// ~-------------------------------------------------------------class Objects----------------------------------------------
   final filterArray = FilterArray();
   final colorId = ColorsID();
+  final popTransaction = PopUpTransaction();
+// ~-------------------------------------------------------------------End--------------------------------------------------
   Future monthPopUpDialog({required notifier}) async {
     return showDialog(
       context: context,
