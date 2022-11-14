@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, avoid_print
 
-import 'package:budgetory_v1/DB/category_db_f.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
 import 'package:flutter/material.dart';

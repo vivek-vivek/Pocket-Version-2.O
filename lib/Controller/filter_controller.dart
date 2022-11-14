@@ -14,6 +14,7 @@ class Filter {
   //  ~  DB name
   // ignore: constant_identifier_names
   static const TransactionDBName = 'Transaction DB Name';
+  ValueNotifier<List<TransactionModal>> dateRangeList = ValueNotifier([]);
 
   // ~*notifiers - time-- with Category-Income
   ValueNotifier<List<TransactionModal>> incomeTodayNotifier = ValueNotifier([]);
@@ -48,14 +49,13 @@ class Filter {
   }
 
   // ~ notifiers - time with Category-income  function
-  filterTransactionFunction({required customMonth}) async {
+  filterTransactionFunction({customMonth}) async {
     // ?refreshing
-    final dbItems = await TransactionDB.instance.getTransactions();
-
+    final getTransaction = await TransactionDB.instance.getTransactions();
     await TransactionDB.instance.refreshUiTransaction();
     //^clearing aal notifiers
     await filterCall();
-    Future.forEach(dbItems, (TransactionModal modalTransaction) {
+    Future.forEach(getTransaction, (TransactionModal modalTransaction) {
       if (modalTransaction.date ==
           (DateTime(
               DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
@@ -94,7 +94,55 @@ class Filter {
       if (modalTransaction.date.month == customMonth) {
         allMonthlyNotifier.value.add(modalTransaction);
         allMonthlyNotifier.notifyListeners();
+      } else {
+        return;
       }
     });
+
+    // custom date
+  }
+
+  var dateRange = DateTimeRange(
+    start: DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day - 1),
+    end:
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+  );
+  customDateAll({required context}) async {
+    final getTransaction = await TransactionDB.instance.getTransactions();
+    dateRangeList.value.clear();
+
+    DateTimeRange? datePicked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+
+    if (datePicked != null) {
+      TransactionDB.instance.refreshUiTransaction();
+      dateRangeList.value.clear();
+      Future.forEach(
+        getTransaction,
+        (TransactionModal modalTransaction) async {
+          if (modalTransaction.date.isAfter(
+                datePicked.end.add(
+                  const Duration(days: 1),
+                ),
+              ) &&
+              modalTransaction.date.isAfter(
+                datePicked.start.subtract(
+                  const Duration(days: 1),
+                ),
+              )) {
+            await TransactionDB.instance.refreshUiTransaction();
+            await filterTransactionFunction();
+            dateRangeList.value.add(modalTransaction);
+
+            dateRangeList.notifyListeners();
+            print("🍎${modalTransaction.notes}");
+          }
+        },
+      );
+    }
   }
 }

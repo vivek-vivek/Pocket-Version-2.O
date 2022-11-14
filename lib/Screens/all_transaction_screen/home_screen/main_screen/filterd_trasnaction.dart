@@ -1,11 +1,9 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import '../../../../DB/transaction_db_f.dart';
 import '../../../../DataBase/Models/ModalCategory/category_model.dart';
 import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
@@ -13,6 +11,8 @@ import '../../../../colors/color.dart';
 import '../../../../controller/filter_array.dart';
 import '../../../../controller/filter_controller.dart';
 import '../../widgets/pop_up_transaction.dart';
+
+final GlobalKey<ScaffoldState> newContext = GlobalKey<ScaffoldState>();
 
 class AllTransactionsNew extends StatefulWidget {
   const AllTransactionsNew({super.key});
@@ -23,7 +23,6 @@ class AllTransactionsNew extends StatefulWidget {
 class _AllTransactionsNewState extends State<AllTransactionsNew> {
   String? categoryDropValue;
   String? timeDropValue;
-
   List<TransactionModal> modalDummy = [];
   // String? customMonth;
   @override
@@ -42,6 +41,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   Widget build(BuildContext context) {
     TransactionDB.instance.refreshUiTransaction();
     return Scaffold(
+      key: newContext,
       appBar: AppBar(
         iconTheme: IconThemeData(color: colorId.black),
         backgroundColor: colorId.white,
@@ -166,344 +166,312 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                           );
                         },
                       ).toList(),
-                      onTap: () async {
-                        setState(
-                          () {
-                            //  All - Transactions - filter
-
-                            if (categoryDropValue ==
-                                filterArray.filterItemsArray[0]) {
-                              // All - Transactions - filter - today
-                              if (timeDropValue ==
-                                  filterArray.timeDropList[0]) {
-                                modalDummy =
-                                    Filter.instance.allTodayNotifier.value;
-                              }
-                              // ^month picker
-                              //  All - Transactions - filter - month
-                              else if (timeDropValue ==
-                                  filterArray.timeDropList[1]) {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return SimpleDialog(
-                                      // ^tittle - simple dialog,selected month
-                                      // title: Text(
-                                      //   DateFormat.yMMMM().format(DateTime()),
-                                      //   style: GoogleFonts.lato(
-                                      //       textStyle: TextStyle(
-                                      //           color: colorId.btnColor,
-                                      //           fontWeight: FontWeight.bold)),
-                                      // ),
-                                      children: [
-                                        Container(
-                                          width: 300.00,
-                                          height: 234.00,
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20))),
-                                          child: GridView.builder(
-                                            itemCount:
-                                                filterArray.monthList.length,
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 4),
-                                            itemBuilder: (context, index) {
-                                              final i = index;
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: colorId.btnColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: TextButton(
-                                                    onPressed: () async {
-                                                      setState(
-                                                        () {
-                                                          try {
-                                                            final customMonth =
-                                                                filterArray
-                                                                    .newMonthList[i];
-
-                                                            Filter.instance
-                                                                .filterTransactionFunction(
-                                                                    customMonth:
-                                                                        customMonth);
-
-                                                            print({
-                                                              customMonth,
-                                                              i
-                                                            });
-                                                            print(customMonth);
-                                                            print(modalDummy);
-                                                            modalDummy = Filter
-                                                                .instance
-                                                                .allMonthlyNotifier
-                                                                .value;
-                                                          } catch (e) {
-                                                            print(
-                                                                "🚫 in  month choosing \n $e");
-                                                          } finally {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          }
-                                                        },
-                                                      );
-                                                      Navigator.of(ctx).pop();
-                                                    },
-                                                    child: Text(
-                                                      filterArray
-                                                          .monthList[index],
-                                                      style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            color:
-                                                                colorId.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else if (timeDropValue ==
-                                  filterArray.timeDropList[2]) {}
-                            }
-                            // ^income
-                            else if (categoryDropValue ==
-                                filterArray.filterItemsArray[1]) {
-                              if (timeDropValue ==
-                                  filterArray.timeDropList[0]) {
-                                modalDummy =
-                                    Filter.instance.incomeTodayNotifier.value;
-                              } else if (timeDropValue ==
-                                  filterArray.timeDropList[1]) {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return SimpleDialog(
-                                      // ^tittle - simple dialog,selected month
-                                      title: Text(
-                                        DateFormat.yMMMM().format(
-                                            DateTime(DateTime.now().year)),
-                                        style: GoogleFonts.lato(
-                                            textStyle: TextStyle(
-                                                color: colorId.btnColor,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                      children: [
-                                        Container(
-                                          width: 300.00,
-                                          height: 234.00,
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20))),
-                                          child: GridView.builder(
-                                            itemCount:
-                                                filterArray.monthList.length,
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 4),
-                                            itemBuilder: (context, index) {
-                                              final i = index;
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: colorId.btnColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: TextButton(
-                                                    onPressed: () async {
-                                                      setState(
-                                                        () {
-                                                          try {
-                                                            final customMonth =
-                                                                filterArray
-                                                                    .newMonthList[i];
-                                                            Filter.instance
-                                                                .filterTransactionFunction(
-                                                                    customMonth:
-                                                                        customMonth);
-
-                                                            print({
-                                                              customMonth,
-                                                              i
-                                                            });
-                                                            print(customMonth);
-                                                            print(modalDummy);
-                                                            modalDummy = Filter
-                                                                .instance
-                                                                .incomeMonthlyNotifier
-                                                                .value;
-                                                          } catch (e) {
-                                                            print(
-                                                                "🚫 in  month choosing \n $e");
-                                                          } finally {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          }
-                                                        },
-                                                      );
-                                                      Navigator.of(ctx).pop();
-                                                    },
-                                                    child: Text(
-                                                      filterArray
-                                                          .monthList[index],
-                                                      style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            color:
-                                                                colorId.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else if (timeDropValue ==
-                                  filterArray.timeDropList[2]) {
-                                SfDateRangePicker();
-                              }
-                            }
-                            // ^Expence
-                            else if (categoryDropValue ==
-                                filterArray.filterItemsArray[2]) {
-                              if (timeDropValue ==
-                                  filterArray.timeDropList[0]) {
-                                modalDummy =
-                                    Filter.instance.expenceTodayNotifier.value;
-                              } else if (timeDropValue ==
-                                  filterArray.timeDropList[1]) {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return SimpleDialog(
-                                      // ^tittle - simple dialog,selected month
-                                      title: Text(
-                                        DateFormat.yMMMM().format(
-                                            DateTime(DateTime.now().year)),
-                                        style: GoogleFonts.lato(
-                                            textStyle: TextStyle(
-                                                color: colorId.btnColor,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                      children: [
-                                        Container(
-                                          width: 300.00,
-                                          height: 234.00,
-                                          decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20))),
-                                          child: GridView.builder(
-                                            itemCount:
-                                                filterArray.monthList.length,
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 4),
-                                            itemBuilder: (context, index) {
-                                              final i = index;
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: colorId.btnColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: TextButton(
-                                                    onPressed: () async {
-                                                      setState(
-                                                        () {
-                                                          try {
-                                                            final customMonth =
-                                                                filterArray
-                                                                    .newMonthList[i];
-                                                            Filter.instance
-                                                                .filterTransactionFunction(
-                                                                    customMonth:
-                                                                        customMonth);
-
-                                                            print({
-                                                              customMonth,
-                                                              i
-                                                            });
-                                                            print(customMonth);
-                                                            print(modalDummy);
-                                                            modalDummy = Filter
-                                                                .instance
-                                                                .expenceMonthlyNotifier
-                                                                .value;
-                                                          } catch (e) {
-                                                            print(
-                                                                "🚫 in  month choosing \n $e");
-                                                          } finally {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          }
-                                                        },
-                                                      );
-                                                      Navigator.of(ctx).pop();
-                                                    },
-                                                    child: Text(
-                                                      filterArray
-                                                          .monthList[index],
-                                                      style: GoogleFonts.lato(
-                                                        textStyle: TextStyle(
-                                                            color:
-                                                                colorId.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else if (timeDropValue ==
-                                  filterArray.timeDropList[2]) {
-                                modalDummy = Filter
-                                    .instance.expenceMonthlyNotifier.value;
-                              }
-                            }
-                          },
-                        );
-                      },
+                      onTap: () async {},
                       onChanged: (value) {
-                        setState(() {
-                          timeDropValue = value;
-                        });
+                        timeDropValue = value;
+
+                        if (categoryDropValue ==
+                            filterArray.filterItemsArray[0]) {
+                          if (timeDropValue == filterArray.timeDropList[0]) {
+                            setState(() {
+                              modalDummy =
+                                  Filter.instance.allTodayNotifier.value;
+                            });
+                          }
+                          // ^month picker
+
+                          else if (timeDropValue ==
+                              filterArray.timeDropList[1]) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return SimpleDialog(
+                                  children: [
+                                    Container(
+                                      width: 300.00,
+                                      height: 234.00,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                      ),
+                                      child: GridView.builder(
+                                        itemCount: filterArray.monthList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 4),
+                                        itemBuilder: (context, index) {
+                                          final i = index;
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: colorId.btnColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: TextButton(
+                                                onPressed: () async {
+                                                  setState(
+                                                    () {
+                                                      try {
+                                                        final customMonth =
+                                                            filterArray
+                                                                .newMonthList[i];
+
+                                                        Filter.instance
+                                                            .filterTransactionFunction(
+                                                                customMonth:
+                                                                    customMonth);
+
+                                                        modalDummy = Filter
+                                                            .instance
+                                                            .allMonthlyNotifier
+                                                            .value;
+                                                      } catch (e) {
+                                                        print(
+                                                            "🚫 in  month choosing \n $e");
+                                                      }
+                                                    },
+                                                  );
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: Text(
+                                                  filterArray.monthList[index],
+                                                  style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        color: colorId.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[2]) {
+                            try {
+                              setState(() async {
+                                await Filter.instance
+                                    .customDateAll(context: context);
+                                // await TransactionDB.instance
+                                //     .refreshUiTransaction();
+                                // await Filter.instance
+                                //     .filterTransactionFunction();
+                                modalDummy =
+                                    Filter.instance.dateRangeList.value;
+                              });
+                            } catch (e) {
+                              print(e);
+                            }
+                          }
+                        }
+                        // ^income
+                        else if (categoryDropValue ==
+                            filterArray.filterItemsArray[1]) {
+                          if (timeDropValue == filterArray.timeDropList[0]) {
+                            setState(() {
+                              modalDummy =
+                                  Filter.instance.incomeTodayNotifier.value;
+                            });
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[1]) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return SimpleDialog(
+                                  // ^tittle - simple dialog,selected month
+                                  title: Text(
+                                    DateFormat.yMMMM()
+                                        .format(DateTime(DateTime.now().year)),
+                                    style: GoogleFonts.lato(
+                                        textStyle: TextStyle(
+                                            color: colorId.btnColor,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  children: [
+                                    Container(
+                                      width: 300.00,
+                                      height: 234.00,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: GridView.builder(
+                                        itemCount: filterArray.monthList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 4),
+                                        itemBuilder: (context, index) {
+                                          final i = index;
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: colorId.btnColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: TextButton(
+                                                onPressed: () async {
+                                                  setState(
+                                                    () {
+                                                      try {
+                                                        final customMonth =
+                                                            filterArray
+                                                                .newMonthList[i];
+                                                        Filter.instance
+                                                            .filterTransactionFunction(
+                                                                customMonth:
+                                                                    customMonth);
+
+                                                        print({customMonth, i});
+                                                        print(customMonth);
+                                                        print(modalDummy);
+                                                        modalDummy = Filter
+                                                            .instance
+                                                            .incomeMonthlyNotifier
+                                                            .value;
+                                                      } catch (e) {
+                                                        print(
+                                                            "🚫 in  month choosing \n $e");
+                                                      } finally {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      }
+                                                    },
+                                                  );
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: Text(
+                                                  filterArray.monthList[index],
+                                                  style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        color: colorId.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[2]) {}
+                        }
+                        // ^Expence
+                        else if (categoryDropValue ==
+                            filterArray.filterItemsArray[2]) {
+                          if (timeDropValue == filterArray.timeDropList[0]) {
+                            setState(() {
+                              modalDummy =
+                                  Filter.instance.expenceTodayNotifier.value;
+                            });
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[1]) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return SimpleDialog(
+                                  // ^tittle - simple dialog,selected month
+                                  title: Text(
+                                    DateFormat.yMMMM()
+                                        .format(DateTime(DateTime.now().year)),
+                                    style: GoogleFonts.lato(
+                                        textStyle: TextStyle(
+                                            color: colorId.btnColor,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  children: [
+                                    Container(
+                                      width: 300.00,
+                                      height: 234.00,
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: GridView.builder(
+                                        itemCount: filterArray.monthList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 4),
+                                        itemBuilder: (context, index) {
+                                          final i = index;
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: colorId.btnColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: TextButton(
+                                                onPressed: () async {
+                                                  setState(
+                                                    () {
+                                                      try {
+                                                        final customMonth =
+                                                            filterArray
+                                                                .newMonthList[i];
+                                                        Filter.instance
+                                                            .filterTransactionFunction(
+                                                                customMonth:
+                                                                    customMonth);
+
+                                                        print({customMonth, i});
+                                                        print(customMonth);
+                                                        print(modalDummy);
+                                                        modalDummy = Filter
+                                                            .instance
+                                                            .expenceMonthlyNotifier
+                                                            .value;
+                                                      } catch (e) {
+                                                        print(
+                                                            "🚫 in  month choosing \n $e");
+                                                      } finally {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      }
+                                                    },
+                                                  );
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: Text(
+                                                  filterArray.monthList[index],
+                                                  style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        color: colorId.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            );
+                          } else if (timeDropValue ==
+                              filterArray.timeDropList[2]) {
+                            modalDummy =
+                                Filter.instance.expenceMonthlyNotifier.value;
+                          }
+                        }
                       },
                     ),
                   ),
@@ -625,7 +593,9 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   final filterArray = FilterArray();
   final colorId = ColorsID();
   final popTransaction = PopUpTransaction();
+
 // ~-------------------------------------------------------------------End--------------------------------------------------
+
   Future monthPopUpDialog({required notifier}) async {
     return showDialog(
       context: context,

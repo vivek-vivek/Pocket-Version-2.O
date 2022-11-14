@@ -90,7 +90,7 @@ class _AllGraphState extends State<AllGraph> {
               Container(
                 height: 170.00,
                 decoration: BoxDecoration(
-                    color: colorId.black,
+                    color: colorId.lightBlue,
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 child: GridView.builder(
                   shrinkWrap: true,
