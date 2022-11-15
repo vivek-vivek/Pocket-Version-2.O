@@ -129,8 +129,8 @@ class Filter {
                 datePicked.start.subtract(
                   const Duration(days: 1),
                 ),
-              ) ||
-              modalTransaction.date.isAfter(
+              ) &&
+              modalTransaction.date.isBefore(
                 datePicked.end.add(
                   const Duration(days: 1),
                 ),
