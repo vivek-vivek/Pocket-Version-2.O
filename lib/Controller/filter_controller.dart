@@ -102,12 +102,13 @@ class Filter {
     // custom date
   }
 
-  var dateRange = DateTimeRange(
+  DateTimeRange? dateRange = DateTimeRange(
     start: DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day - 1),
     end:
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
   );
+
   customDateAll({required context}) async {
     final getTransaction = await TransactionDB.instance.getTransactions();
     dateRangeList.value.clear();
@@ -125,21 +126,26 @@ class Filter {
         getTransaction,
         (TransactionModal modalTransaction) async {
           if (modalTransaction.date.isAfter(
-                datePicked.end.add(
+                datePicked.start.subtract(
                   const Duration(days: 1),
                 ),
-              ) &&
+              ) ||
               modalTransaction.date.isAfter(
-                datePicked.start.subtract(
+                datePicked.end.add(
                   const Duration(days: 1),
                 ),
               )) {
             await TransactionDB.instance.refreshUiTransaction();
             await filterTransactionFunction();
             dateRangeList.value.add(modalTransaction);
-
             dateRangeList.notifyListeners();
-            print("🍎${modalTransaction.notes}");
+            if (dateRangeList.value.isNotEmpty) {
+              print("🍎${dateRangeList.value}");
+            } else {
+              return;
+            }
+          } else {
+            return;
           }
         },
       );

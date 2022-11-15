@@ -258,16 +258,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                           } else if (timeDropValue ==
                               filterArray.timeDropList[2]) {
                             try {
-                              setState(() async {
-                                await Filter.instance
-                                    .customDateAll(context: context);
-                                // await TransactionDB.instance
-                                //     .refreshUiTransaction();
-                                // await Filter.instance
-                                //     .filterTransactionFunction();
-                                modalDummy =
-                                    Filter.instance.dateRangeList.value;
-                              });
+                              selectDate();
                             } catch (e) {
                               print(e);
                             }
@@ -468,8 +459,11 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                             );
                           } else if (timeDropValue ==
                               filterArray.timeDropList[2]) {
-                            modalDummy =
-                                Filter.instance.expenceMonthlyNotifier.value;
+                            try {
+                              Filter.instance.customDateAll(context: context);
+                            } catch (e) {
+                              print(e);
+                            }
                           }
                         }
                       },
@@ -666,5 +660,15 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
         );
       },
     );
+  }
+
+  //
+  Future selectDate() async {
+    await Filter.instance.customDateAll(context: context);
+
+    setState(() {
+      modalDummy = Filter.instance.dateRangeList.value;
+    });
+   
   }
 }
