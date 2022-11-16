@@ -14,7 +14,13 @@ class Filter {
   //  ~  DB name
   // ignore: constant_identifier_names
   static const TransactionDBName = 'Transaction DB Name';
-  ValueNotifier<List<TransactionModal>> dateRangeList = ValueNotifier([]);
+
+  // * notifiers - time-- with Category-all
+  ValueNotifier<List<TransactionModal>> allTodayNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> allWeeklyNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> allMonthlyNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> allDateRangeNotifier =
+      ValueNotifier([]);
 
   // ~*notifiers - time-- with Category-Income
   ValueNotifier<List<TransactionModal>> incomeTodayNotifier = ValueNotifier([]);
@@ -22,30 +28,38 @@ class Filter {
       ValueNotifier([]);
   ValueNotifier<List<TransactionModal>> incomeMonthlyNotifier =
       ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> incomeDateRangeNotifier =
+      ValueNotifier([]);
 
-  // * notifiers - time-- with Category-Income
+  // * notifiers - time-- with Category-Expence
   ValueNotifier<List<TransactionModal>> expenceTodayNotifier =
       ValueNotifier([]);
   ValueNotifier<List<TransactionModal>> expenceWeeklyNotifier =
       ValueNotifier([]);
   ValueNotifier<List<TransactionModal>> expenceMonthlyNotifier =
       ValueNotifier([]);
-  // * notifiers - time-- with Category-all
-  ValueNotifier<List<TransactionModal>> allTodayNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModal>> allWeeklyNotifier = ValueNotifier([]);
-  ValueNotifier<List<TransactionModal>> allMonthlyNotifier = ValueNotifier([]);
+  ValueNotifier<List<TransactionModal>> expenceDateRangeNotifier =
+      ValueNotifier([]);
 
   // ~ get filter functions
-  filterCall() async {
-    incomeTodayNotifier.value.clear();
-    incomeWeeklyNotifier.value.clear();
-    incomeMonthlyNotifier.value.clear();
-    expenceTodayNotifier.value.clear();
-    expenceWeeklyNotifier.value.clear();
-    expenceMonthlyNotifier.value.clear();
+  notifiersCleaner() async {
+    // clear Notifiers - All
     allTodayNotifier.value.clear();
     allWeeklyNotifier.value.clear();
     allMonthlyNotifier.value.clear();
+    allDateRangeNotifier.value.clear();
+
+    // clear Notifiers - Income
+    incomeTodayNotifier.value.clear();
+    incomeWeeklyNotifier.value.clear();
+    incomeMonthlyNotifier.value.clear();
+    incomeDateRangeNotifier.value.clear();
+
+    // clear Notifiers - Expence
+    expenceTodayNotifier.value.clear();
+    expenceWeeklyNotifier.value.clear();
+    expenceMonthlyNotifier.value.clear();
+    expenceDateRangeNotifier.value.clear();
   }
 
   // ~ notifiers - time with Category-income  function
@@ -54,50 +68,51 @@ class Filter {
     final getTransaction = await TransactionDB.instance.getTransactions();
     await TransactionDB.instance.refreshUiTransaction();
     //^clearing aal notifiers
-    await filterCall();
-    Future.forEach(getTransaction, (TransactionModal modalTransaction) {
-      if (modalTransaction.date ==
-          (DateTime(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
-        allTodayNotifier.value.add(modalTransaction);
-        allTodayNotifier.notifyListeners();
-      }
-      // ~ income
-      if (modalTransaction.type == CategoryType.income &&
-          modalTransaction.date ==
-              (DateTime(DateTime.now().year, DateTime.now().month,
-                  DateTime.now().day))) {
-        incomeTodayNotifier.value.add(modalTransaction);
-        incomeTodayNotifier.notifyListeners();
-      }
+    await notifiersCleaner();
+    Future.forEach(
+      getTransaction,
+      (TransactionModal modalTransaction) {
+        if (modalTransaction.date ==
+            (DateTime(DateTime.now().year, DateTime.now().month,
+                DateTime.now().day))) {
+          allTodayNotifier.value.add(modalTransaction);
+          allTodayNotifier.notifyListeners();
+        }
+        // ~ income
+        if (modalTransaction.type == CategoryType.income &&
+            modalTransaction.date ==
+                (DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day))) {
+          incomeTodayNotifier.value.add(modalTransaction);
+          incomeTodayNotifier.notifyListeners();
+        }
 
-      // ~ expence
-      if (modalTransaction.date ==
-              (DateTime(DateTime.now().year, DateTime.now().month,
-                  DateTime.now().day)) &&
-          modalTransaction.type == CategoryType.expense) {
-        expenceTodayNotifier.value.add(modalTransaction);
-        expenceTodayNotifier.notifyListeners();
-      }
-      if (modalTransaction.type == CategoryType.income &&
-          modalTransaction.date.month == customMonth) {
-        print(customMonth);
-        incomeMonthlyNotifier.value.add(modalTransaction);
-        incomeMonthlyNotifier.notifyListeners();
-      }
-      if (modalTransaction.type == CategoryType.expense &&
-          modalTransaction.date.month == customMonth) {
-        print("🟢$customMonth");
-        expenceMonthlyNotifier.value.add(modalTransaction);
-        expenceMonthlyNotifier.notifyListeners();
-      }
-      if (modalTransaction.date.month == customMonth) {
-        allMonthlyNotifier.value.add(modalTransaction);
-        allMonthlyNotifier.notifyListeners();
-      } else {
-        return;
-      }
-    });
+        // ~ expence
+        if (modalTransaction.date ==
+                (DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day)) &&
+            modalTransaction.type == CategoryType.expense) {
+          expenceTodayNotifier.value.add(modalTransaction);
+          expenceTodayNotifier.notifyListeners();
+        }
+        if (modalTransaction.date.month == customMonth) {
+          allMonthlyNotifier.value.add(modalTransaction);
+          allMonthlyNotifier.notifyListeners();
+        }
+        if (modalTransaction.type == CategoryType.income &&
+            modalTransaction.date.month == customMonth) {
+          print(customMonth);
+          incomeMonthlyNotifier.value.add(modalTransaction);
+          incomeMonthlyNotifier.notifyListeners();
+        }
+        if (modalTransaction.type == CategoryType.expense &&
+            modalTransaction.date.month == customMonth) {
+          print("🟢$customMonth");
+          expenceMonthlyNotifier.value.add(modalTransaction);
+          expenceMonthlyNotifier.notifyListeners();
+        }
+      },
+    );
 
     // custom date
   }
@@ -111,7 +126,7 @@ class Filter {
 
   customDateAll({required context}) async {
     final getTransaction = await TransactionDB.instance.getTransactions();
-    dateRangeList.value.clear();
+    allDateRangeNotifier.value.clear();
 
     DateTimeRange? datePicked = await showDateRangePicker(
       context: context,
@@ -120,11 +135,44 @@ class Filter {
     );
 
     if (datePicked != null) {
+      notifiersCleaner();
       TransactionDB.instance.refreshUiTransaction();
-      dateRangeList.value.clear();
       Future.forEach(
         getTransaction,
         (TransactionModal modalTransaction) async {
+          if (modalTransaction.type == CategoryType.income) {
+            if (modalTransaction.date.isAfter(
+                  datePicked.start.subtract(
+                    const Duration(days: 1),
+                  ),
+                ) &&
+                modalTransaction.date.isBefore(
+                  datePicked.end.add(
+                    const Duration(days: 1),
+                  ),
+                )) {
+              await TransactionDB.instance.refreshUiTransaction();
+              await filterTransactionFunction();
+              incomeDateRangeNotifier.value.add(modalTransaction);
+              incomeDateRangeNotifier.notifyListeners();
+            }
+          } else if (modalTransaction.type == CategoryType.expense) {
+            if (modalTransaction.date.isAfter(
+                  datePicked.start.subtract(
+                    const Duration(days: 1),
+                  ),
+                ) &&
+                modalTransaction.date.isBefore(
+                  datePicked.end.add(
+                    const Duration(days: 1),
+                  ),
+                )) {
+              await TransactionDB.instance.refreshUiTransaction();
+              await filterTransactionFunction();
+              expenceDateRangeNotifier.value.add(modalTransaction);
+              expenceDateRangeNotifier.notifyListeners();
+            }
+          }
           if (modalTransaction.date.isAfter(
                 datePicked.start.subtract(
                   const Duration(days: 1),
@@ -137,15 +185,8 @@ class Filter {
               )) {
             await TransactionDB.instance.refreshUiTransaction();
             await filterTransactionFunction();
-            dateRangeList.value.add(modalTransaction);
-            dateRangeList.notifyListeners();
-            if (dateRangeList.value.isNotEmpty) {
-              print("🍎${dateRangeList.value}");
-            } else {
-              return;
-            }
-          } else {
-            return;
+            allDateRangeNotifier.value.add(modalTransaction);
+            allDateRangeNotifier.notifyListeners();
           }
         },
       );

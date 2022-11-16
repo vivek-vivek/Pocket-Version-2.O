@@ -42,6 +42,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.3.52
   google_fonts: ^3.0.1
   syncfusion_flutter_datepicker: ^20.3.56
+  pie_chart: ^5.3.2
 
 dev_dependencies:
   flutter_test:

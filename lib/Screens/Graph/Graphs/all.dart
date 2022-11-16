@@ -1,11 +1,14 @@
-import 'package:budgetory_v1/DB/transaction_db_f.dart';
+import 'package:budgetory_v1/controller/filter_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../../../DB/transaction_db_f.dart';
 import '../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
 import '../../../colors/color.dart';
 import '../../../controller/filter_array.dart';
-
-GlobalKey<ScaffoldState> newContext = GlobalKey();
+import '../../all_transaction_screen/widgets/pop_up_transaction.dart';
 
 class AllGraph extends StatefulWidget {
   const AllGraph({super.key});
@@ -15,32 +18,137 @@ class AllGraph extends StatefulWidget {
 }
 
 class _AllGraphState extends State<AllGraph> {
+  List<TransactionModal> modalDummyList = [];
+  String dropDownValue = 'Today';
+  final colorList = [
+    Colors.greenAccent,
+    Colors.redAccent,
+    Colors.yellowAccent,
+    Colors.blueAccent,
+    Colors.purpleAccent,
+  ];
+  var timeDropList = [
+    'Today',
+    'Monthly',
+    'Custom',
+  ];
   @override
   void initState() {
-    modalDummy = TransactionDB.instance.transactionListNotifier.value;
+    modalDummyList = TransactionDB.instance.transactionListNotifier.value;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<TransactionModal> chartData;
-    chartData = TransactionDB.instance.transactionListNotifier.value;
     return Scaffold(
-      
-      body: Column(
-        children: [
-         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            
-          ]),
-          Padding(
-            padding: const EdgeInsets.only(top: 100.00),
-            child: ValueListenableBuilder(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                DropdownButton(
+                  value: dropDownValue,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items: timeDropList.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropDownValue = newValue!;
+                      if (dropDownValue == timeDropList[0]) {
+                        Filter.instance.filterTransactionFunction();
+                        setState(() {
+                          modalDummyList =
+                              Filter.instance.allTodayNotifier.value;
+                        });
+                      } else if (dropDownValue == timeDropList[1]) {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return SimpleDialog(
+                              children: [
+                                Container(
+                                  width: 300.00,
+                                  height: 234.00,
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: GridView.builder(
+                                    itemCount: filterArray.monthList.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4),
+                                    itemBuilder: (context, index) {
+                                      final i = index;
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: colorId.btnColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: TextButton(
+                                            onPressed: () async {
+                                              setState(
+                                                () {
+                                                  final customMonth =
+                                                      filterArray
+                                                          .newMonthList[i];
+                                                  Filter.instance
+                                                      .filterTransactionFunction(
+                                                          customMonth:
+                                                              customMonth);
+                                                  modalDummyList = Filter
+                                                      .instance
+                                                      .allMonthlyNotifier
+                                                      .value;
+                                                },
+                                              );
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text(
+                                              filterArray.monthList[index],
+                                              style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    color: colorId.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      } else if (dropDownValue == timeDropList[2]) {
+                        Filter.instance.customDateAll(context: context);
+                        setState(() {
+                          modalDummyList =
+                              Filter.instance.allDateRangeNotifier.value;
+                        });
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+            ValueListenableBuilder(
               valueListenable: TransactionDB.instance.transactionListNotifier,
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
-                return modalDummy.isEmpty
+                return modalDummyList.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -59,10 +167,10 @@ class _AllGraphState extends State<AllGraph> {
                         legend: Legend(isVisible: true),
                         series: <CircularSeries>[
                           // Render pie chart
-                          DoughnutSeries<TransactionModal, String>(
-                            dataSource: chartData,
+                          PieSeries<TransactionModal, String>(
+                            dataSource: modalDummyList,
                             xValueMapper: (TransactionModal data, _) =>
-                                data.categoryTransaction.type.name,
+                                data.notes,
                             yValueMapper: (TransactionModal data, _) =>
                                 data.amount.round(),
                             dataLabelSettings:
@@ -72,14 +180,14 @@ class _AllGraphState extends State<AllGraph> {
                         ],
                       );
               },
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
 
-  final colorId = ColorsID();
   final filterArray = FilterArray();
-  List<TransactionModal> modalDummy = [];
+  final colorId = ColorsID();
+  final popTransaction = PopUpTransaction();
 }

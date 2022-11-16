@@ -166,7 +166,6 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                           );
                         },
                       ).toList(),
-                      onTap: () async {},
                       onChanged: (value) {
                         timeDropValue = value;
 
@@ -218,12 +217,10 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                                         final customMonth =
                                                             filterArray
                                                                 .newMonthList[i];
-
                                                         Filter.instance
                                                             .filterTransactionFunction(
                                                                 customMonth:
                                                                     customMonth);
-
                                                         modalDummy = Filter
                                                             .instance
                                                             .allMonthlyNotifier
@@ -257,11 +254,11 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                             );
                           } else if (timeDropValue ==
                               filterArray.timeDropList[2]) {
-                            try {
-                              selectDate();
-                            } catch (e) {
-                              print(e);
-                            }
+                            Filter.instance.customDateAll(context: context);
+                            setState(() {
+                              modalDummy =
+                                  Filter.instance.allDateRangeNotifier.value;
+                            });
                           }
                         }
                         // ^income
@@ -360,7 +357,13 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                               },
                             );
                           } else if (timeDropValue ==
-                              filterArray.timeDropList[2]) {}
+                              filterArray.timeDropList[2]) {
+                            Filter.instance.customDateAll(context: context);
+                            setState(() {
+                              modalDummy =
+                                  Filter.instance.incomeDateRangeNotifier.value;
+                            });
+                          }
                         }
                         // ^Expence
                         else if (categoryDropValue ==
@@ -411,29 +414,19 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                                 onPressed: () async {
                                                   setState(
                                                     () {
-                                                      try {
-                                                        final customMonth =
-                                                            filterArray
-                                                                .newMonthList[i];
-                                                        Filter.instance
-                                                            .filterTransactionFunction(
-                                                                customMonth:
-                                                                    customMonth);
+                                                      final customMonth =
+                                                          filterArray
+                                                              .newMonthList[i];
+                                                      Filter.instance
+                                                          .filterTransactionFunction(
+                                                              customMonth:
+                                                                  customMonth);
 
-                                                        print({customMonth, i});
-                                                        print(customMonth);
-                                                        print(modalDummy);
-                                                        modalDummy = Filter
-                                                            .instance
-                                                            .expenceMonthlyNotifier
-                                                            .value;
-                                                      } catch (e) {
-                                                        print(
-                                                            "🚫 in  month choosing \n $e");
-                                                      } finally {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      }
+                                                      
+                                                      modalDummy = Filter
+                                                          .instance
+                                                          .expenceMonthlyNotifier
+                                                          .value;
                                                     },
                                                   );
                                                   Navigator.of(ctx).pop();
@@ -459,11 +452,11 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                             );
                           } else if (timeDropValue ==
                               filterArray.timeDropList[2]) {
-                            try {
-                              Filter.instance.customDateAll(context: context);
-                            } catch (e) {
-                              print(e);
-                            }
+                            Filter.instance.customDateAll(context: context);
+                            setState(() {
+                              modalDummy = Filter
+                                  .instance.expenceDateRangeNotifier.value;
+                            });
                           }
                         }
                       },
@@ -663,12 +656,5 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   }
 
   //
-  Future selectDate() async {
-    await Filter.instance.customDateAll(context: context);
 
-    setState(() {
-      modalDummy = Filter.instance.dateRangeList.value;
-    });
-   
-  }
 }

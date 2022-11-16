@@ -58,7 +58,10 @@ class _UserPageState extends State<UserPage> {
                   onPressed: () {
                     CategoryDB.instance.deleteDBAll();
                     TransactionDB.instance.deleteDBAll();
-                    TransactionDB.instance.totalTransaction().clear();
+                    TransactionDB.instance.totalTransaction()[0].clear();
+                    TransactionDB.instance.totalTransaction()[1].clear();
+                    TransactionDB.instance.totalTransaction()[2].clear();
+                    TransactionDB.instance.transactionListNotifier.value.clear();
 
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const SplashScreen()));

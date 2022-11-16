@@ -1,206 +1,163 @@
-// ignore_for_file: avoid_print
-
+import 'package:budgetory_v1/controller/filter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../../../DB/transaction_db_f.dart';
-import '../../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
-import '../../../../colors/color.dart';
+import '../../../DB/transaction_db_f.dart';
+import '../../../DataBase/Models/ModalTransaction/transaction_modal.dart';
+import '../../../colors/color.dart';
 import '../../../controller/filter_array.dart';
-import '../../../controller/filter_controller.dart';
-// import '../../all_transaction_screen/widgets/filter_array.dart'
+import '../../all_transaction_screen/widgets/pop_up_transaction.dart';
 
 class Expences extends StatefulWidget {
   const Expences({super.key});
+
   @override
   State<Expences> createState() => _ExpencesState();
 }
 
 class _ExpencesState extends State<Expences> {
-  String? timeDropValue;
-  List<TransactionModal> modalDummy = [];
-
+  List<TransactionModal> modalDummyList = [];
+  String dropDownValue = 'Today';
+  final colorList = [
+    Colors.greenAccent,
+    Colors.redAccent,
+    Colors.yellowAccent,
+    Colors.blueAccent,
+    Colors.purpleAccent,
+  ];
+  var timeDropList = [
+    'Today',
+    'Monthly',
+    'Custom',
+  ];
   @override
   void initState() {
-    TransactionDB.instance.refreshUiTransaction();
-    modalDummy = TransactionDB.instance.expenceNotifier.value;
-    timeDropValue = 'Today';
+    modalDummyList = TransactionDB.instance.expenceNotifier.value;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    TransactionDB.instance.refreshUiTransaction();
     return Scaffold(
-      drawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: [
-              Row(
-                children: [
-                  // ~Today expence
-
-                  ElevatedButton(
-                    clipBehavior: Clip.none,
-                    onPressed: () {
-                      setState(() {
-                        modalDummy =
-                            TransactionDB.instance.expenceNotifier.value;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: colorId.btnColor),
-                    child: Text(
-                      "Today ",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            color: colorId.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15.00),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  // ~all expence
-
-                  ElevatedButton(
-                    clipBehavior: Clip.none,
-                    onPressed: () {
-                      setState(() {
-                        modalDummy =
-                            TransactionDB.instance.expenceNotifier.value;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 55, 114, 146)),
-                    child: Text(
-                      "All",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            color: colorId.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15.00),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 205.000, bottom: 8),
-                child: Text(
-                  "Monthly",
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        color: colorId.btnColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20.00),
-                  ),
-                ),
-              ),
-              Container(
-                height: 170.00,
-                decoration: BoxDecoration(
-                    color: colorId.black,
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  itemCount: filterArray.monthList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5),
-                  itemBuilder: (context, index) {
-                    final i = index;
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: colorId.veryLightGrey,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: TextButton(
-                          onPressed: () async {
-                            setState(
-                              () {
-                                try {
-                                  final customMonth =
-                                      filterArray.newMonthList[i];
-                                  Filter.instance.filterTransactionFunction(
-                                      customMonth: customMonth);
-                                  modalDummy = Filter
-                                      .instance.expenceMonthlyNotifier.value;
-                                } catch (e) {
-                                  print("🚫 in  month choosing \n $e");
-                                } finally {
-                                  Navigator.of(context).pop();
-                                }
-                              },
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                DropdownButton(
+                  value: dropDownValue,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items: timeDropList.map((String items) {
+                    return DropdownMenuItem(
+                      value: items,
+                      child: Text(items),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropDownValue = newValue!;
+                      if (dropDownValue == timeDropList[0]) {
+                        Filter.instance.filterTransactionFunction();
+                        setState(() {
+                          modalDummyList =
+                              Filter.instance.expenceTodayNotifier.value;
+                        });
+                      } else if (dropDownValue == timeDropList[1]) {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return SimpleDialog(
+                              children: [
+                                Container(
+                                  width: 300.00,
+                                  height: 234.00,
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: GridView.builder(
+                                    itemCount: filterArray.monthList.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4),
+                                    itemBuilder: (context, index) {
+                                      final i = index;
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: colorId.btnColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: TextButton(
+                                            onPressed: () async {
+                                              setState(
+                                                () {
+                                                  final customMonth =
+                                                      filterArray
+                                                          .newMonthList[i];
+                                                  Filter.instance
+                                                      .filterTransactionFunction(
+                                                          customMonth:
+                                                              customMonth);
+                                                  modalDummyList = Filter
+                                                      .instance
+                                                      .expenceMonthlyNotifier
+                                                      .value;
+                                                },
+                                              );
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text(
+                                              filterArray.monthList[index],
+                                              style: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                    color: colorId.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              ],
                             );
                           },
-                          child: Text(
-                            filterArray.monthList[index],
-                            style: GoogleFonts.lato(
-                              textStyle: TextStyle(
-                                  color: colorId.btnColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
+                        );
+                      } else if (dropDownValue == timeDropList[2]) {
+                        Filter.instance.customDateAll(context: context);
+                        setState(() {
+                          modalDummyList =
+                              Filter.instance.expenceDateRangeNotifier.value;
+                        });
+                      }
+                    });
                   },
                 ),
-              ),
-              Divider(color: colorId.veryLightGrey),
-              Container(
-                height: 600.000,
-                decoration: BoxDecoration(color: colorId.veryLightGrey),
-              )
-            ],
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              SizedBox(
-                height: 40.00,
-                width: 200.00,
-                child: AppBar(
-                  iconTheme: IconThemeData(color: colorId.btnColor),
-                  elevation: 0,
-                  backgroundColor: colorId.white,
-                  title: Text(
-                    "Filter",
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                          color: colorId.btnColor, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 100.00,
+              ],
             ),
-            child: ValueListenableBuilder(
-              valueListenable: TransactionDB.instance.expenceNotifier,
+            ValueListenableBuilder(
+              valueListenable: TransactionDB.instance.transactionListNotifier,
               builder: (BuildContext context, List<TransactionModal> newList,
                   Widget? _) {
-                return modalDummy.isEmpty
+                return modalDummyList.isEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Image(
-                                image: AssetImage('Assets/empty3.jpeg')),
+                                image: AssetImage('Assets/empty1.jpeg')),
                             Text(
                               "No Transactions Found",
-                              style: TextStyle(color: colorId.veryLightGrey),
+                              style: TextStyle(color: colorId.grey),
                             )
                           ],
                         ),
@@ -210,8 +167,8 @@ class _ExpencesState extends State<Expences> {
                         legend: Legend(isVisible: true),
                         series: <CircularSeries>[
                           // Render pie chart
-                          DoughnutSeries<TransactionModal, String>(
-                            dataSource: modalDummy,
+                          PieSeries<TransactionModal, String>(
+                            dataSource: modalDummyList,
                             xValueMapper: (TransactionModal data, _) =>
                                 data.notes,
                             yValueMapper: (TransactionModal data, _) =>
@@ -223,15 +180,14 @@ class _ExpencesState extends State<Expences> {
                         ],
                       );
               },
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
 
-// ^-------------------------------------------------------------------------------------------------------
-
   final filterArray = FilterArray();
   final colorId = ColorsID();
+  final popTransaction = PopUpTransaction();
 }
