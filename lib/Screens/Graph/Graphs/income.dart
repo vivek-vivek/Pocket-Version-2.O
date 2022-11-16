@@ -121,8 +121,10 @@ class _IncomeState extends State<Income> {
                                                         customMonth:
                                                             customMonth);
 
-                                                modalDummy = Filter.instance
-                                                    .incomeMonthlyNotifier.value;
+                                                modalDummy = Filter
+                                                    .instance
+                                                    .incomeMonthlyNotifier
+                                                    .value;
                                               },
                                             );
                                             Navigator.of(ctx).pop();
@@ -145,11 +147,6 @@ class _IncomeState extends State<Income> {
                           );
                         },
                       );
-                    } else if (timeDropValue == filterArray.timeDropList[2]) {
-                      Filter.instance.customDateAll(context: context);
-                      setState(() {
-                        modalDummy = Filter.instance.incomeDateRangeNotifier.value;
-                      });
                     }
                   },
                 ),

@@ -30,7 +30,7 @@ class _ExpencesState extends State<Expences> {
   var timeDropList = [
     'Today',
     'Monthly',
-    'Custom',
+   
   ];
   @override
   void initState() {
@@ -132,13 +132,7 @@ class _ExpencesState extends State<Expences> {
                             );
                           },
                         );
-                      } else if (dropDownValue == timeDropList[2]) {
-                        Filter.instance.customDateAll(context: context);
-                        setState(() {
-                          modalDummyList =
-                              Filter.instance.expenceDateRangeNotifier.value;
-                        });
-                      }
+                      } 
                     });
                   },
                 ),

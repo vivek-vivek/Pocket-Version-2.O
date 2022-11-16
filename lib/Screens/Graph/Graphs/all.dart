@@ -30,7 +30,7 @@ class _AllGraphState extends State<AllGraph> {
   var timeDropList = [
     'Today',
     'Monthly',
-    'Custom',
+   
   ];
   @override
   void initState() {
@@ -132,12 +132,6 @@ class _AllGraphState extends State<AllGraph> {
                             );
                           },
                         );
-                      } else if (dropDownValue == timeDropList[2]) {
-                        Filter.instance.customDateAll(context: context);
-                        setState(() {
-                          modalDummyList =
-                              Filter.instance.allDateRangeNotifier.value;
-                        });
                       }
                     });
                   },
