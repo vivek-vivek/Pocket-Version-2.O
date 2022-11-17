@@ -4,7 +4,7 @@ import 'package:budgetory_v1/Screens/graph/Index%20screen/graph_home.dart';
 import 'package:budgetory_v1/Screens/home/home.dart';
 import 'package:budgetory_v1/Screens/category_screen/main_screen/category_home.dart';
 import 'package:budgetory_v1/Screens/Add%20New2/add_new.dart';
-import 'package:budgetory_v1/Screens/settings/user.dart';
+import 'package:budgetory_v1/Screens/settings/settings.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';

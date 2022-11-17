@@ -221,7 +221,6 @@ class _AddTransactionState extends State<AddTransaction> {
                       },
                     ),
                     const SizedBox(height: 20.00),
-
                     //^Amount--------------------->
                     TextFormField(
                       maxLength: 10,
@@ -231,7 +230,7 @@ class _AddTransactionState extends State<AddTransaction> {
                         hintText: 'Amount',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              width: 1, color: colorId.black), //<-- SEE HERE
+                              width: 1, color: colorId.black),
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
@@ -243,10 +242,13 @@ class _AddTransactionState extends State<AddTransaction> {
                       },
                     ),
 
-                    const SizedBox(height: 40.00),
+                    const SizedBox(height: 10.00),
                     //^add transaction button---------------->
-                    SizedBox(
+                    Container(
                       width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20)),
                       child: ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {

@@ -78,7 +78,7 @@ class TransactionDB implements TransactionDbFunctions {
   Future<void> refreshUiTransaction() async {
     final list = await getTransactions();
     // final amt = await getAmount();
-    list.sort((first, second) => second.date.compareTo(first.date));
+    // list.sort((first, second) => second.date.compareTo(first.date));
     transactionListNotifier.value.clear();
     transactionListNotifier.value.addAll(list);
     transactionListNotifier.notifyListeners();
@@ -93,7 +93,7 @@ class TransactionDB implements TransactionDbFunctions {
         if (modalTransaction.type == CategoryType.income) {
           IncomeNotifier.value.add(modalTransaction);
           IncomeNotifier.notifyListeners();
-        } else  {
+        } else {
           expenceNotifier.value.add(modalTransaction);
           expenceNotifier.notifyListeners();
         }
@@ -137,6 +137,7 @@ class TransactionDB implements TransactionDbFunctions {
   Future<void> deleteTransaction(String id) async {
     final transactionDB =
         await Hive.openBox<TransactionModal>("TRANSACTIONS_DB_NAME");
+    print(id);
     await transactionDB.delete(id);
     refreshUiTransaction();
   }

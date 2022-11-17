@@ -422,7 +422,6 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                                               customMonth:
                                                                   customMonth);
 
-                                                      
                                                       modalDummy = Filter
                                                           .instance
                                                           .expenceMonthlyNotifier
@@ -492,76 +491,57 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
 
                           return Column(
                             children: [
-                              Slidable(
-                                key: Key(newValue.id!),
-                                endActionPane: ActionPane(
-                                  motion: const DrawerMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (xtx) {
-                                        setState(() {
-                                          print("2nd id -$index");
-                                          try {
-                                            TransactionDB.instance
-                                                .deleteTransaction(
-                                                    newValue.id!);
-                                          } catch (e) {
-                                            print("🚫🚫🚫🚫 $e");
-                                          }
-                                        });
-                                      },
-                                      icon: Icons.delete,
-                                      foregroundColor: colorId.red,
-                                      backgroundColor: colorId.veryLightGrey,
+                              Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                          Radius.circular(20)),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(80.000),
-                                        ),
-                                        color: colorId.white,
+                                        Radius.circular(80.000),
                                       ),
-                                      child: ListTile(
-                                        onTap: () {
-                                          popTransaction
-                                              .popUpTransactionDetalies(
-                                                  context: context,
-                                                  notes: newValue.notes,
-                                                  category: newValue.type,
-                                                  date: newValue.date,
-                                                  amount: newValue.amount);
-                                        },
-                                        leading: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: CircleAvatar(
-                                            radius: 10,
-                                            backgroundColor: newValue.type ==
-                                                    CategoryType.expense
-                                                ? colorId.lightRed
-                                                : colorId.lightGreen,
-                                          ),
+                                      color: colorId.white,
+                                    ),
+                                    child: ListTile(
+                                      key: Key(newValue.id!),
+                                      onLongPress: () {
+                                        try {
+                                          TransactionDB.instance
+                                              .deleteTransaction(newValue.id!);
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      },
+                                      onTap: () {
+                                        popTransaction.popUpTransactionDetalies(
+                                            context: context,
+                                            notes: newValue.notes,
+                                            category: newValue.type,
+                                            date: newValue.date,
+                                            amount: newValue.amount);
+                                      },
+                                      leading: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CircleAvatar(
+                                          radius: 10,
+                                          backgroundColor: newValue.type ==
+                                                  CategoryType.expense
+                                              ? colorId.lightRed
+                                              : colorId.lightGreen,
                                         ),
-                                        title: Text(newValue.notes),
-                                        subtitle: Text(DateFormat.yMMMMd()
-                                            .format(newValue.date)),
-                                        trailing: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10.00),
-                                          child: Text(
-                                            newValue.amount.toString(),
-                                          ),
+                                      ),
+                                      title: Text(newValue.notes),
+                                      subtitle: Text(DateFormat.yMMMMd()
+                                          .format(newValue.date)),
+                                      trailing: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10.00),
+                                        child: Text(
+                                          newValue.amount.toString(),
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 10.000)
-                                  ],
-                                ),
+                                  ),
+                                  const SizedBox(height: 10.000)
+                                ],
                               ),
                             ],
                           );

@@ -30,7 +30,6 @@ class _AllGraphState extends State<AllGraph> {
   var timeDropList = [
     'Today',
     'Monthly',
-   
   ];
   @override
   void initState() {

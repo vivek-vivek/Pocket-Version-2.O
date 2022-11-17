@@ -13,11 +13,7 @@ ValueNotifier<CategoryType> selectedCategory =
 
 class PopUpTransaction {
   Future<void> popUpTransactionDetalies(
-      {required BuildContext context,
-      required notes,
-      required category,
-      required date,
-      required amount}) async {
+      {required BuildContext context, notes, category, date, amount}) async {
     CategoryDB.instance.refreshUI();
     TransactionDB.instance.refreshUiTransaction();
     CategoryDB.instance.refreshUI();
