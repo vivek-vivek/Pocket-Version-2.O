@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.0"
+  animation_search_bar:
+    dependency: "direct main"
+    description:
+      name: animation_search_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9"
   archive:
     dependency: transitive
     description:
@@ -162,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -190,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.55.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -438,6 +459,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
+  pie_chart:
+    dependency: "direct main"
+    description:
+      name: pie_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.3.2"
   platform:
     dependency: transitive
     description:
@@ -494,6 +522,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.2"
+  searchbar_animation:
+    dependency: "direct main"
+    description:
+      name: searchbar_animation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   shelf:
     dependency: transitive
     description:
@@ -646,6 +681,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  wp_search_bar:
+    dependency: "direct main"
+    description:
+      name: wp_search_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   xdg_directories:
     dependency: transitive
     description:

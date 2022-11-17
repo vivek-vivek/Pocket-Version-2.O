@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
 
+import 'package:budgetory_v1/Screens/all_transaction_screen/widgets/search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../DB/transaction_db_f.dart';
@@ -24,6 +24,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   String? categoryDropValue;
   String? timeDropValue;
   List<TransactionModal> modalDummy = [];
+
   // String? customMonth;
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
     TransactionDB.instance.refreshUiTransaction();
     // initial custom month -- current month
     // customMonth = DateTime(DateTime.now().month);
+    TextEditingController searchTextController = TextEditingController();
     Filter.instance.filterTransactionFunction(customMonth: null);
     categoryDropValue = 'All';
     timeDropValue = 'Today';
@@ -40,6 +42,8 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
   @override
   Widget build(BuildContext context) {
     TransactionDB.instance.refreshUiTransaction();
+
+    final searchTextEditingController = TextEditingController();
     return Scaffold(
       key: newContext,
       appBar: AppBar(
@@ -55,11 +59,23 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
       ),
       body: Column(
         children: [
+          (categoryDropValue == filterArray.filterItemsArray[0]
+              ? SearchWidget(
+                  text: searchTextEditingController.text,
+                  onChanged: (text) async {
+                    print(text);
+                    await Filter.instance.searchWord(controlText: text);
+                    setState(() {
+                      modalDummy = Filter.instance.searchNotifier.value;
+                    });
+                  },
+                  hintText: 'ex . food , salary')
+              : const SizedBox()),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.all(25.000),
+                padding: const EdgeInsets.only(bottom: 10, right: 25, left: 25),
                 child: Container(
                   height: 30.00,
                   decoration: BoxDecoration(
@@ -138,7 +154,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                     padding: const EdgeInsets.only(left: 5, top: 4),
                     child: DropdownButton(
                       icon: Icon(
-                        Icons.keyboard_arrow_down_outlined,
+                        Icons.filter_list,
                         color: colorId.white,
                       ),
                       dropdownColor: colorId.btnColor,
@@ -635,6 +651,6 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
     );
   }
 
-  //
+  //search
 
 }

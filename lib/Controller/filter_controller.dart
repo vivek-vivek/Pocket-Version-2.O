@@ -14,6 +14,8 @@ class Filter {
   //  ~  DB name
   // ignore: constant_identifier_names
   static const TransactionDBName = 'Transaction DB Name';
+  // *search - notes -notifier
+  ValueNotifier<List<TransactionModal>> searchNotifier = ValueNotifier([]);
 
   // * notifiers - time-- with Category-all
   ValueNotifier<List<TransactionModal>> allTodayNotifier = ValueNotifier([]);
@@ -43,6 +45,9 @@ class Filter {
 
   // ~ get filter functions
   notifiersCleaner() async {
+    //  clear Notifier - search
+    searchNotifier.value.clear();
+
     // clear Notifiers - All
     allTodayNotifier.value.clear();
     allWeeklyNotifier.value.clear();
@@ -192,4 +197,38 @@ class Filter {
       );
     }
   }
+
+  // search
+  searchWord({required String controlText}) async {
+    final getTransaction = await TransactionDB.instance.getTransactions();
+    searchNotifier.value.clear();
+    if (controlText.isNotEmpty) {
+      Future.forEach(getTransaction, (TransactionModal modalTransaction) {
+        if (modalTransaction.notes
+            .toLowerCase()
+            .contains(controlText.toLowerCase())) {
+          searchNotifier.value.add(modalTransaction);
+          searchNotifier.notifyListeners();
+        }
+      });
+    }
+  }
+
+  // void runFilter(String enteredKeyword) {
+  //   List<TransactionModal> results = [];
+  //   if (enteredKeyword.isEmpty) {
+  //     results = transactions;
+  //   } else {
+  //     results = transactions
+  //         .where(
+  //           (user) => user.category.name.trim().toLowerCase().contains(
+  //                 enteredKeyword.trim().toLowerCase(),
+  //               ),
+  //         )
+  //         .toList();
+  //   }
+  //   setState(() {
+  //     foundTransactions = results;
+  //   });
+  // }
 }
