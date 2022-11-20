@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
 import 'package:budgetory_v1/DB/category_db_f.dart';
 import 'package:budgetory_v1/DB/transaction_db_f.dart';
-import 'package:budgetory_v1/Screens/category_screen/main_screen/pop.dart';
-import 'package:budgetory_v1/Screens/category_screen/widgets/expences.dart';
-import 'package:budgetory_v1/Screens/category_screen/widgets/income.dart';
+import 'package:budgetory_v1/screens/category_screen/main_screen/pop.dart';
+import 'package:budgetory_v1/screens/category_screen/widgets/expences.dart';
+import 'package:budgetory_v1/screens/category_screen/widgets/income.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 

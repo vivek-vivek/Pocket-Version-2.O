@@ -1,7 +1,7 @@
 // //*radio button for add category
 // ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member, avoid_print
 
-import 'package:budgetory_v1/Screens/category_screen/widgets/pop_up_btn_category_radio.dart';
+import 'package:budgetory_v1/screens/category_screen/widgets/pop_up_btn_category_radio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../DataBase/Models/ModalCategory/category_model.dart';

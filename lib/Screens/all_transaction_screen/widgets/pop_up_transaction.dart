@@ -3,7 +3,6 @@
 import 'package:budgetory_v1/DB/category_db_f.dart';
 import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
-import 'package:budgetory_v1/Screens/all_transaction_screen/home_screen/main_screen/filterd_trasnaction.dart';
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -42,7 +41,7 @@ class PopUpTransaction {
                     children: [
                       TextButton(
                           onPressed: () {
-                            Navigator.of(newContext.currentContext!).pop();
+                            Navigator.of(ctx).pop();
                           },
                           child: const Text("OK"))
                     ],

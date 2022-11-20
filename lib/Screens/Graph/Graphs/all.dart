@@ -1,4 +1,3 @@
-import 'package:budgetory_v1/controller/filter_controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,163 +42,59 @@ class _AllGraphState extends State<AllGraph> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 200),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 100,right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // DropdownButton(
-                    //   value: dropDownValue,
-                    //   icon: const Icon(Icons.keyboard_arrow_down),
-                    //   items: timeDropList.map((String items) {
-                    //     return DropdownMenuItem(
-                    //       value: items,
-                    //       child: Text(items),
-                    //     );
-                    //   }).toList(),
-                    //   onChanged: (String? newValue) {
-                    //     setState(() {
-                    //       dropDownValue = newValue!;
-                    //       if (dropDownValue == timeDropList[0]) {
-                    //         Filter.instance.filterTransactionFunction();
-                    //         setState(() {
-                    //           modalDummyList =
-                    //               Filter.instance.allTodayNotifier.value;
-                    //         });
-                    //       } else if (dropDownValue == timeDropList[1]) {
-                    //         showDialog(
-                    //           context: context,
-                    //           builder: (ctx) {
-                    //             return SimpleDialog(
-                    //               children: [
-                    //                 Container(
-                    //                   width: 300.00,
-                    //                   height: 234.00,
-                    //                   decoration: const BoxDecoration(
-                    //                     borderRadius: BorderRadius.all(
-                    //                       Radius.circular(20),
-                    //                     ),
-                    //                   ),
-                    //                   child: GridView.builder(
-                    //                     itemCount: filterArray.monthList.length,
-                    //                     gridDelegate:
-                    //                         const SliverGridDelegateWithFixedCrossAxisCount(
-                    //                             crossAxisCount: 4),
-                    //                     itemBuilder: (context, index) {
-                    //                       final i = index;
-                    //                       return Padding(
-                    //                         padding: const EdgeInsets.all(8.0),
-                    //                         child: Container(
-                    //                           decoration: BoxDecoration(
-                    //                               color: colorId.btnColor,
-                    //                               borderRadius:
-                    //                                   BorderRadius.circular(20)),
-                    //                           child: TextButton(
-                    //                             onPressed: () async {
-                    //                               setState(
-                    //                                 () {
-                    //                                   final customMonth =
-                    //                                       filterArray
-                    //                                           .newMonthList[i];
-                    //                                   Filter.instance
-                    //                                       .filterTransactionFunction(
-                    //                                           customMonth:
-                    //                                               customMonth);
-                    //                                   modalDummyList = Filter
-                    //                                       .instance
-                    //                                       .allMonthlyNotifier
-                    //                                       .value;
-                    //                                 },
-                    //                               );
-                    //                               Navigator.of(ctx).pop();
-                    //                             },
-                    //                             child: Text(
-                    //                               filterArray.monthList[index],
-                    //                               style: GoogleFonts.lato(
-                    //                                 textStyle: TextStyle(
-                    //                                     color: colorId.white,
-                    //                                     fontWeight:
-                    //                                         FontWeight.bold),
-                    //                               ),
-                    //                             ),
-                    //                           ),
-                    //                         ),
-                    //                       );
-                    //                     },
-                    //                   ),
-                    //                 )
-                    //               ],
-                    //             );
-                    //           },
-                    //         );
-                    //       }
-                    //     });
-                    //   },
-                    // ),
-                  ],
-                ),
-              ),
-              ValueListenableBuilder(
-                valueListenable: TransactionDB.instance.transactionListNotifier,
-                builder: (BuildContext context, List<TransactionModal> newList,
-                    Widget? _) {
-                  return modalDummyList.isEmpty
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Image(
-                                  image: AssetImage('Assets/empty1.jpeg')),
-                              Text(
-                                "No Transactions Found",
-                                style: TextStyle(color: colorId.veryLightGrey),
+      body: ListView(
+        children: [
+          ValueListenableBuilder(
+            valueListenable: TransactionDB.instance.transactionListNotifier,
+            builder: (BuildContext context, List<TransactionModal> newList,
+                Widget? _) {
+              return modalDummyList.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Image(image: AssetImage('Assets/empty1.jpeg')),
+                          Text(
+                            "No Transactions Found",
+                            style: TextStyle(color: colorId.grey),
+                          )
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only( top:100),
+                      child: SizedBox(
+                        height: 400,
+                        child: PieChart(
+                          PieChartData(
+                            centerSpaceRadius: 100,
+                            borderData: FlBorderData(
+                              show: true,
+                            ),
+                            sections: [
+                              PieChartSectionData(
+                                  title: 'Income',
+                                  titleStyle: TextStyle(color: colorId.white),
+                                  color: colorId.btnColor,
+                                  value: TransactionDB.instance
+                                      .totalTransaction()[1]),
+                              PieChartSectionData(
+                                titleStyle: TextStyle(color: colorId.white),
+                                color: colorId.mainBlue,
+                                value: TransactionDB.instance
+                                    .totalTransaction()[2],
                               )
                             ],
                           ),
-                        )
-                      : Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            height: 200,
-                            child: PieChart(
-                              PieChartData(
-                                centerSpaceRadius: 100,
-                                borderData: FlBorderData(
-                                  show: true,
-                                ),
-                                sections: [
-                                  PieChartSectionData(
-                                      radius: 40,
-                                      title: 'Income',
-                                      titleStyle: TextStyle(color: colorId.white),
-                                      color: colorId.btnColor,
-                                      value: TransactionDB.instance
-                                          .totalTransaction()[1]),
-                                  PieChartSectionData(
-                                      title: 'Expence',
-                                      titleStyle: TextStyle(color: colorId.white),
-                                      color: colorId.mainBlue,
-                                      value: TransactionDB.instance
-                                          .totalTransaction()[2])
-                                ],
-                              ),
-                              swapAnimationDuration:
-                                  const Duration(milliseconds: 150), // Optional
-                              swapAnimationCurve: Curves.linear, // Optional
-                            ),
-                          ),
-                        );
-                },
-              )
-            ],
-          ),
-        ),
+                          swapAnimationDuration:
+                              const Duration(milliseconds: 150), // Optional
+                          swapAnimationCurve: Curves.linear, // Optional
+                        ),
+                      ),
+                    );
+            },
+          )
+        ],
       ),
     );
   }

@@ -135,11 +135,14 @@ class TransactionDB implements TransactionDbFunctions {
   //^-----------------------------------------Delete Transaction----------------------------------
 
   Future<void> deleteTransaction(String id) async {
+    print("💖$id");
     final transactionDB =
-        await Hive.openBox<TransactionModal>("TRANSACTIONS_DB_NAME");
-    print(id);
-    await transactionDB.delete(id);
+        await Hive.openBox<TransactionModal>(transactionDBName);
+
+    transactionDB.delete(id);
+    print("💜$id");
     refreshUiTransaction();
+    print("👍 delete function finished");
   }
 
   // ^---------------------------------------------end-------------------------------------------
@@ -153,5 +156,9 @@ class TransactionDB implements TransactionDbFunctions {
   }
 
   // ^------------------------------------------------end------------------------------------------
-
+  update(index, TransactionModal modalCategory) async {
+    final _categoryDB = await Hive.openBox<TransactionModal>(transactionDBName);
+    _categoryDB.putAt(index, modalCategory);
+    refreshUiTransaction();
+  }
 }

@@ -19,6 +19,10 @@ class Income extends StatefulWidget {
 class _IncomeState extends State<Income> {
   String? timeDropValue;
   List<TransactionModal> modalDummy = [];
+  var timeDropList = [
+    'Today',
+    'Monthly',
+  ];
 
   @override
   void initState() {
@@ -53,7 +57,7 @@ class _IncomeState extends State<Income> {
                   isDense: true,
                   underline: const SizedBox(),
                   value: timeDropValue,
-                  items: filterArray.timeDropList.map(
+                  items: timeDropList.map(
                     (String timeDropList) {
                       return DropdownMenuItem(
                         value: timeDropList,

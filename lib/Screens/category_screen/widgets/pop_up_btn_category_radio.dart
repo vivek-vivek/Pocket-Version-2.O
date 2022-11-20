@@ -3,7 +3,7 @@
 import 'package:budgetory_v1/DB/category_db_f.dart';
 import 'package:budgetory_v1/DB/transaction_db_f.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
-import 'package:budgetory_v1/Screens/category_screen/widgets/radio_functions.dart';
+import 'package:budgetory_v1/screens/category_screen/widgets/radio_functions.dart';
 import 'package:flutter/material.dart';
 
 ValueNotifier<CategoryType> selectedCategory =

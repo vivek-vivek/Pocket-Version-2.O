@@ -1,5 +1,4 @@
-import 'package:budgetory_v1/DB/transaction_db_f.dart';
-import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,7 +26,7 @@ class _CustomDateAllState extends State<CustomDateAll> {
                     fontSize: 30.00),
               )),
         ),
-        body: SafeArea(
+        body:const  SafeArea(
           child:Text("data")
         ));
   }

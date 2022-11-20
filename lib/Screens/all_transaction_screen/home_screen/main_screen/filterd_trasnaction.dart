@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_print, invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
 
-import 'package:budgetory_v1/Screens/all_transaction_screen/widgets/search.dart';
+import 'package:budgetory_v1/screens/all_transaction_screen/widgets/edit.dart';
+import 'package:budgetory_v1/screens/all_transaction_screen/widgets/search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../../DB/transaction_db_f.dart';
@@ -32,7 +34,6 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
     TransactionDB.instance.refreshUiTransaction();
     // initial custom month -- current month
     // customMonth = DateTime(DateTime.now().month);
-    TextEditingController searchTextController = TextEditingController();
     Filter.instance.filterTransactionFunction(customMonth: null);
     categoryDropValue = 'All';
     timeDropValue = 'Today';
@@ -69,7 +70,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                       modalDummy = Filter.instance.searchNotifier.value;
                     });
                   },
-                  hintText: 'ex . food , salary')
+                  hintText: 'search')
               : const SizedBox()),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,12 +121,15 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                             child: SizedBox(
                               height: 30.00,
                               width: 66.00,
-                              child: Text(
-                                filterItemsArray,
-                                style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                      color: colorId.white,
-                                      fontWeight: FontWeight.w400),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Text(
+                                  filterItemsArray,
+                                  style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                        color: colorId.white,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                                 ),
                               ),
                             ),
@@ -153,6 +157,7 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 5, top: 4),
                     child: DropdownButton(
+                     
                       icon: Icon(
                         Icons.filter_list,
                         color: colorId.white,
@@ -170,12 +175,15 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                             child: SizedBox(
                               height: 40.00,
                               width: 60.00,
-                              child: Text(
-                                timeDropList,
-                                style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                      color: colorId.white,
-                                      fontWeight: FontWeight.w400),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Text(
+                                  timeDropList,
+                                  style: GoogleFonts.lato(
+                                    textStyle: TextStyle(
+                                        color: colorId.white,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                                 ),
                               ),
                             ),
@@ -504,61 +512,89 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                         itemCount: modalDummy.length,
                         itemBuilder: (context, index) {
                           final newValue = modalDummy[index];
-
                           return Column(
                             children: [
-                              Column(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(80.000),
+                              Slidable(
+                                key: Key(newValue.id!),
+                                startActionPane: ActionPane(
+                                    motion: const BehindMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (key) {
+                                          try {
+                                            print("🫡going to delete function");
+                                            print("🤍${newValue.id}");
+                                            TransactionDB.instance
+                                                .deleteTransaction(
+                                                    newValue.id!);
+                                          } catch (e) {
+                                            print("ERROR\n$e");
+                                          }
+                                        },
+                                        icon: Icons.delete,
+                                        backgroundColor: colorId.red,
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
-                                      color: colorId.white,
+                                      SlidableAction(
+                                        backgroundColor: colorId.lightBlue,
+                                        borderRadius: BorderRadius.circular(20),
+                                        onPressed: (v) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => EditScreen(
+                                                  index: index,
+                                                  date: newValue.date,
+                                                  category: newValue
+                                                      .categoryTransaction,
+                                                  note: newValue.notes,
+                                                  amount: newValue.amount),
+                                            ),
+                                          );
+                                        },
+                                        icon: Icons.edit,
+                                      ),
+                                    ]),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(80.000),
                                     ),
-                                    child: ListTile(
-                                      key: Key(newValue.id!),
-                                      onLongPress: () {
-                                        try {
-                                          TransactionDB.instance
-                                              .deleteTransaction(newValue.id!);
-                                        } catch (e) {
-                                          print(e);
-                                        }
-                                      },
-                                      onTap: () {
-                                        popTransaction.popUpTransactionDetalies(
-                                            context: context,
-                                            notes: newValue.notes,
-                                            category: newValue.type,
-                                            date: newValue.date,
-                                            amount: newValue.amount);
-                                      },
-                                      leading: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CircleAvatar(
-                                          radius: 10,
-                                          backgroundColor: newValue.type ==
-                                                  CategoryType.expense
-                                              ? colorId.lightRed
-                                              : colorId.lightGreen,
-                                        ),
+                                    color: colorId.white,
+                                  ),
+                                  child: ListTile(
+                                    onLongPress: () {},
+                                    onTap: () {
+                                      popTransaction.popUpTransactionDetalies(
+                                          context: context,
+                                          notes: newValue.notes,
+                                          category: newValue.type,
+                                          date: newValue.date,
+                                          amount: newValue.amount);
+                                    },
+                                    leading: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        radius: 10,
+                                        backgroundColor: newValue.type ==
+                                                CategoryType.expense
+                                            ? colorId.lightRed
+                                            : colorId.lightGreen,
                                       ),
-                                      title: Text(newValue.notes),
-                                      subtitle: Text(DateFormat.yMMMMd()
-                                          .format(newValue.date)),
-                                      trailing: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.00),
-                                        child: Text(
-                                          newValue.amount.toString(),
-                                        ),
+                                    ),
+                                    title: Text(newValue.notes),
+                                    subtitle: Text(DateFormat.yMMMMd()
+                                        .format(newValue.date)),
+                                    trailing: Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.00),
+                                      child: Text(
+                                        newValue.amount.toString(),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10.000)
-                                ],
+                                ),
                               ),
+                              const SizedBox(height: 10.000)
                             ],
                           );
                         },
@@ -650,7 +686,4 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
       },
     );
   }
-
-  //search
-
 }

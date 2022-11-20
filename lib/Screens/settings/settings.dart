@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:budgetory_v1/Screens/settings/privacy_policey.dart';
+import 'package:budgetory_v1/screens/settings/privacy_policey.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -90,72 +90,62 @@ class _UserPageState extends State<UserPage> {
                       style: TextStyle(color: colorId.btnColor)),
                   onTap: () {
                     showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          return SimpleDialog(
-                            children: [
-                              Center(
-                                child: Text(
-                                  "Dou want to Reset App?",
-                                  style: GoogleFonts.lato(
-                                      color: colorId.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400),
-                                ),
+                      context: context,
+                      builder: (ctx) {
+                        return SimpleDialog(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Dou want to Reset App?",
+                                style: GoogleFonts.lato(
+                                    color: colorId.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      CategoryDB.instance.deleteDBAll();
-                                      TransactionDB.instance.deleteDBAll();
-                                      TransactionDB.instance
-                                          .totalTransaction()[0]
-                                          .clear();
-                                      TransactionDB.instance
-                                          .totalTransaction()[1]
-                                          .clear();
-                                      TransactionDB.instance
-                                          .totalTransaction()[2]
-                                          .clear();
-                                      TransactionDB.instance
-                                          .transactionListNotifier.value
-                                          .clear();
-
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SplashScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      "reset",
-                                      style: GoogleFonts.lato(
-                                          color: colorId.red,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    await CategoryDB.instance.deleteDBAll();
+                                    await TransactionDB.instance.deleteDBAll();
+                                    TransactionDB.instance
+                                        .totalTransaction()
+                                        .clear();
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SplashScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "reset",
+                                    style: GoogleFonts.lato(
+                                        color: colorId.red,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text(
-                                      "cancel",
-                                      style: GoogleFonts.lato(
-                                          color: colorId.lightGreen,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          );
-                        });
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "cancel",
+                                    style: GoogleFonts.lato(
+                                        color: colorId.lightGreen,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ),

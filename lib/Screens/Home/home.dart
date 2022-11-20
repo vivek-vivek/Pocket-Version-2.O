@@ -6,6 +6,7 @@ import 'package:budgetory_v1/Screens/all_transaction_screen/home_screen/main_scr
 import 'package:budgetory_v1/colors/color.dart';
 import 'package:budgetory_v1/controller/filter_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../DataBase/Models/ModalCategory/category_model.dart';
 import 'list_tile.dart';
 
@@ -85,22 +86,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
-                                      fontSize: 34.000,
-                                      color: colorId.white
-                                      // *text shadow here
-                                      ),
+                                      fontSize: 28.000,
+                                      color: colorId.white),
                                 )
                               ],
                             ),
                           ),
                         ],
                       ),
-                      Divider(
-                        color: colorId.white,
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 30.00, right: 8.00, left: 8.00),
+                            top: 30.00, right: 35.00, left: 35.00),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -124,13 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
 // ?Income section----------------------->
-                                        const Text(
-                                          ' Income ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 24.00,
-                                              color: Colors.white),
-                                        ),
+                                        Text(' Income ',
+                                            style: GoogleFonts.lato(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 24.00,
+                                                color: Colors.white)),
                                       ],
                                     ),
                                     ValueListenableBuilder(
@@ -143,8 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           TransactionDB.instance
                                               .totalTransaction()[1]
                                               .toString(),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w900,
+                                          style: GoogleFonts.lato(
+                                            fontWeight: FontWeight.w600,
                                             fontSize: 24.00,
                                             color: colorId.white,
                                             // *text shadow here
@@ -176,26 +170,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                             color: colorId.red,
                                           ),
                                         ),
-                                        const Text(
-                                          ' Expense ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 24.00,
-                                              color: Colors.white),
-                                        ),
+                                        Text(' Expense ',
+                                            style: GoogleFonts.lato(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 24.00,
+                                                color: Colors.white)),
                                       ],
                                     ),
                                     Text(
-                                      TransactionDB.instance
-                                          .totalTransaction()[2]
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 24.00,
-                                        color: colorId.white,
-                                        // *text shadow here
-                                      ),
-                                    )
+                                        TransactionDB.instance
+                                            .totalTransaction()[2]
+                                            .toString(),
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 24.00,
+                                          color: colorId.white,
+                                        ))
                                   ],
                                 )
                               ],

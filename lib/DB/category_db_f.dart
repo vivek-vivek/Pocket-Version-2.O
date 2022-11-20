@@ -88,4 +88,11 @@ class CategoryDB implements CategoryDbFunctions {
     // selectedCategory.dispose();
     refreshUI();
   }
+
+  update(index,CategoryModel modalCategory)async{
+     final _categoryDB = await Hive.openBox<CategoryModel>(CATEGORY_DB_NAME);
+     _categoryDB.putAt(index, modalCategory);
+     refreshUI();
+    
+  }
 }

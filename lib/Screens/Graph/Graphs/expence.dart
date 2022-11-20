@@ -30,7 +30,6 @@ class _ExpencesState extends State<Expences> {
   var timeDropList = [
     'Today',
     'Monthly',
-   
   ];
   @override
   void initState() {
@@ -48,93 +47,115 @@ class _ExpencesState extends State<Expences> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                DropdownButton(
-                  value: dropDownValue,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  items: timeDropList.map((String items) {
-                    return DropdownMenuItem(
-                      value: items,
-                      child: Text(items),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropDownValue = newValue!;
-                      if (dropDownValue == timeDropList[0]) {
-                        Filter.instance.filterTransactionFunction();
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 110),
+                  child: Container(
+                    height: 30,
+                    decoration: BoxDecoration(
+                        color: colorId.btnColor,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: DropdownButton(
+                      dropdownColor: colorId.btnColor,
+                      borderRadius: BorderRadius.circular(20),
+                      underline: const SizedBox(),
+                      value: dropDownValue,
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: colorId.white,
+                      ),
+                      items: timeDropList.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: Text(
+                              items,
+                              style: TextStyle(color: colorId.white),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
                         setState(() {
-                          modalDummyList =
-                              Filter.instance.expenceTodayNotifier.value;
-                        });
-                      } else if (dropDownValue == timeDropList[1]) {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return SimpleDialog(
-                              children: [
-                                Container(
-                                  width: 300.00,
-                                  height: 234.00,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(20),
-                                    ),
-                                  ),
-                                  child: GridView.builder(
-                                    itemCount: filterArray.monthList.length,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 4),
-                                    itemBuilder: (context, index) {
-                                      final i = index;
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: colorId.btnColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: TextButton(
-                                            onPressed: () async {
-                                              setState(
-                                                () {
-                                                  final customMonth =
-                                                      filterArray
-                                                          .newMonthList[i];
-                                                  Filter.instance
-                                                      .filterTransactionFunction(
-                                                          customMonth:
-                                                              customMonth);
-                                                  modalDummyList = Filter
-                                                      .instance
-                                                      .expenceMonthlyNotifier
-                                                      .value;
+                          dropDownValue = newValue!;
+                          if (dropDownValue == timeDropList[0]) {
+                            Filter.instance.filterTransactionFunction();
+                            setState(() {
+                              modalDummyList =
+                                  Filter.instance.expenceTodayNotifier.value;
+                            });
+                          } else if (dropDownValue == timeDropList[1]) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return SimpleDialog(
+                                  children: [
+                                    Container(
+                                      width: 300.00,
+                                      height: 234.00,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                      ),
+                                      child: GridView.builder(
+                                        itemCount: filterArray.monthList.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 4),
+                                        itemBuilder: (context, index) {
+                                          final i = index;
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: colorId.btnColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                              child: TextButton(
+                                                onPressed: () async {
+                                                  setState(
+                                                    () {
+                                                      final customMonth =
+                                                          filterArray
+                                                              .newMonthList[i];
+                                                      Filter.instance
+                                                          .filterTransactionFunction(
+                                                              customMonth:
+                                                                  customMonth);
+                                                      modalDummyList = Filter
+                                                          .instance
+                                                          .expenceMonthlyNotifier
+                                                          .value;
+                                                    },
+                                                  );
+                                                  Navigator.of(ctx).pop();
                                                 },
-                                              );
-                                              Navigator.of(ctx).pop();
-                                            },
-                                            child: Text(
-                                              filterArray.monthList[index],
-                                              style: GoogleFonts.lato(
-                                                textStyle: TextStyle(
-                                                    color: colorId.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                child: Text(
+                                                  filterArray.monthList[index],
+                                                  style: GoogleFonts.lato(
+                                                    textStyle: TextStyle(
+                                                        color: colorId.white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              ],
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        );
-                      } 
-                    });
-                  },
+                          }
+                        });
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -156,22 +177,25 @@ class _ExpencesState extends State<Expences> {
                           ],
                         ),
                       )
-                    : SfCircularChart(
-                        backgroundColor: colorId.white,
-                        legend: Legend(isVisible: true),
-                        series: <CircularSeries>[
-                          // Render pie chart
-                          PieSeries<TransactionModal, String>(
-                            dataSource: modalDummyList,
-                            xValueMapper: (TransactionModal data, _) =>
-                                data.notes,
-                            yValueMapper: (TransactionModal data, _) =>
-                                data.amount.round(),
-                            dataLabelSettings:
-                                const DataLabelSettings(isVisible: true),
-                            enableTooltip: true,
-                          )
-                        ],
+                    : Padding(
+                        padding: const EdgeInsets.only(bottom: 100),
+                        child: SfCircularChart(
+                          backgroundColor: colorId.white,
+                          legend: Legend(isVisible: true),
+                          series: <CircularSeries>[
+                            // Render pie chart
+                            DoughnutSeries<TransactionModal, String>(
+                              dataSource: modalDummyList,
+                              xValueMapper: (TransactionModal data, _) =>
+                                  data.notes,
+                              yValueMapper: (TransactionModal data, _) =>
+                                  data.amount.round(),
+                              dataLabelSettings:
+                                  const DataLabelSettings(isVisible: true),
+                              enableTooltip: true,
+                            )
+                          ],
+                        ),
                       );
               },
             )
