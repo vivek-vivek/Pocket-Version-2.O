@@ -44,6 +44,46 @@ class _AllGraphState extends State<AllGraph> {
     return Scaffold(
       body: ListView(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  backgroundColor: colorId.btnColor,
+                  radius: 10,
+                ),
+                Text(
+                  'Income ',
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          color: colorId.btnColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  backgroundColor: colorId.mainBlue,
+                  radius: 10,
+                ),
+                Text(
+                  'Expence',
+                  style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          color: colorId.btnColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
           ValueListenableBuilder(
             valueListenable: TransactionDB.instance.transactionListNotifier,
             builder: (BuildContext context, List<TransactionModal> newList,
@@ -61,35 +101,31 @@ class _AllGraphState extends State<AllGraph> {
                         ],
                       ),
                     )
-                  : Padding(
-                      padding: const EdgeInsets.only( top:100),
-                      child: SizedBox(
-                        height: 400,
-                        child: PieChart(
-                          PieChartData(
-                            centerSpaceRadius: 100,
-                            borderData: FlBorderData(
-                              show: true,
-                            ),
-                            sections: [
-                              PieChartSectionData(
-                                  title: 'Income',
-                                  titleStyle: TextStyle(color: colorId.white),
-                                  color: colorId.btnColor,
-                                  value: TransactionDB.instance
-                                      .totalTransaction()[1]),
-                              PieChartSectionData(
-                                titleStyle: TextStyle(color: colorId.white),
-                                color: colorId.mainBlue,
-                                value: TransactionDB.instance
-                                    .totalTransaction()[2],
-                              )
-                            ],
+                  : SizedBox(
+                      height: 400,
+                      child: PieChart(
+                        PieChartData(
+                          centerSpaceRadius: 60,
+                          borderData: FlBorderData(
+                            show: true,
                           ),
-                          swapAnimationDuration:
-                              const Duration(milliseconds: 150), // Optional
-                          swapAnimationCurve: Curves.linear, // Optional
+                          sections: [
+                            PieChartSectionData(
+                                titleStyle: TextStyle(color: colorId.white),
+                                color: colorId.btnColor,
+                                value: TransactionDB.instance
+                                    .totalTransaction()[1]),
+                            PieChartSectionData(
+                              titleStyle: TextStyle(color: colorId.white),
+                              color: colorId.mainBlue,
+                              value:
+                                  TransactionDB.instance.totalTransaction()[2],
+                            )
+                          ],
                         ),
+                        swapAnimationDuration:
+                            const Duration(milliseconds: 150), // Optional
+                        swapAnimationCurve: Curves.linear, // Optional
                       ),
                     );
             },

@@ -9,32 +9,23 @@ import '../../../DB/category_db_f.dart';
 import '../../../DB/transaction_db_f.dart';
 
 class EditScreen extends StatefulWidget {
-  final index;
-
-  final date;
-  final category;
-  final note;
-  final amount;
-  const EditScreen(
-      {super.key,
-      required this.index,
-      required this.date,
-      required this.category,
-      required this.note,
-      required this.amount});
+  int index;
+  TransactionModal transactionModal;
+  // final date;
+  // final category;
+  // final note;
+  // final amount;
+  EditScreen({super.key, required this.index, required this.transactionModal});
 
   @override
   // ignore: no_logic_in_create_state
-  State<EditScreen> createState() =>
-      _EditScreenState(index, date, category, note, amount);
+  State<EditScreen> createState() => _EditScreenState( );
 }
 
 class _EditScreenState extends State<EditScreen> {
-  int index;
-  final date;
-  final category;
-  final note;
-  final amount;
+  // int index;
+
+  // TransactionModal transactionModal;
 
   CategoryType? _selectedCategoryType;
   CategoryModel? _selectedCategoryModel;
@@ -50,18 +41,17 @@ class _EditScreenState extends State<EditScreen> {
   // ^Global keys--------->
   final formKey = GlobalKey<FormState>();
   // ^---------------------------------
-  _EditScreenState(
-      this.index, this.date, this.category, this.note, this.amount);
+ 
 
 //*setting up default radio selection
   @override
   void initState() {
-    _selectedDate = date;
-    selectedDateDUplicate = date;
     _selectedCategoryType = CategoryType.income;
-    dateController.text = date.toString();
-    notesController.text = note.toString();
-    amountController.text = amount.toString();
+    dateController.text = widget. transactionModal.date.toString();
+    notesController.text = widget.transactionModal.notes;
+    amountController.text =widget. transactionModal.amount.toString();
+    // _selectedDate = transactionModal.;
+    // selectedDateDUplicate = ;
 
     CategoryDB().refreshUI();
     TransactionDB.instance.refreshUiTransaction();
@@ -79,10 +69,11 @@ class _EditScreenState extends State<EditScreen> {
 
     return Scaffold(
       appBar: AppBar(
+          elevation: 0.5,
           backgroundColor: colorId.white,
           iconTheme: IconThemeData(color: colorId.btnColor),
           title: Text(
-            "Update",
+            "Edit",
             style: TextStyle(color: colorId.btnColor),
           )),
       body: SafeArea(
@@ -336,7 +327,7 @@ class _EditScreenState extends State<EditScreen> {
         dateController.clear();
         //  amount db function
 
-        await TransactionDB.instance.update(index, modelTransaction);
+        await TransactionDB.instance.update(widget.index, modelTransaction);
         // await TransactionDB.instance.amountTransaction(pieAmount);
         final snackBar = SnackBar(
           content: Text(

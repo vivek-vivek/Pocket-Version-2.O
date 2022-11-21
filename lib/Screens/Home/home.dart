@@ -134,9 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           List<CategoryModel> newModel,
                                           Widget? _) {
                                         return Text(
-                                          TransactionDB.instance
-                                              .totalTransaction()[1]
-                                              .toString(),
+                                          "₹${TransactionDB.instance.totalTransaction()[1].toString()}",
                                           style: GoogleFonts.lato(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 24.00,
@@ -178,9 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ],
                                     ),
                                     Text(
-                                        TransactionDB.instance
-                                            .totalTransaction()[2]
-                                            .toString(),
+                                        "₹${TransactionDB.instance.totalTransaction()[2].toString()}",
                                         style: GoogleFonts.lato(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 24.00,

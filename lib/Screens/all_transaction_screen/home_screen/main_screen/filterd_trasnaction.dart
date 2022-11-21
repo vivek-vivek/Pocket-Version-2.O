@@ -157,7 +157,6 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 5, top: 4),
                     child: DropdownButton(
-                     
                       icon: Icon(
                         Icons.filter_list,
                         color: colorId.white,
@@ -237,22 +236,17 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                                 onPressed: () async {
                                                   setState(
                                                     () {
-                                                      try {
-                                                        final customMonth =
-                                                            filterArray
-                                                                .newMonthList[i];
-                                                        Filter.instance
-                                                            .filterTransactionFunction(
-                                                                customMonth:
-                                                                    customMonth);
-                                                        modalDummy = Filter
-                                                            .instance
-                                                            .allMonthlyNotifier
-                                                            .value;
-                                                      } catch (e) {
-                                                        print(
-                                                            "🚫 in  month choosing \n $e");
-                                                      }
+                                                      final customMonth =
+                                                          filterArray
+                                                              .newMonthList[i];
+                                                      Filter.instance
+                                                          .filterTransactionFunction(
+                                                              customMonth:
+                                                                  customMonth);
+                                                      modalDummy = Filter
+                                                          .instance
+                                                          .allMonthlyNotifier
+                                                          .value;
                                                     },
                                                   );
                                                   Navigator.of(ctx).pop();
@@ -542,12 +536,9 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => EditScreen(
-                                                  index: index,
-                                                  date: newValue.date,
-                                                  category: newValue
-                                                      .categoryTransaction,
-                                                  note: newValue.notes,
-                                                  amount: newValue.amount),
+                                                index: index,
+                                                transactionModal: newValue,
+                                              ),
                                             ),
                                           );
                                         },
