@@ -204,72 +204,73 @@ class _AllTransactionsNewState extends State<AllTransactionsNew> {
 
                           else if (timeDropValue ==
                               filterArray.timeDropList[1]) {
-                            showDialog(
-                              context: context,
-                              builder: (ctx) {
-                                return SimpleDialog(
-                                  children: [
-                                    Container(
-                                      width: 300.00,
-                                      height: 234.00,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(20),
-                                        ),
-                                      ),
-                                      child: GridView.builder(
-                                        itemCount: filterArray.monthList.length,
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 4),
-                                        itemBuilder: (context, index) {
-                                          final i = index;
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: colorId.btnColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20)),
-                                              child: TextButton(
-                                                onPressed: () async {
-                                                  setState(
-                                                    () {
-                                                      final customMonth =
-                                                          filterArray
-                                                              .newMonthList[i];
-                                                      Filter.instance
-                                                          .filterTransactionFunction(
-                                                              customMonth:
-                                                                  customMonth);
-                                                      modalDummy = Filter
-                                                          .instance
-                                                          .allMonthlyNotifier
-                                                          .value;
-                                                    },
-                                                  );
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                                child: Text(
-                                                  filterArray.monthList[index],
-                                                  style: GoogleFonts.lato(
-                                                    textStyle: TextStyle(
-                                                        color: colorId.white,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                );
-                              },
-                            );
+                                
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (ctx) {
+                            //     return SimpleDialog(
+                            //       children: [
+                            //         Container(
+                            //           width: 300.00,
+                            //           height: 234.00,
+                            //           decoration: const BoxDecoration(
+                            //             borderRadius: BorderRadius.all(
+                            //               Radius.circular(20),
+                            //             ),
+                            //           ),
+                            //           child: GridView.builder(
+                            //             itemCount: filterArray.monthList.length,
+                            //             gridDelegate:
+                            //                 const SliverGridDelegateWithFixedCrossAxisCount(
+                            //                     crossAxisCount: 4),
+                            //             itemBuilder: (context, index) {
+                            //               final i = index;
+                            //               return Padding(
+                            //                 padding: const EdgeInsets.all(8.0),
+                            //                 child: Container(
+                            //                   decoration: BoxDecoration(
+                            //                       color: colorId.btnColor,
+                            //                       borderRadius:
+                            //                           BorderRadius.circular(
+                            //                               20)),
+                            //                   child: TextButton(
+                            //                     onPressed: () async {
+                            //                       setState(
+                            //                         () {
+                            //                           final customMonth =
+                            //                               filterArray
+                            //                                   .newMonthList[i];
+                            //                           Filter.instance
+                            //                               .filterTransactionFunction(
+                            //                                   customMonth:
+                            //                                       customMonth);
+                            //                           modalDummy = Filter
+                            //                               .instance
+                            //                               .allMonthlyNotifier
+                            //                               .value;
+                            //                         },
+                            //                       );
+                            //                       Navigator.of(ctx).pop();
+                            //                     },
+                            //                     child: Text(
+                            //                       filterArray.monthList[index],
+                            //                       style: GoogleFonts.lato(
+                            //                         textStyle: TextStyle(
+                            //                             color: colorId.white,
+                            //                             fontWeight:
+                            //                                 FontWeight.bold),
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //               );
+                            //             },
+                            //           ),
+                            //         )
+                            //       ],
+                            //     );
+                            //   },
+                            // );
                           } else if (timeDropValue ==
                               filterArray.timeDropList[2]) {
                             Filter.instance.customDateAll(context: context);

@@ -188,14 +188,15 @@ class _AddTransactionState extends State<AddTransaction> {
 
                           //^add rounded icon button for adding category
                           // ^it pop up a window that contain add new category function
-                          IconButton(
-                            onPressed: () {
-                              popUpCaBtnCategoryRadio(
-                                  context: context,
-                                  selectedTypeCat: selectedCategory);
-                            },
-                            icon: const Icon(Icons.add_circle_outline),
-                          )
+                          // IconButton(
+                          //   onPressed: () {
+                          //     print(selectedCategory);
+                          //     popUpCaBtnCategoryRadio(
+                          //         context: context,
+                          //         selectedTypeCat: selectedCategory);
+                          //   },
+                          //   icon: const Icon(Icons.add_circle_outline),
+                          // )
                         ],
                       ),
                     ),
@@ -229,8 +230,8 @@ class _AddTransactionState extends State<AddTransaction> {
                       decoration: InputDecoration(
                         hintText: 'Amount',
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              width: 1, color: colorId.black),
+                          borderSide:
+                              BorderSide(width: 1, color: colorId.black),
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),

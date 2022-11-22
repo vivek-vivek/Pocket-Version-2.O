@@ -7,7 +7,6 @@ import 'package:budgetory_v1/colors/color.dart';
 import 'package:budgetory_v1/controller/filter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../DataBase/Models/ModalCategory/category_model.dart';
 import 'list_tile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    TransactionDB.instance.totalTransaction();
     CategoryDB.instance.refreshUI();
     TransactionDB.instance.refreshUiTransaction();
     super.initState();
@@ -80,10 +80,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                         : colorId.lightGreen,
                                   ),
                                 ),
+                                // ValueListenableBuilder(
+                                //     valueListenable: TransactionDB
+                                //         .instance.totalListNotifier,
+                                //     builder: (BuildContext context,
+                                //         List<double> newList, Widget? _) {
+                                //       return Text(
+                                //         TransactionDB.instance.totalListNotifier
+                                //                 .value.isEmpty
+                                //             ? '0'
+                                //     : TransactionDB.instance
+                                //         .totalListNotifier.value
+                                //         .join()
+                                //         .toString(),
+                                // style: TextStyle(
+                                //     fontWeight: FontWeight.w900,
+                                //     fontSize: 28.000,
+                                //     color: colorId.white),
+                                //       );
+                                //     })
                                 Text(
-                                  TransactionDB.instance
-                                      .totalTransaction()[0]
-                                      .toString(),
+                                  TransactionDB.instance.T == null
+                                      ? '0.0'
+                                      : TransactionDB.instance.T.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w900,
                                       fontSize: 28.000,
@@ -127,22 +146,38 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 color: Colors.white)),
                                       ],
                                     ),
-                                    ValueListenableBuilder(
-                                      valueListenable: CategoryDB
-                                          .instance.incomeCategoryModelList,
-                                      builder: (BuildContext context,
-                                          List<CategoryModel> newModel,
-                                          Widget? _) {
-                                        return Text(
-                                          "₹${TransactionDB.instance.totalTransaction()[1].toString()}",
-                                          style: GoogleFonts.lato(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 24.00,
-                                            color: colorId.white,
-                                            // *text shadow here
-                                          ),
-                                        );
-                                      },
+                                    // ValueListenableBuilder(
+                                    //     valueListenable: TransactionDB
+                                    //         .instance.incomeTotalListNotifier,
+                                    //     builder: (BuildContext context,
+                                    //         List<double> newList, Widget? _) {
+                                    //       return Text(
+                                    //         TransactionDB
+                                    //                 .instance
+                                    //                 .incomeTotalListNotifier
+                                    //                 .value
+                                    //                 .isEmpty
+                                    //             ? '0'
+                                    //             : TransactionDB
+                                    //                 .instance
+                                    //                 .incomeTotalListNotifier
+                                    //                 .value
+                                    //                 .join()
+                                    //                 .toString(),
+                                    //         style: TextStyle(
+                                    //             fontWeight: FontWeight.w900,
+                                    //             fontSize: 28.000,
+                                    //             color: colorId.white),
+                                    //       );
+                                    //     })\
+                                    Text(
+                                      TransactionDB.instance.I == null
+                                          ? '0.0'
+                                          : TransactionDB.instance.I.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 28.000,
+                                          color: colorId.white),
                                     )
                                   ],
                                 )
@@ -175,13 +210,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 color: Colors.white)),
                                       ],
                                     ),
+                                    // ValueListenableBuilder(
+                                    //     valueListenable: TransactionDB
+                                    //         .instance.expenceTotalListNotifier,
+                                    //     builder: (BuildContext context,
+                                    //         List<double> newList, Widget? _) {
+                                    //       return Text(
+                                    //         TransactionDB
+                                    //                 .instance
+                                    //                 .expenceTotalListNotifier
+                                    //                 .value
+                                    //                 .isEmpty
+                                    //             ? '0'
+                                    //             : TransactionDB
+                                    //                 .instance
+                                    //                 .expenceTotalListNotifier
+                                    //                 .value
+                                    //                 .join()
+                                    //                 .toString(),
+                                    //         style: TextStyle(
+                                    //             fontWeight: FontWeight.w900,
+                                    //             fontSize: 28.000,
+                                    //             color: colorId.white),
+                                    //       );
+                                    //     })
                                     Text(
-                                        "₹${TransactionDB.instance.totalTransaction()[2].toString()}",
-                                        style: GoogleFonts.lato(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 24.00,
-                                          color: colorId.white,
-                                        ))
+                                      TransactionDB.instance.E == null
+                                          ? '0.0'
+                                          : TransactionDB.instance.E.toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 28.000,
+                                          color: colorId.white),
+                                    )
                                   ],
                                 )
                               ],

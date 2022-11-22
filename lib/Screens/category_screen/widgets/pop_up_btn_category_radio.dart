@@ -41,14 +41,13 @@ Future<void> popUpCaBtnCategoryRadio(
           ),
           //*add new category
           Padding(
-             padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               maxLength: 10,
               controller: categoryController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
-             
             ),
           ),
           //******* */
@@ -73,6 +72,18 @@ Future<void> popUpCaBtnCategoryRadio(
                   // ignore: use_build_context_synchronously
                   Navigator.of(ctx).pop();
                   print('🎉🎉Category  box closed');
+                  print(type);
+
+                  // final types = selectedCategory.value;
+                  // final categorys = CategoryModel(
+                  //     id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  //     name: cat,
+                  //     type: type);
+                  // CategoryDB().insertCategory(category);
+                  // CategoryDB().getCategories();
+                  // print(CategoryDB.instance.getCategories().toString());
+                  // Navigator.of(ctx).pop();
+                  // print('🎉🎉Category  box closed');
                 }
               },
               child: const Text('Add Category'),

@@ -19,7 +19,7 @@ class EditScreen extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  State<EditScreen> createState() => _EditScreenState( );
+  State<EditScreen> createState() => _EditScreenState();
 }
 
 class _EditScreenState extends State<EditScreen> {
@@ -41,15 +41,15 @@ class _EditScreenState extends State<EditScreen> {
   // ^Global keys--------->
   final formKey = GlobalKey<FormState>();
   // ^---------------------------------
- 
 
 //*setting up default radio selection
   @override
   void initState() {
     _selectedCategoryType = CategoryType.income;
-    dateController.text = widget. transactionModal.date.toString();
+    dateController.text =
+        DateFormat.yMMMd().format(widget.transactionModal.date);
     notesController.text = widget.transactionModal.notes;
-    amountController.text =widget. transactionModal.amount.toString();
+    amountController.text = widget.transactionModal.amount.toString();
     // _selectedDate = transactionModal.;
     // selectedDateDUplicate = ;
 

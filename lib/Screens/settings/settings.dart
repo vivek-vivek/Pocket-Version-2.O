@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:budgetory_v1/screens/settings/about_us.dart';
 import 'package:budgetory_v1/screens/settings/privacy_policey.dart';
+import 'package:budgetory_v1/screens/settings/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -38,21 +40,8 @@ class _UserPageState extends State<UserPage> {
                     style: TextStyle(color: colorId.btnColor),
                   ),
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          return const SimpleDialog(
-                            children: [
-                              Center(child: Text("App Developed by")),
-                              CircleAvatar(
-                                radius: 60,
-                                child: Image(
-                                    image: AssetImage("Assets/user image.png")),
-                              ),
-                              Center(child: Text("Vivek K")),
-                            ],
-                          );
-                        });
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => AboutUs()));
                   },
                 ),
               ),
@@ -72,6 +61,24 @@ class _UserPageState extends State<UserPage> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => PrivacyPolices()));
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  color: colorId.white,
+                  border: Border.all(color: colorId.grey),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: ListTile(
+                  title: Text("Terms & Conditions",
+                      style: TextStyle(color: colorId.btnColor)),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TermsAndCondition()));
                   },
                 ),
               ),
@@ -110,9 +117,10 @@ class _UserPageState extends State<UserPage> {
                                   onPressed: () async {
                                     await CategoryDB.instance.deleteDBAll();
                                     await TransactionDB.instance.deleteDBAll();
-                                    TransactionDB.instance
-                                        .totalTransaction()
-                                        .clear();
+                                    TransactionDB.instance.T == 0.0;
+                                    await TransactionDB.instance
+                                        .refreshUiTransaction();
+
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
@@ -157,4 +165,15 @@ class _UserPageState extends State<UserPage> {
   }
 
   final colorId = ColorsID();
+
+  clear() async {
+    TransactionDB.instance.totalListNotifier.value.clear();
+    TransactionDB.instance.totalListNotifier.notifyListeners();
+
+    TransactionDB.instance.incomeTotalListNotifier.value.clear();
+    TransactionDB.instance.incomeTotalListNotifier.notifyListeners();
+
+    TransactionDB.instance.expenceTotalListNotifier.value.clear();
+    TransactionDB.instance.expenceTotalListNotifier.notifyListeners();
+  }
 }

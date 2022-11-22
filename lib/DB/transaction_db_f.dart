@@ -14,6 +14,11 @@ abstract class TransactionDbFunctions {
 
 class TransactionDB implements TransactionDbFunctions {
   // ^-------------------------Value Notifiers------------------------------------------
+  //~ amount Calculation notifier
+  ValueNotifier<List<double>> totalListNotifier = ValueNotifier([]);
+  ValueNotifier<List<double>> incomeTotalListNotifier = ValueNotifier([]);
+  ValueNotifier<List<double>> expenceTotalListNotifier = ValueNotifier([]);
+
   //~ transaction notifier
   ValueNotifier<List<TransactionModal>> transactionListNotifier =
       ValueNotifier([]);
@@ -112,6 +117,9 @@ class TransactionDB implements TransactionDbFunctions {
   //^-----------------------------Total amount Of Income & TransactionDB--------------------
 
   //  finding total amount of income form transaction db
+  double? T;
+  double? I;
+  double? E;
   List totalTransaction() {
     double total = 0;
     double _income = 0;
@@ -119,13 +127,22 @@ class TransactionDB implements TransactionDbFunctions {
     for (var i = 0; i < transactionListNotifier.value.length; i++) {
       late final newValue = transactionListNotifier.value[i];
       if (newValue.type == CategoryType.income) {
-        _income = newValue.amount.toInt() + _income;
+        _income = newValue.amount + _income;
+        I = _income;
       } else {
-        _expences = newValue.amount.toInt() + _expences;
+        _expences = newValue.amount + _expences;
+        E = _expences;
       }
       total = _income - _expences;
+      T = total;
     }
 
+    // totalListNotifier.value.add(total);
+    // totalListNotifier.notifyListeners();
+    // expenceTotalListNotifier.value.add(_expences);
+    // expenceTotalListNotifier.notifyListeners();
+    // incomeTotalListNotifier.value.add(_income);
+    // incomeTotalListNotifier.notifyListeners();
     // total amount
     return [total, _income, _expences];
   }
@@ -153,6 +170,12 @@ class TransactionDB implements TransactionDbFunctions {
     final _transactionDb =
         await Hive.openBox<TransactionModal>(transactionDBName);
     _transactionDb.clear();
+    totalTransaction().clear();
+    totalTransaction()[0];
+    T = 0;
+    I = 0;
+    E = 0;
+    await refreshUiTransaction();
   }
 
   // ^------------------------------------------------end------------------------------------------
