@@ -29,7 +29,7 @@ class CategoryDB implements CategoryDbFunctions {
   @override
   Future<void> insertCategory(CategoryModel value) async {
     final _categoryDB = await Hive.openBox<CategoryModel>(CATEGORY_DB_NAME);
-    _categoryDB.put(value.id, value);
+    await _categoryDB.put(value.id, value);
     refreshUI();
   }
 
@@ -56,7 +56,6 @@ class CategoryDB implements CategoryDbFunctions {
     expenseCategoryModelList.notifyListeners();
   }
 
-
   @override
   Future<void> deleteDB(String id) async {
     final _categoryDB = await Hive.openBox<CategoryModel>(CATEGORY_DB_NAME);
@@ -67,15 +66,14 @@ class CategoryDB implements CategoryDbFunctions {
   Future<void> deleteDBAll() async {
     final _categoryDB = await Hive.openBox<CategoryModel>(CATEGORY_DB_NAME);
     _categoryDB.clear();
-    
+
     // selectedCategory.dispose();
     refreshUI();
   }
 
-  update(index,CategoryModel modalCategory)async{
-     final _categoryDB = await Hive.openBox<CategoryModel>(CATEGORY_DB_NAME);
-     _categoryDB.putAt(index, modalCategory);
-     refreshUI();
-    
+  update(index, CategoryModel modalCategory) async {
+    final _categoryDB = await Hive.openBox<CategoryModel>(CATEGORY_DB_NAME);
+    _categoryDB.putAt(index, modalCategory);
+    refreshUI();
   }
 }

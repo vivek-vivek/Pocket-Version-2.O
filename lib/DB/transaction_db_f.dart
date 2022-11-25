@@ -117,9 +117,9 @@ class TransactionDB implements TransactionDbFunctions {
   //^-----------------------------Total amount Of Income & TransactionDB--------------------
 
   //  finding total amount of income form transaction db
-  double? T;
-  double? I;
-  double? E;
+  // double? T;
+  // double? I;
+  // double? E;
   List totalTransaction() {
     double total = 0;
     double _income = 0;
@@ -128,21 +128,16 @@ class TransactionDB implements TransactionDbFunctions {
       late final newValue = transactionListNotifier.value[i];
       if (newValue.type == CategoryType.income) {
         _income = newValue.amount + _income;
-        I = _income;
+        // I = _income;
       } else {
         _expences = newValue.amount + _expences;
-        E = _expences;
+        // E = _expences;
       }
+
       total = _income - _expences;
-      T = total;
+      // T = total;
     }
 
-    // totalListNotifier.value.add(total);
-    // totalListNotifier.notifyListeners();
-    // expenceTotalListNotifier.value.add(_expences);
-    // expenceTotalListNotifier.notifyListeners();
-    // incomeTotalListNotifier.value.add(_income);
-    // incomeTotalListNotifier.notifyListeners();
     // total amount
     return [total, _income, _expences];
   }
@@ -167,15 +162,12 @@ class TransactionDB implements TransactionDbFunctions {
   // ^-----------------------------------Delete Transaction DB all-------------------------------
 
   Future<void> deleteDBAll() async {
+    // T = null;
+    // I = null;
+    // E = null;
     final _transactionDb =
         await Hive.openBox<TransactionModal>(transactionDBName);
     _transactionDb.clear();
-    totalTransaction().clear();
-    totalTransaction()[0];
-    T = 0;
-    I = 0;
-    E = 0;
-    await refreshUiTransaction();
   }
 
   // ^------------------------------------------------end------------------------------------------

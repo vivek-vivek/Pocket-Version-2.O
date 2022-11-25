@@ -117,9 +117,6 @@ class _UserPageState extends State<UserPage> {
                                   onPressed: () async {
                                     await CategoryDB.instance.deleteDBAll();
                                     await TransactionDB.instance.deleteDBAll();
-                                    TransactionDB.instance.T == 0.0;
-                                    await TransactionDB.instance
-                                        .refreshUiTransaction();
 
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
@@ -157,6 +154,10 @@ class _UserPageState extends State<UserPage> {
                   },
                 ),
               ),
+               Padding(
+                 padding: const EdgeInsets.only(top: 300),
+                 child: Text("version 1.0",style: TextStyle(color: colorId.grey),),
+               )
             ],
           ),
         ),

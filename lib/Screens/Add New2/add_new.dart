@@ -2,6 +2,7 @@
 import 'package:budgetory_v1/DataBase/Models/ModalTransaction/transaction_modal.dart';
 import 'package:budgetory_v1/DataBase/Models/ModalCategory/category_model.dart';
 import 'package:budgetory_v1/colors/color.dart';
+import 'package:budgetory_v1/screens/category_screen/main_screen/pop.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../DB/category_db_f.dart';
@@ -54,7 +55,6 @@ class _AddTransactionState extends State<AddTransaction> {
             padding:
                 const EdgeInsets.only(top: 100.00, right: 30.00, left: 30.00),
             child: ListView(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // ^ main container------->
                 Column(
@@ -185,18 +185,11 @@ class _AddTransactionState extends State<AddTransaction> {
                               ),
                             ),
                           ),
-
-                          //^add rounded icon button for adding category
-                          // ^it pop up a window that contain add new category function
-                          // IconButton(
-                          //   onPressed: () {
-                          //     print(selectedCategory);
-                          //     popUpCaBtnCategoryRadio(
-                          //         context: context,
-                          //         selectedTypeCat: selectedCategory);
-                          //   },
-                          //   icon: const Icon(Icons.add_circle_outline),
-                          // )
+                          IconButton(
+                              onPressed: () => popUpCaBtnCategoryRadio(
+                                  context: context,
+                                  selectedTypeCat: _selectedCategoryType),
+                              icon:const  Icon(Icons.add_circle_outline_outlined))
                         ],
                       ),
                     ),

@@ -47,211 +47,161 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 18.00, top: 75.00),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20),
+                child: ValueListenableBuilder(
+                  valueListenable:
+                      TransactionDB.instance.transactionListNotifier,
+                  builder: (context, value, child) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      color: colorId.btnColor,
                     ),
-                    color: colorId.btnColor,
-                  ),
-                  width: 360.00,
-                  height: 202.00,
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                // ? balance section---------->
-                                Text(
-                                  TransactionDB.instance.totalTransaction()[0] <
-                                          0
-                                      ? 'Lose'
-                                      : 'Balance',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 24.00,
-                                    color: TransactionDB.instance
+                    width: 360.00,
+                    height: 202.00,
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  // ? balance section---------->
+                                  Text(
+                                    TransactionDB.instance
                                                 .totalTransaction()[0] <
                                             0
-                                        ? colorId.red
-                                        : colorId.lightGreen,
+                                        ? 'Lose'
+                                        : 'Balance',
+                                    style: GoogleFonts.lato(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 24.00,
+                                        color: TransactionDB.instance
+                                                    .totalTransaction()[0] <
+                                                0
+                                            ? colorId.red
+                                            : colorId.lightGreen),
                                   ),
-                                ),
-                                // ValueListenableBuilder(
-                                //     valueListenable: TransactionDB
-                                //         .instance.totalListNotifier,
-                                //     builder: (BuildContext context,
-                                //         List<double> newList, Widget? _) {
-                                //       return Text(
-                                //         TransactionDB.instance.totalListNotifier
-                                //                 .value.isEmpty
-                                //             ? '0'
-                                //     : TransactionDB.instance
-                                //         .totalListNotifier.value
-                                //         .join()
-                                //         .toString(),
-                                // style: TextStyle(
-                                //     fontWeight: FontWeight.w900,
-                                //     fontSize: 28.000,
-                                //     color: colorId.white),
-                                //       );
-                                //     })
-                                Text(
-                                  TransactionDB.instance.T == null
-                                      ? '0.0'
-                                      : TransactionDB.instance.T.toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 28.000,
-                                      color: colorId.white),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 30.00, right: 35.00, left: 35.00),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: colorId.white,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(20),
-                                            ),
-                                          ),
-                                          child: Icon(
-                                            Icons.trending_up,
-                                            color: colorId.lightGreen,
-                                          ),
-                                        ),
-// ?Income section----------------------->
-                                        Text(' Income ',
-                                            style: GoogleFonts.lato(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 24.00,
-                                                color: Colors.white)),
-                                      ],
-                                    ),
-                                    // ValueListenableBuilder(
-                                    //     valueListenable: TransactionDB
-                                    //         .instance.incomeTotalListNotifier,
-                                    //     builder: (BuildContext context,
-                                    //         List<double> newList, Widget? _) {
-                                    //       return Text(
-                                    //         TransactionDB
-                                    //                 .instance
-                                    //                 .incomeTotalListNotifier
-                                    //                 .value
-                                    //                 .isEmpty
-                                    //             ? '0'
-                                    //             : TransactionDB
-                                    //                 .instance
-                                    //                 .incomeTotalListNotifier
-                                    //                 .value
-                                    //                 .join()
-                                    //                 .toString(),
-                                    //         style: TextStyle(
-                                    //             fontWeight: FontWeight.w900,
-                                    //             fontSize: 28.000,
-                                    //             color: colorId.white),
-                                    //       );
-                                    //     })\
-                                    Text(
-                                      TransactionDB.instance.I == null
-                                          ? '0.0'
-                                          : TransactionDB.instance.I.toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 28.000,
-                                          color: colorId.white),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-//?expense section ---------->
-                            Row(
-                              children: [
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: colorId.white,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(20),
-                                            ),
-                                          ),
-                                          child: Icon(
-                                            Icons.trending_down_rounded,
-                                            color: colorId.red,
-                                          ),
-                                        ),
-                                        Text(' Expense ',
-                                            style: GoogleFonts.lato(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 24.00,
-                                                color: Colors.white)),
-                                      ],
-                                    ),
-                                    // ValueListenableBuilder(
-                                    //     valueListenable: TransactionDB
-                                    //         .instance.expenceTotalListNotifier,
-                                    //     builder: (BuildContext context,
-                                    //         List<double> newList, Widget? _) {
-                                    //       return Text(
-                                    //         TransactionDB
-                                    //                 .instance
-                                    //                 .expenceTotalListNotifier
-                                    //                 .value
-                                    //                 .isEmpty
-                                    //             ? '0'
-                                    //             : TransactionDB
-                                    //                 .instance
-                                    //                 .expenceTotalListNotifier
-                                    //                 .value
-                                    //                 .join()
-                                    //                 .toString(),
-                                    //         style: TextStyle(
-                                    //             fontWeight: FontWeight.w900,
-                                    //             fontSize: 28.000,
-                                    //             color: colorId.white),
-                                    //       );
-                                    //     })
-                                    Text(
-                                      TransactionDB.instance.E == null
-                                          ? '0.0'
-                                          : TransactionDB.instance.E.toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 28.000,
-                                          color: colorId.white),
-                                    )
-                                  ],
-                                )
-                              ],
+
+                                  Text(
+                                    TransactionDB.instance
+                                                .totalTransaction()[0] ==
+                                            null
+                                        ? '0.0'
+                                        : TransactionDB.instance
+                                            .totalTransaction()[0]
+                                            .toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 28.000,
+                                        color: colorId.white),
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                    //*first column
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 30.00, right: 35.00, left: 35.00),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: colorId.white,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(20),
+                                              ),
+                                            ),
+                                            child: Icon(
+                                              Icons.trending_up,
+                                              color: colorId.lightGreen,
+                                            ),
+                                          ),
+                                          // ?Income section----------------------->
+                                          Text(' Income ',
+                                              style: GoogleFonts.lato(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 24.00,
+                                                  color: Colors.white)),
+                                        ],
+                                      ),
+                                      Text(
+                                        TransactionDB.instance
+                                                    .totalTransaction()[1] ==
+                                                null
+                                            ? '0.0'
+                                            : TransactionDB.instance
+                                                .totalTransaction()[1]
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 28.000,
+                                            color: colorId.white),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              //?expense section ---------->
+                              Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: colorId.white,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(20),
+                                              ),
+                                            ),
+                                            child: Icon(
+                                              Icons.trending_down_rounded,
+                                              color: colorId.red,
+                                            ),
+                                          ),
+                                          Text(' Expense ',
+                                              style: GoogleFonts.lato(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 24.00,
+                                                  color: Colors.white)),
+                                        ],
+                                      ),
+                                      Text(
+                                        TransactionDB.instance
+                                                    .totalTransaction()[2] ==
+                                                null
+                                            ? '0.0'
+                                            : TransactionDB.instance
+                                                .totalTransaction()[2]
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 28.000,
+                                            color: colorId.white),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      //*first column
+                    ),
                   ),
                 ),
               ),
